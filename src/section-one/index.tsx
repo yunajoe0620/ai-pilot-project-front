@@ -1,6 +1,7 @@
 import { FFmpeg } from "@ffmpeg/ffmpeg";
 import { fetchFile, toBlobURL } from "@ffmpeg/util";
 import { useEffect, useRef, useState } from "react";
+import { baseUrl } from "../api";
 
 /**
  * step1 => MP4파일을 MP3로 변환하기
@@ -15,12 +16,9 @@ function SectionOne() {
   const ffmpegRef = useRef(new FFmpeg());
 
   const load = async () => {
-    console.log("로드합니다");
-
     try {
       const baseURL = "https://unpkg.com/@ffmpeg/core-mt@0.12.6/dist/esm";
       const ffmpeg = ffmpegRef.current;
-      console.log("ffmpeg", ffmpeg);
 
       await ffmpeg.load({
         coreURL: await toBlobURL(
@@ -37,7 +35,6 @@ function SectionOne() {
         ),
       });
       setLoaded(true);
-      console.log("로드끗");
     } catch (error) {
       console.log("error", error);
     }
@@ -47,7 +44,6 @@ function SectionOne() {
     const ffmpeg = ffmpegRef.current;
     const filePath = "/1x5oiqlsst.mp4";
     const unit8ArrayData = await fetchFile(filePath);
-    console.log("uni8", unit8ArrayData);
     //  writeFile: (path: string, data: FileData, { signal }?: FFMessageOptions) => Promise<OK>;
     //  writefile함슈는 FFmpeg가 사용하는 가상 파일 시스템에 파일을 쓰는 작업
     // 즉, unit8ArrayData를 라는 데이터를 "test1.mp4" 라는 경로에 저장
@@ -74,6 +70,23 @@ function SectionOne() {
     setLoaded(false);
   };
 
+  const handleTranscode = async () => {
+    const response = await fetch(`${baseUrl}/file/upload`, {
+      method: "POST",
+      body: new FormData(),
+    });
+
+    console.log("response", response);
+  };
+
+  const handleText = async () => {
+    const response = await fetch(`${baseUrl}/file/test`, {
+      method: "GET",
+    });
+    const data = await response.text();
+    console.log("response", data);
+  };
+
   useEffect(() => {
     load();
   }, []);
@@ -86,6 +99,9 @@ function SectionOne() {
         <source src="/1x5oiqlsst.mp4" type="video/mp4" />
       </video>
       <button onClick={transcode}>mp4파일을 mp3파일로 변환하기 </button>
+      {audioUrl && <p>{audioUrl}</p>}
+      <button onClick={handleTranscode}>mp3파일을 text로 변환하기 </button>
+      <button onClick={handleText}>백엔드 테스트 입니다 </button>
     </>
   );
 }
