@@ -70,16 +70,19 @@ function SectionOne() {
     setLoaded(false);
   };
 
+  // mp3 파일을 text로 convert하는 handler
+
   const handleTranscode = async () => {
-    const response = await fetch(`${baseUrl}/file/upload`, {
+    const response = await fetch(`${baseUrl}/file/translate`, {
       method: "POST",
-      body: new FormData(),
+      body: "",
     });
 
     console.log("response", response);
   };
 
-  const handleText = async () => {
+  // test용 handler
+  const handleTest = async () => {
     const response = await fetch(`${baseUrl}/file/test`, {
       method: "GET",
     });
@@ -101,7 +104,7 @@ function SectionOne() {
       <button onClick={transcode}>mp4파일을 mp3파일로 변환하기 </button>
       {audioUrl && <p>{audioUrl}</p>}
       <button onClick={handleTranscode}>mp3파일을 text로 변환하기 </button>
-      <button onClick={handleText}>백엔드 테스트 입니다 </button>
+      <button onClick={handleTest}>백엔드 테스트 입니다 </button>
     </>
   );
 }
