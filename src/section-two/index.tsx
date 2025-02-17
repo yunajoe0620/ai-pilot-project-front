@@ -2,22 +2,25 @@ import { useState } from "react";
 
 function SectionTwo() {
   // 대상
-  const [] = useState();
+  const [target, setTarget] = useState();
   // 과목
-  const [] = useState();
+  const [subject, setSubject] = useState();
   //   주제
-  const [] = useState();
+  const [theme, setTheme] = useState();
   //   난이도
-  const [] = useState();
+  const [level, setLevel] = useState();
   //   문제유형
-  const [] = useState();
+  const [problemType, setProblemType] = useState();
   return (
     <div>
-      <input />
-      <input />
-      <input />
-      <input />
-      <input />
+      <h1>맞춤형 학습</h1>
+      <div>
+        <input />
+        <input />
+        <input />
+        <input />
+        <input />
+      </div>
     </div>
   );
 }
