@@ -1,10 +1,10 @@
 import "./App.css";
-import SectionOne from "./section-one";
+import Router from "./routes";
 
 function App() {
   return (
     <>
-      <SectionOne />
+      <Router />
     </>
   );
 }
