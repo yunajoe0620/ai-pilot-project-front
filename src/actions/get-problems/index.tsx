@@ -5,18 +5,21 @@ import { baseUrl } from "../../api";
 import { QuestionItem } from "../../schemas/problem";
 import { formatQuestion } from "../../utils/section-two";
 
+const replacer = () => {};
+
 export const createQuestion = async (data: QuestionItem) => {
-  console.log("data", data);
   const formattedData = formatQuestion(data);
-  console.log("formattedDAta", formattedData);
+
+  console.log("hihi", JSON.stringify(formattedData));
   try {
     const url = `${baseUrl}/problem/generate`;
     const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Accept: "application/json",
       },
-      //   body: JSON.stringify({ target, subject, theme, level, problemType }),
+      body: JSON.stringify({ formattedData }),
     });
     return response;
   } catch (error) {
