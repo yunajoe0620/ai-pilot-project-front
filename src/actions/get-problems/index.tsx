@@ -5,8 +5,6 @@ import { baseUrl } from "../../api";
 import { QuestionItem } from "../../schemas/problem";
 import { formatQuestion } from "../../utils/section-two";
 
-const replacer = () => {};
-
 export const createQuestion = async (data: QuestionItem) => {
   const formattedData = formatQuestion(data);
 
