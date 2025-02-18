@@ -47,10 +47,8 @@ function SectionTwo() {
     setIsLoading(false);
     setIsProblemGenerate(true);
 
-    console.log("response ", response);
+    console.log("서버에서 온 값이다 ===>>>>>>>>>>> ", response);
   };
-
-  console.log("isLoaindg", isLoading);
 
   return (
     <div className="flex flex-col items-center">
