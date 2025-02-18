@@ -13,6 +13,8 @@ function SectionTwo() {
   //   문제유형
   const [problemType, setProblemType] = useState("문제유형선택하기");
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [isProblemGenerate, setIsProblemGenerate] = useState(false);
   const handleTarget = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setTarget(e.target.value);
   };
@@ -34,6 +36,7 @@ function SectionTwo() {
   };
 
   const handleGenerateProblems = async () => {
+    setIsLoading(true);
     const response = await createQuestion({
       target,
       subject,
@@ -41,9 +44,13 @@ function SectionTwo() {
       level,
       problemType,
     });
+    setIsLoading(false);
+    setIsProblemGenerate(true);
 
     console.log("response ", response);
   };
+
+  console.log("isLoaindg", isLoading);
 
   return (
     <div className="flex flex-col items-center">
@@ -104,6 +111,13 @@ function SectionTwo() {
       >
         문제 생성 하기
       </button>
+      {isLoading && <p>문제를 생성하고 있습니다</p>}
+      {!isLoading && isProblemGenerate && (
+        <div>
+          <p>문제가 생성되었습니다</p>
+          <button>pdf로 문제 다운로드 받기</button>
+        </div>
+      )}
     </div>
   );
 }
