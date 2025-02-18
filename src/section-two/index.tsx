@@ -36,7 +36,17 @@ function SectionTwo() {
   const handleGenerateProblems = async () => {
     console.log("문제 생성합니다");
     console.log("결과값", target, subject, theme, level, problemType);
-    await createQuestion({ target, subject, theme, level, problemType });
+    const response = await createQuestion({
+      target,
+      subject,
+      theme,
+      level,
+      problemType,
+    });
+
+    console.log("response ", response);
+
+    //
     // const result = await fetch(`${baseUrl}/problem/generate`, {
     //   method: "POST",
     //   headers: {

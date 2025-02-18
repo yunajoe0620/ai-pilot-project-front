@@ -2,7 +2,7 @@ import { QuestionItem } from "../../schemas/problem";
 
 export const formatQuestion = (data: QuestionItem) => {
   const { target, subject, theme, level, problemType } = data;
-  return `학년수준이 ${targetObject[target]}이고 과목이 ${subjectObject[subject]}이며 ${theme}이라는 주제에 해당하는 ${levelObject[level]}수준의 문제를 ${problemTypeObject[problemType]}의 유형으로 문제를 만들어줘`;
+  return `학년수준이 ${targetObject[target]}이고 과목이 ${subjectObject[subject]}이며 ${theme}이라는 주제에 해당하는 ${levelObject[level]}수준의 문제를 ${problemTypeObject[problemType]}의 유형으로 문제를 10개 만들어줘`;
 };
 
 type ObjectType = {

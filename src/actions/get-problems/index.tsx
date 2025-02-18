@@ -8,7 +8,6 @@ import { formatQuestion } from "../../utils/section-two";
 export const createQuestion = async (data: QuestionItem) => {
   const formattedData = formatQuestion(data);
 
-  console.log("hihi", JSON.stringify(formattedData));
   try {
     const url = `${baseUrl}/problem/generate`;
     const response = await fetch(url, {
@@ -19,7 +18,7 @@ export const createQuestion = async (data: QuestionItem) => {
       },
       body: JSON.stringify({ formattedData }),
     });
-    return response;
+    return response.json();
   } catch (error) {
     if (error instanceof Error) {
       return {
