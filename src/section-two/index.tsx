@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { baseUrl } from "../api";
+import { createQuestion } from "../actions/get-problems";
 
 function SectionTwo() {
   // 대상
@@ -36,14 +36,15 @@ function SectionTwo() {
   const handleGenerateProblems = async () => {
     console.log("문제 생성합니다");
     console.log("결과값", target, subject, theme, level, problemType);
-    const result = await fetch(`${baseUrl}/problem/generate`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+    await createQuestion({ target, subject, theme, level, problemType });
+    // const result = await fetch(`${baseUrl}/problem/generate`, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
 
-      body: JSON.stringify({ target, subject, theme, level, problemType }),
-    });
+    //   body: JSON.stringify({ target, subject, theme, level, problemType }),
+    // });
   };
 
   return (
@@ -57,7 +58,7 @@ function SectionTwo() {
             <select className="border-2" onChange={handleTarget}>
               <option value="text-menu">대상선택하기</option>
               <option value="elementary">초등학교</option>
-              <option value="middle">중학교</option>
+              <option value="middleschool">중학교</option>
               <option value="highschool">고등학교</option>
               <option value="university">대학교</option>
             </select>
