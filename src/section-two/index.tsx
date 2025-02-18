@@ -50,6 +50,8 @@ function SectionTwo() {
     console.log("서버에서 온 값이다 ===>>>>>>>>>>> ", response);
   };
 
+  // https://www.npmjs.com/package/react-doc-viewer
+  // https://github.com/ApryseSDK/webviewer-react-sample?tab=readme-ov-file
   return (
     <div className="flex flex-col items-center">
       <div className="h-full w-full flex flex-col items-center bg-gray-100">
