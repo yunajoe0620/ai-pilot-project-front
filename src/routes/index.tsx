@@ -13,7 +13,7 @@ const router = createBrowserRouter([
     element: <SectionOne />,
   },
   {
-    path: "/two",
+    path: "/section-two",
     element: <SectionTwo />,
   },
 ]);
