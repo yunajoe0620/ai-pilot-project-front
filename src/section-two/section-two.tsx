@@ -37,9 +37,11 @@ function SectionTwo() {
   const modalRef = useRef<HTMLIFrameElement>(null);
 
   const handleModalClose = () => {
-    console.log("클릭");
+    console.log("모달클로즈!");
     setIsModal(false);
   };
+
+  console.log("현재모달리 열려 있나유?", isModal);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isProblemGenerate, setIsProblemGenerate] = useState(false);
