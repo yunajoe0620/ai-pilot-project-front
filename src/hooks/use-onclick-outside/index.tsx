@@ -14,12 +14,10 @@ function useOnClickOutside<T extends HTMLElement | HTMLIFrameElement>(
     if (!isMount) return;
     if (!ref) return;
 
-    if (ref.current) {
-      ref.current.addEventListener(eventName, handler);
-    }
+    document.addEventListener(eventName, handler);
 
     return () => {
-      ref.current?.removeEventListener(eventName, handler);
+      document.removeEventListener(eventName, handler);
     };
   }, [ref, handler, eventName]);
 }

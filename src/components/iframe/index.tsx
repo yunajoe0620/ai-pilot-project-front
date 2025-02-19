@@ -1,4 +1,4 @@
-import { RefObject, useEffect } from "react";
+import { RefObject } from "react";
 import useOnClickOutside from "../../hooks/use-onclick-outside";
 
 interface IframProps {
@@ -14,15 +14,11 @@ function Iframe({ url, modalRef, handleModalClose }: IframProps) {
 
   if (!modalRef) return;
 
-  console.log("modalRef", modalRef);
-
-  useEffect(() => {}, [modalRef]);
-
   return (
     <iframe
       onClick={handleModalClose}
       ref={modalRef}
-      src={url} // 생성된 PDF URL을 iframe에 설정
+      src={url}
       width="100%"
       height="800px"
       title="PDF Viewer"
