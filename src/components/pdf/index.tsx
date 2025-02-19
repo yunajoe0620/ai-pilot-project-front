@@ -1,7 +1,11 @@
 import { Document, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
+import { memo, useEffect, useState } from "react";
+import { problemSplit } from "../../utils/section-two";
 
 interface PDFDocumentProps {
-  problems?: string;
+  problems: {
+    response: string;
+  };
 }
 
 const styles = StyleSheet.create({
@@ -16,8 +20,17 @@ const styles = StyleSheet.create({
   },
 });
 
-function PDFDocument({ problems }: PDFDocumentProps) {
-  console.log("pdfCoument훅입니다앙아", problems);
+const PDFDocument = memo(function PDFDocument({ problems }: PDFDocumentProps) {
+  const [problemArr, setProblemArr] = useState([]);
+  const result = problemSplit(problems);
+
+  useEffect(() => {
+    if (result) {
+      setProblemArr(result);
+    }
+  }, [problems]);
+
+  console.log("problemsArr입니다앙아", problemArr);
 
   return (
     <Document>
@@ -28,6 +41,6 @@ function PDFDocument({ problems }: PDFDocumentProps) {
       </Page>
     </Document>
   );
-}
+});
 
 export default PDFDocument;

@@ -22,7 +22,9 @@ function SectionTwo() {
   const [isPDFDownload, setIsPDFDownload] = useState(false);
 
   // server결과값
-  const [responseProblems, setResponseProblems] = useState();
+  const [responseProblems, setResponseProblems] = useState({ response: "" });
+
+  // console.log("responseProblems", responseProblems);
 
   // pdf hooks
   //  update는 언제쓰쥬?
