@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { usePDF } from "@react-pdf/renderer";
+import { useEffect, useState } from "react";
 import { createQuestion } from "../actions/get-problems";
+import PDFDocument from "../components/pdf";
 
 function SectionTwo() {
   // 대상
@@ -12,6 +14,30 @@ function SectionTwo() {
   const [level, setLevel] = useState("난이도선택하기");
   //   문제유형
   const [problemType, setProblemType] = useState("문제유형선택하기");
+
+  // 문제 갯수
+  const [problemCount, setProblemCount] = useState("");
+
+  // pdf 다운로드
+  const [isPDFDownload, setIsPDFDownload] = useState(false);
+
+  // server결과값
+  const [responseProblems, setResponseProblems] = useState();
+
+  // pdf hooks
+  //  update는 언제쓰쥬?
+  const [instance, updateInstance] = usePDF({
+    document: <PDFDocument problems={responseProblems} />,
+  });
+
+  //  아래는 instance
+
+  //   {
+  //     "blob": {},
+  //     "error": null,
+  //     "loading": false,
+  //     "url": "blob:http://localhost:5174/838e1a84-3645-4e22-8000-746cdf895eac"
+  // }
 
   const [isLoading, setIsLoading] = useState(false);
   const [isProblemGenerate, setIsProblemGenerate] = useState(false);
@@ -35,6 +61,10 @@ function SectionTwo() {
     setProblemType(e.target.value);
   };
 
+  const handleProblemCount = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setProblemCount(e.target.value);
+  };
+
   const handleGenerateProblems = async () => {
     setIsLoading(true);
     const response = await createQuestion({
@@ -43,17 +73,24 @@ function SectionTwo() {
       theme,
       level,
       problemType,
+      problemCount,
     });
     setIsLoading(false);
     setIsProblemGenerate(true);
-
-    console.log("서버에서 온 값이다 ===>>>>>>>>>>> ", response);
+    setResponseProblems(response);
   };
 
+  const handlePDFDownload = () => {
+    setIsPDFDownload(true);
+  };
+
+  useEffect(() => {
+    updateInstance(<PDFDocument problems={responseProblems} />);
+  }, [responseProblems]);
   // https://react-pdf.org/
   return (
-    <div className="flex flex-col items-center">
-      <div className="h-full w-full flex flex-col items-center bg-gray-100">
+    <div className="flex flex-col items-center h-screen">
+      <div className="h-full w-full flex flex-col items-center bg-blue-100">
         <h1 className="font-bold">AI 맞춤형 학습</h1>
         <div>
           {/* 대상 선택하기 */}
@@ -102,20 +139,40 @@ function SectionTwo() {
               <option value="essay-question">주관식</option>
             </select>
           </div>
+          {/* 문제갯수 선택 */}
+          <div className="flex flex-row gap-16">
+            <label>문제갯수</label>
+            <select className="border-2" onChange={handleProblemCount}>
+              <option value="text-menu">문제 갯수 선택하기</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
+            </select>
+          </div>
         </div>
+        <button
+          className="border-2 bg-gray-700 text-amber-100 w-[200px] p-4"
+          onClick={handleGenerateProblems}
+        >
+          문제 생성 하기
+        </button>
+        {isLoading && <p>문제를 생성하고 있습니다</p>}
+        {!isLoading && isProblemGenerate && (
+          <div>
+            <p>문제가 생성되었습니다</p>
+            <button onClick={handlePDFDownload}>
+              pdf로 문제 다운로드 받기
+            </button>
+          </div>
+        )}
       </div>
-      <button
-        className="border-2 bg-gray-700 text-amber-100 w-[200px] p-4"
-        onClick={handleGenerateProblems}
-      >
-        문제 생성 하기
-      </button>
-      {isLoading && <p>문제를 생성하고 있습니다</p>}
-      {!isLoading && isProblemGenerate && (
-        <div>
-          <p>문제가 생성되었습니다</p>
-          <button>pdf로 문제 다운로드 받기</button>
-        </div>
+      {isPDFDownload && instance.url && (
+        <iframe
+          src={instance.url} // 생성된 PDF URL을 iframe에 설정
+          width="100%"
+          height="600px"
+          title="PDF Viewer"
+        />
       )}
     </div>
   );

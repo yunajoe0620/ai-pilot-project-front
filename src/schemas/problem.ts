@@ -7,6 +7,7 @@ export const questionItemSchema = z.object({
   theme: z.string(),
   level: z.string(),
   problemType: z.string(),
+  problemCount: z.string(),
 });
 
 export type QuestionItem = z.infer<typeof questionItemSchema>;

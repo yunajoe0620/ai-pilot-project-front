@@ -1,8 +1,7 @@
-import { Document, Page, StyleSheet } from "@react-pdf/renderer";
-import { ReactNode } from "react";
+import { Document, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 
-interface PDFWrapper {
-  children: ReactNode;
+interface PDFDocumentProps {
+  problems?: string;
 }
 
 const styles = StyleSheet.create({
@@ -16,14 +15,19 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
 });
-function PDFWrapper({ children }: PDFWrapper) {
+
+function PDFDocument({ problems }: PDFDocumentProps) {
+  console.log("pdfCoument훅입니다앙아", problems);
+
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        {children}
+        <View style={styles.section}>
+          <Text>Section #1</Text>
+        </View>
       </Page>
     </Document>
   );
 }
 
-export default PDFWrapper;
+export default PDFDocument;

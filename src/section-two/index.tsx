@@ -1,12 +1,7 @@
-import { PDFViewer } from "@react-pdf/renderer";
 import SectionTwo from "./section-two";
 
 function SectionTwoPage() {
-  return (
-    <PDFViewer>
-      <SectionTwo />
-    </PDFViewer>
-  );
+  return <SectionTwo />;
 }
 
 export default SectionTwoPage;
