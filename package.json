@@ -13,6 +13,8 @@
     "@ffmpeg/core": "^0.12.10",
     "@ffmpeg/ffmpeg": "^0.12.15",
     "@ffmpeg/util": "^0.12.2",
+    "@openfonts/noto-sans-kr_korean": "^1.44.1",
+    "@react-pdf/font": "^3.1.0",
     "@react-pdf/renderer": "^4.2.2",
     "@tailwindcss/vite": "^4.0.6",
     "openai": "^4.85.0",

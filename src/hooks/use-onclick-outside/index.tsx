@@ -16,9 +16,10 @@ function useOnClickOutside<T extends HTMLElement | HTMLIFrameElement>(
 
     document.addEventListener(eventName, handler);
 
-    return () => {
-      document.removeEventListener(eventName, handler);
-    };
+    // TODO: 애를 넣으면은 handler가 실행이 되지를 않는다. 그러면은 언제 remove를 해야하쥬?
+    // return () => {
+    //   document.removeEventListener(eventName, handler);
+    // };
   }, [ref, handler, eventName]);
 }
 

@@ -31,17 +31,21 @@ function SectionTwo() {
 
   // pdf hooks
   const [instance, updateInstance] = usePDF({
-    document: <PDFDocument problems={responseProblems} />,
+    document: (
+      <PDFDocument
+        problems={responseProblems}
+        target={target}
+        subject={subject}
+        problemType={problemType}
+      />
+    ),
   });
 
   const modalRef = useRef<HTMLIFrameElement>(null);
 
   const handleModalClose = () => {
-    console.log("모달클로즈!");
     setIsModal(false);
   };
-
-  console.log("현재모달리 열려 있나유?", isModal);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isProblemGenerate, setIsProblemGenerate] = useState(false);
@@ -90,7 +94,14 @@ function SectionTwo() {
   };
 
   useEffect(() => {
-    updateInstance(<PDFDocument problems={responseProblems} />);
+    updateInstance(
+      <PDFDocument
+        problems={responseProblems}
+        target={target}
+        subject={subject}
+        problemType={problemType}
+      />
+    );
   }, [responseProblems]);
   // https://react-pdf.org/
   return (
@@ -173,7 +184,7 @@ function SectionTwo() {
       </div>
       {/* isPDFDownload && instance.url */}
       {/* 추후게 조건으로 넣을것  */}
-      {isModal && (
+      {/* {isModal && (
         <ModalComponent
           component={
             <Iframe
@@ -183,7 +194,16 @@ function SectionTwo() {
             />
           }
         />
-      )}
+      )} */}
+      <ModalComponent
+        component={
+          <Iframe
+            url={instance.url}
+            modalRef={modalRef}
+            handleModalClose={handleModalClose}
+          />
+        }
+      />
     </div>
   );
 }

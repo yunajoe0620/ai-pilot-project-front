@@ -38,5 +38,16 @@ export const problemSplit = (problems: any) => {
   if (!problems) return;
   const result = problems.response;
   const arr = result.split("*****");
+
   return arr;
+};
+
+export const seperateQuestionAndAnswerArray = (arr: any) => {
+  const problemsArr = arr.slice(0, -1);
+  const answerArr = arr[arr.length - 1];
+
+  return {
+    problemsArr,
+    answerArr,
+  };
 };
