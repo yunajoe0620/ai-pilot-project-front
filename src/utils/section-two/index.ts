@@ -38,8 +38,5 @@ export const problemSplit = (problems: any) => {
   if (!problems) return;
   const result = problems.response;
   const arr = result.split("*****");
-  console.log("Arr ====>>>>>>>>>>", arr);
-  // console.log("arr", arr);
-  // console.log("firstEle", arr[0], arr[1]);
   return arr;
 };

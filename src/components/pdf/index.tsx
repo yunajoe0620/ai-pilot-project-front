@@ -32,8 +32,9 @@ const PDFDocument = memo(function PDFDocument({ problems }: PDFDocumentProps) {
 
   console.log("problemsArr입니다앙아", problemArr);
 
+  // document, page, view, Image, Text, Link, Note, canvas
   return (
-    <Document>
+    <Document title="fine-teacher-problems-pdf">
       <Page size="A4" style={styles.page}>
         <View style={styles.section}>
           <Text>Section #1</Text>

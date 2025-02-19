@@ -1,6 +1,8 @@
 import { usePDF } from "@react-pdf/renderer";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createQuestion } from "../actions/get-problems";
+import Iframe from "../components/iframe";
+import ModalComponent from "../components/modal/modal-component";
 import PDFDocument from "../components/pdf";
 
 function SectionTwo() {
@@ -21,25 +23,23 @@ function SectionTwo() {
   // pdf 다운로드
   const [isPDFDownload, setIsPDFDownload] = useState(false);
 
+  // pdf 모달
+  const [isModal, setIsModal] = useState(false);
+
   // server결과값
   const [responseProblems, setResponseProblems] = useState({ response: "" });
 
-  // console.log("responseProblems", responseProblems);
-
   // pdf hooks
-  //  update는 언제쓰쥬?
   const [instance, updateInstance] = usePDF({
     document: <PDFDocument problems={responseProblems} />,
   });
 
-  //  아래는 instance
+  const modalRef = useRef<HTMLIFrameElement>(null);
 
-  //   {
-  //     "blob": {},
-  //     "error": null,
-  //     "loading": false,
-  //     "url": "blob:http://localhost:5174/838e1a84-3645-4e22-8000-746cdf895eac"
-  // }
+  const handleModalClose = () => {
+    console.log("클릭");
+    setIsModal(false);
+  };
 
   const [isLoading, setIsLoading] = useState(false);
   const [isProblemGenerate, setIsProblemGenerate] = useState(false);
@@ -84,6 +84,7 @@ function SectionTwo() {
 
   const handlePDFDownload = () => {
     setIsPDFDownload(true);
+    setIsModal(true);
   };
 
   useEffect(() => {
@@ -168,12 +169,17 @@ function SectionTwo() {
           </div>
         )}
       </div>
-      {isPDFDownload && instance.url && (
-        <iframe
-          src={instance.url} // 생성된 PDF URL을 iframe에 설정
-          width="100%"
-          height="600px"
-          title="PDF Viewer"
+      {/* isPDFDownload && instance.url */}
+      {/* 추후게 조건으로 넣을것  */}
+      {isModal && (
+        <ModalComponent
+          component={
+            <Iframe
+              url={instance.url}
+              modalRef={modalRef}
+              handleModalClose={handleModalClose}
+            />
+          }
         />
       )}
     </div>
