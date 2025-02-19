@@ -1,19 +1,22 @@
-import { RefObject } from "react";
+import { RefObject, useEffect } from "react";
 import useOnClickOutside from "../../hooks/use-onclick-outside";
 
 interface IframProps {
   url: string | null;
-  modalRef: RefObject<HTMLIFrameElement> | null;
+  modalRef: RefObject<HTMLIFrameElement | null>;
   handleModalClose: () => void;
 }
 
 function Iframe({ url, modalRef, handleModalClose }: IframProps) {
-  useOnClickOutside(modalRef, handleModalClose, "click");
+  useOnClickOutside(modalRef, handleModalClose, "mousedown");
 
   if (!url) return;
+
   if (!modalRef) return;
 
-  //   useEffect(() => {}, []);
+  console.log("modalRef", modalRef);
+
+  useEffect(() => {}, [modalRef]);
 
   return (
     <iframe

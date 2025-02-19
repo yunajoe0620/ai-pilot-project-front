@@ -1,12 +1,11 @@
 import { RefObject, useEffect } from "react";
 
 function useOnClickOutside<T extends HTMLElement | HTMLIFrameElement>(
-  ref: RefObject<T> | null,
+  ref: RefObject<T | null>,
   handler: () => void,
   eventName: string
 ) {
-  console.log("Ref", ref, handler);
-
+  console.log("useOnClickOuttside ===>>>>>>>>", ref);
   useEffect(() => {
     if (!ref) return;
 
@@ -15,9 +14,9 @@ function useOnClickOutside<T extends HTMLElement | HTMLIFrameElement>(
     }
 
     return () => {
-      ref.current.removeEventListener(eventName, handler);
+      ref?.current?.removeEventListener(eventName, handler);
     };
-  }, [ref]);
+  }, [ref, handler]);
 }
 
 export default useOnClickOutside;
