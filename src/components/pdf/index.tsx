@@ -79,24 +79,9 @@ const PDFDocument = memo(function PDFDocument({
     onlyAnswerArr
   );
 
-  const sampleArr = [
-    "1. 12 ÷ 4 = ?  \na) 2  \nb) 3  \nc) 4  \nd) 6  \n",
-    "  \n2. 15 ÷ 3 = ?  \na) 4  \nb) 5  \nc) 6  \nd) 7  \n",
-    "  \n3. 20 ÷ 5 = ?  \na) 2  \nb) 3  \nc) 4  \nd) 5  \n",
-    "  \n4. 18 ÷ 6 = ?  \na) 2  \nb) 3  \nc) 4  \nd) 5  \n",
-    "  \n5. 25 ÷ 5 = ?  \na) 3  \nb) 4  \nc) 5  \nd) 6  \n",
-    "  \n6. 30 ÷ 6 = ?  \na) 4  \nb) 5  \nc) 6  \nd) 7  \n",
-    "  \n7. 16 ÷ 4 = ?  \na) 2  \nb) 3  \nc) 4  \nd) 5  \n",
-    "  \n8. 24 ÷ 8 = ?  \na) 2  \nb) 3  \nc) 4  \nd) 5  \n",
-    "  \n9. 40 ÷ 10 = ?  \na) 3  \nb) 4  \nc) 5  \nd) 6  \n",
-    "  \n10. 45 ÷ 9 = ?  \na) 4  \nb) 5  \nc) 6  \nd) 7  \n",
-    "  \n\n답: 1-b, 2-b, 3-c, 4-b, 5-c, 6-b, 7-c, 8-c, 9-c, 10-b",
-  ];
-
-  const result222 = seperateQuestionAndAnswerArray(sampleArr);
+  // const result222 = seperateQuestionAndAnswerArray(sampleArr);
   // console.log(" result222 ", result222.onlyAnswersArray);
 
-  // document, page, view, Image, Text, Link, Note, canvas
   return (
     <Document title="fine-teacher-problems-pdf">
       <Page size="A4" style={styles.page}>

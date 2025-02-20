@@ -105,16 +105,18 @@ function SectionTwo() {
   }, [responseProblems]);
   // https://react-pdf.org/
 
-  // console.log("제출한 response입니다", responseProblems);
   return (
     <div className="flex flex-col items-center h-screen">
-      <div className="h-full w-full flex flex-col items-center bg-blue-100">
-        <h1 className="font-bold">AI 맞춤형 학습</h1>
-        <div>
+      <div className="h-full w-full flex flex-col items-center  bg-blue-100">
+        <h1 className="font-bold text-4xl mt-40 mb-10">AI 맞춤형 학습</h1>
+        <div className="bg-gray-200 flex flex-col gap-10 p-4 mb-10 ">
           {/* 대상 선택하기 */}
-          <div className="flex flex-row gap-16">
-            <label>학생 학년 및 선택 수준</label>
-            <select className="border-2" onChange={handleTarget}>
+          <div className="flex flex-row justify-between">
+            <label>학생&학년</label>
+            <select
+              className="border-2 w-[180px] text-center"
+              onChange={handleTarget}
+            >
               <option value="text-menu">대상선택하기</option>
               <option value="elementary">초등학교</option>
               <option value="middleschool">중학교</option>
@@ -123,9 +125,12 @@ function SectionTwo() {
             </select>
           </div>
           {/* 과목선택 */}
-          <div className="flex flex-row gap-16">
+          <div className="flex flex-row justify-between bg-red-100">
             <label>과목</label>
-            <select className="border-2" onChange={handleSubject}>
+            <select
+              className="border-2 w-[180px] text-center"
+              onChange={handleSubject}
+            >
               <option value="text-menu">과목 선택하기</option>
               <option value="math">수학</option>
               <option value="english">영어</option>
@@ -134,14 +139,17 @@ function SectionTwo() {
             </select>
           </div>
           {/* 주제선택 */}
-          <div className="flex flex-row gap-16">
+          <div className="flex flex-row justify-between">
             <label>주제</label>
             <input className="border-2" onChange={handleTheme} value={theme} />
           </div>
           {/* 난이도 선택 */}
-          <div className="flex flex-row gap-16">
+          <div className="flex flex-row justify-between">
             <label>난이도</label>
-            <select className="border-2" onChange={handleLevel}>
+            <select
+              className="border-2 w-[180px] text-center"
+              onChange={handleLevel}
+            >
               <option value="text-menu">난이도 선택하기</option>
               <option value="easy">쉬움</option>
               <option value="medium">보통</option>
@@ -149,18 +157,24 @@ function SectionTwo() {
             </select>
           </div>
           {/* 문제유형 선택 */}
-          <div className="flex flex-row gap-16">
+          <div className="flex flex-row justify-between">
             <label>문제유형</label>
-            <select className="border-2" onChange={handleProblemType}>
+            <select
+              className="border-2 w-[180px] text-center"
+              onChange={handleProblemType}
+            >
               <option value="text-menu">문제 유형 선택하기</option>
               <option value="short-answer-question">객관식</option>
               <option value="essay-question">주관식</option>
             </select>
           </div>
           {/* 문제갯수 선택 */}
-          <div className="flex flex-row gap-16">
+          <div className="flex flex-row justify-between">
             <label>문제갯수</label>
-            <select className="border-2" onChange={handleProblemCount}>
+            <select
+              className="border-2 w-[180px] text-center"
+              onChange={handleProblemCount}
+            >
               <option value="text-menu">문제 갯수 선택하기</option>
               <option value="10">10</option>
               <option value="20">20</option>
