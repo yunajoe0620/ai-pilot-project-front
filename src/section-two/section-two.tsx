@@ -103,7 +103,6 @@ function SectionTwo() {
       />
     );
   }, [responseProblems]);
-  // https://react-pdf.org/
 
   return (
     <div className="flex flex-col items-center h-screen">

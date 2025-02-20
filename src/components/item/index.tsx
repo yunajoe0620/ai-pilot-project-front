@@ -1,6 +1,17 @@
-import { Text, View } from "@react-pdf/renderer";
-import { styles } from "../pdf";
+import { StyleSheet, Text, View } from "@react-pdf/renderer";
 
+export const styles = StyleSheet.create({
+  section: {
+    backgroundColor: "#b8a0a0",
+    color: "black",
+    padding: 10,
+  },
+
+  question: {
+    fontFamily: "SpoqaHanSans",
+    fontSize: 30,
+  },
+});
 interface ItemProps {
   item: string;
 }
@@ -8,7 +19,7 @@ interface ItemProps {
 function Item({ item }: ItemProps) {
   return (
     <View style={styles.section}>
-      <Text style={styles.section}>{item}</Text>
+      <Text style={styles.question}>{item}</Text>
     </View>
   );
 }

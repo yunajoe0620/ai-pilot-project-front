@@ -9,7 +9,10 @@ import {
 import { memo, useEffect, useState } from "react";
 import {
   problemSplit,
+  problemTypeObject,
   seperateQuestionAndAnswerArray,
+  subjectObject,
+  targetObject,
 } from "../../utils/section-two";
 import Item from "../item";
 
@@ -47,6 +50,7 @@ export const styles = StyleSheet.create({
     color: "black",
     padding: 10,
   },
+
   answer: {
     fontFamily: "SpoqaHanSans",
     fontSize: 10,
@@ -86,16 +90,13 @@ const PDFDocument = memo(function PDFDocument({
     onlyAnswerArr
   );
 
-  // const result222 = seperateQuestionAndAnswerArray(sampleArr);
-  // console.log(" result222 ", result222.onlyAnswersArray);
-
   return (
     <Document title="fine-teacher-problems-pdf">
       <Page size="A4" style={styles.page}>
         <View style={styles.section}>
-          {/* <Text style={styles.title}>중학교 수학영역 객관식유형 문제</Text> */}
           <Text style={styles.subTitle}>
-            {target} {subject} 영역 {subject}유형 문제
+            {targetObject[target]} {subjectObject[subject]} 영역{" "}
+            {problemTypeObject[problemType]} 유형 문제
           </Text>
         </View>
         <View>

@@ -43,7 +43,6 @@ export const problemSplit = (problems: any) => {
 };
 
 export const seperateQuestionAndAnswerArray = (arr: any) => {
-  // console.log("sepearte입니다", arr);
   const onlyProblemsArray = arr.slice(0, -1);
   const onlyAnswersArray = arr[arr.length - 1];
 
