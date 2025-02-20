@@ -1,9 +1,15 @@
+import { Button } from "@mui/material";
+
 function IndexPage() {
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-700 text-zinc-100">
-      <a href="/section-two" className="text-4xl border-4 p-2">
+    <div className="flex flex-col items-center gap-10 justify-center h-screen bg-gray-700 text-zinc-100">
+      <h1 className="text-6xl text-cente bg-gray-700">파인티쳐 AI PILOT</h1>
+      <Button href="/section-analyze" variant="outlined">
+        AI 학과 적성 진단 및 직업 추천 예시
+      </Button>
+      <Button href="/section-two" variant="outlined">
         AI 맞춤형 학습 진행
-      </a>
+      </Button>
     </div>
   );
 }

@@ -1,30 +1,31 @@
 // SectionAnalyz.tsx
-import React, { useState } from "react";
-import {
-  Box,
-  Typography,
-  Button,
-  TextField,
-  Radio,
-  RadioGroup,
-  FormControlLabel,
-  FormControl,
-  FormLabel,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  CircularProgress,
-} from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Button,
+  CircularProgress,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+  TextField,
+  Typography,
+} from "@mui/material";
+import {
   Chart as ChartJS,
-  RadialLinearScale,
-  PointElement,
-  LineElement,
   Filler,
-  Tooltip,
   Legend,
+  LineElement,
+  PointElement,
+  RadialLinearScale,
+  Tooltip,
 } from "chart.js";
+import React, { useState } from "react";
+import { Radar } from "react-chartjs-2";
 ChartJS.register(
   RadialLinearScale,
   PointElement,
@@ -33,7 +34,6 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-import { Radar } from "react-chartjs-2";
 
 type Question = {
   id: string;
