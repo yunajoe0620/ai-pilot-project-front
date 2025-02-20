@@ -104,6 +104,8 @@ function SectionTwo() {
     );
   }, [responseProblems]);
   // https://react-pdf.org/
+
+  // console.log("제출한 response입니다", responseProblems);
   return (
     <div className="flex flex-col items-center h-screen">
       <div className="h-full w-full flex flex-col items-center bg-blue-100">
@@ -184,7 +186,7 @@ function SectionTwo() {
       </div>
       {/* isPDFDownload && instance.url */}
       {/* 추후게 조건으로 넣을것  */}
-      {/* {isModal && (
+      {isModal && (
         <ModalComponent
           component={
             <Iframe
@@ -194,8 +196,8 @@ function SectionTwo() {
             />
           }
         />
-      )} */}
-      <ModalComponent
+      )}
+      {/* <ModalComponent
         component={
           <Iframe
             url={instance.url}
@@ -203,7 +205,7 @@ function SectionTwo() {
             handleModalClose={handleModalClose}
           />
         }
-      />
+      /> */}
     </div>
   );
 }

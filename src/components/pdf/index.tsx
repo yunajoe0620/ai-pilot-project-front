@@ -42,6 +42,10 @@ export const styles = StyleSheet.create({
     color: "black",
     padding: 10,
   },
+  answer: {
+    fontFamily: "SpoqaHanSans",
+    fontSize: 10,
+  },
 });
 
 const PDFDocument = memo(function PDFDocument({
@@ -51,6 +55,8 @@ const PDFDocument = memo(function PDFDocument({
   problemType,
 }: PDFDocumentProps) {
   const [problemArr, setProblemArr] = useState([]);
+  const [onlyProblemsArr, setOnlyProblemsArr] = useState([]);
+  const [onlyAnswerArr, setOnlyAnswersArr] = useState("");
   const result = problemSplit(problems);
 
   useEffect(() => {
@@ -59,10 +65,19 @@ const PDFDocument = memo(function PDFDocument({
     }
   }, [problems]);
 
-  console.log("problemsArr입니다앙아", problemArr);
+  useEffect(() => {
+    const { onlyProblemsArray, onlyAnswersArray } =
+      seperateQuestionAndAnswerArray(problemArr);
+    setOnlyProblemsArr(onlyProblemsArray);
+    setOnlyAnswersArr(onlyAnswersArray);
+  }, [problemArr]);
 
-  const { onlyProblemsArr, onlyAnswersArr } =
-    seperateQuestionAndAnswerArray(problemArr);
+  console.log(
+    "문제만 뽑았습니다",
+    onlyProblemsArr,
+    "정답만 뽑았습니다",
+    onlyAnswerArr
+  );
 
   const sampleArr = [
     "1. 12 ÷ 4 = ?  \na) 2  \nb) 3  \nc) 4  \nd) 6  \n",
@@ -78,6 +93,9 @@ const PDFDocument = memo(function PDFDocument({
     "  \n\n답: 1-b, 2-b, 3-c, 4-b, 5-c, 6-b, 7-c, 8-c, 9-c, 10-b",
   ];
 
+  const result222 = seperateQuestionAndAnswerArray(sampleArr);
+  // console.log(" result222 ", result222.onlyAnswersArray);
+
   // document, page, view, Image, Text, Link, Note, canvas
   return (
     <Document title="fine-teacher-problems-pdf">
@@ -87,9 +105,21 @@ const PDFDocument = memo(function PDFDocument({
           {/* <Text style={styles.title}>{target} {subject} 영역 {subject}유형 문제</Text> */}
         </View>
         <View>
-          {sampleArr.map((item) => (
-            <Item item={item} />
-          ))}
+          {onlyProblemsArr &&
+            onlyProblemsArr.map((item, index) => (
+              <Item item={item} key={index} />
+            ))}
+        </View>
+      </Page>
+      <Page size="A4" style={styles.page}>
+        <View style={styles.section}>
+          <Text style={styles.title}>답안지</Text>
+        </View>
+        <View style={styles.section}>
+          <Text style={styles.answer}>{onlyAnswerArr && onlyAnswerArr}</Text>
+          {/* {result222.onlyAnswersArray.map((item, index) => (
+            <Item item={item} key={index} />
+          ))} */}
         </View>
       </Page>
     </Document>
