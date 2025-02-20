@@ -64,7 +64,6 @@ const PDFDocument = memo(function PDFDocument({
   const { onlyProblemsArr, onlyAnswersArr } =
     seperateQuestionAndAnswerArray(problemArr);
 
-  //
   const sampleArr = [
     "1. 12 ÷ 4 = ?  \na) 2  \nb) 3  \nc) 4  \nd) 6  \n",
     "  \n2. 15 ÷ 3 = ?  \na) 4  \nb) 5  \nc) 6  \nd) 7  \n",

@@ -43,11 +43,11 @@ export const problemSplit = (problems: any) => {
 };
 
 export const seperateQuestionAndAnswerArray = (arr: any) => {
-  const problemsArr = arr.slice(0, -1);
-  const answerArr = arr[arr.length - 1];
+  const onlyProblemsArr = arr.slice(0, -1);
+  const onlyAnswersArr = arr[arr.length - 1];
 
   return {
-    problemsArr,
-    answerArr,
+    onlyProblemsArr,
+    onlyAnswersArr,
   };
 };
