@@ -1,50 +1,59 @@
-# React + TypeScript + Vite
+# 파인티쳐 AI PILOT
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- OPEN AI를 활용한 프로그램
 
-Currently, two official plugins are available:
+## 기술 스택
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 프레임워크 : React
+- 라이브러리: tailwind.css, mui, zod, chart.js
 
-## Expanding the ESLint configuration
+### 학과 적성 찾기
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+-
 
-- Configure the top-level `parserOptions` property like this:
+### 문제 생성 하기
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- 학년, 과목, 주제, 난이도, 문제유형에 따른 문제생성 AI 프로그램
+
+### dependency
+
+```json
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@ffmpeg/core": "^0.12.10",
+    "@ffmpeg/ffmpeg": "^0.12.15",
+    "@ffmpeg/util": "^0.12.2",
+    "@mui/icons-material": "^6.4.5",
+    "@mui/material": "^6.4.5",
+    "@openfonts/noto-sans-kr_korean": "^1.44.1",
+    "@react-pdf/font": "^3.1.0",
+    "@react-pdf/renderer": "^4.2.2",
+    "@tailwindcss/vite": "^4.0.6",
+    "chart.js": "^4.4.7",
+    "openai": "^4.85.0",
+    "react": "^19.0.0",
+    "react-chartjs-2": "^5.3.0",
+    "react-dom": "^19.0.0",
+    "react-latex": "^2.0.0",
+    "react-router-dom": "^7.1.5",
+    "tailwindcss": "^4.0.6",
+    "zod": "^3.24.2"
+
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### devDependencies
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```json
+    "@eslint/js": "^9.19.0",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "@types/react-latex": "^2.0.3",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.19.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.18",
+    "globals": "^15.14.0",
+    "typescript": "~5.7.2",
+    "typescript-eslint": "^8.22.0",
+    "vite": "^6.1.0"
 ```

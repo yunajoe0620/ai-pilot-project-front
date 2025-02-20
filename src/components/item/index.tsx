@@ -16,7 +16,6 @@ interface ItemProps {
 }
 
 function Item({ item }: ItemProps) {
-  console.log("item", item);
   return (
     <View style={styles.section}>
       <Text style={styles.question}>{item}</Text>
