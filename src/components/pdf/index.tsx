@@ -34,6 +34,7 @@ export const styles = StyleSheet.create({
   page: {
     flexDirection: "column",
     backgroundColor: "#E4E4E4",
+    height: "100vh",
   },
   title: {
     fontFamily: "SpoqaHanSans",
@@ -43,7 +44,6 @@ export const styles = StyleSheet.create({
   subTitle: {
     fontFamily: "SpoqaHanSans",
     fontSize: 16,
-    // paddingLeft: 10,
   },
   section: {
     backgroundColor: "#b8a0a0",
@@ -67,8 +67,6 @@ const PDFDocument = memo(function PDFDocument({
   const [onlyProblemsArr, setOnlyProblemsArr] = useState([]);
   const [onlyAnswerArr, setOnlyAnswersArr] = useState("");
   const result = problemSplit(problems);
-
-  console.log("Targe ===>>>>>>>>>", target, subject, problemType);
 
   useEffect(() => {
     if (result) {
