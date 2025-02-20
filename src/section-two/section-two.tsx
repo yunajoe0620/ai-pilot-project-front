@@ -109,9 +109,9 @@ function SectionTwo() {
     <div className="flex flex-col items-center h-screen">
       <div className="h-full w-full flex flex-col items-center  bg-blue-100">
         <h1 className="font-bold text-4xl mt-40 mb-10">AI 맞춤형 학습</h1>
-        <div className="bg-gray-200 flex flex-col gap-10 p-4 mb-10 ">
+        <div className="flex flex-col gap-10 p-4 mb-10 ">
           {/* 대상 선택하기 */}
-          <div className="flex flex-row justify-between">
+          <div className="flex flex-row gap-20 justify-between">
             <label>학생&학년</label>
             <select
               className="border-2 w-[180px] text-center"
@@ -125,7 +125,7 @@ function SectionTwo() {
             </select>
           </div>
           {/* 과목선택 */}
-          <div className="flex flex-row justify-between bg-red-100">
+          <div className="flex flex-row justify-between">
             <label>과목</label>
             <select
               className="border-2 w-[180px] text-center"
@@ -141,7 +141,11 @@ function SectionTwo() {
           {/* 주제선택 */}
           <div className="flex flex-row justify-between">
             <label>주제</label>
-            <input className="border-2" onChange={handleTheme} value={theme} />
+            <input
+              className="border-2 w-[180px] text-center"
+              onChange={handleTheme}
+              value={theme}
+            />
           </div>
           {/* 난이도 선택 */}
           <div className="flex flex-row justify-between">
@@ -183,16 +187,19 @@ function SectionTwo() {
           </div>
         </div>
         <button
-          className="border-2 bg-gray-700 text-amber-100 w-[200px] p-4"
+          className="border-2 bg-blue-800  text-sky-100 font-bold w-[200px] p-4 cursor-pointer"
           onClick={handleGenerateProblems}
         >
           문제 생성 하기
         </button>
         {isLoading && <p>문제를 생성하고 있습니다</p>}
         {!isLoading && isProblemGenerate && (
-          <div>
-            <p>문제가 생성되었습니다</p>
-            <button onClick={handlePDFDownload}>
+          <div className="flex flex-col mt-10">
+            <p className="text-2xl">문제가 생성되었습니다</p>
+            <button
+              className="border-2 cursor-pointer bg-blue-400 cursor text-sky-100 font-bold  p-4"
+              onClick={handlePDFDownload}
+            >
               pdf로 문제 다운로드 받기
             </button>
           </div>
@@ -211,15 +218,6 @@ function SectionTwo() {
           }
         />
       )}
-      {/* <ModalComponent
-        component={
-          <Iframe
-            url={instance.url}
-            modalRef={modalRef}
-            handleModalClose={handleModalClose}
-          />
-        }
-      /> */}
     </div>
   );
 }

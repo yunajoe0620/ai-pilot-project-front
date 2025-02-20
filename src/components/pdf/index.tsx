@@ -37,6 +37,11 @@ export const styles = StyleSheet.create({
     fontSize: 30,
     paddingLeft: 10,
   },
+  subTitle: {
+    fontFamily: "SpoqaHanSans",
+    fontSize: 16,
+    // paddingLeft: 10,
+  },
   section: {
     backgroundColor: "#b8a0a0",
     color: "black",
@@ -58,6 +63,8 @@ const PDFDocument = memo(function PDFDocument({
   const [onlyProblemsArr, setOnlyProblemsArr] = useState([]);
   const [onlyAnswerArr, setOnlyAnswersArr] = useState("");
   const result = problemSplit(problems);
+
+  console.log("Targe ===>>>>>>>>>", target, subject, problemType);
 
   useEffect(() => {
     if (result) {
@@ -86,8 +93,10 @@ const PDFDocument = memo(function PDFDocument({
     <Document title="fine-teacher-problems-pdf">
       <Page size="A4" style={styles.page}>
         <View style={styles.section}>
-          <Text style={styles.title}>중학교 수학영역 객관식유형 문제</Text>
-          {/* <Text style={styles.title}>{target} {subject} 영역 {subject}유형 문제</Text> */}
+          {/* <Text style={styles.title}>중학교 수학영역 객관식유형 문제</Text> */}
+          <Text style={styles.subTitle}>
+            {target} {subject} 영역 {subject}유형 문제
+          </Text>
         </View>
         <View>
           {onlyProblemsArr &&
@@ -102,9 +111,6 @@ const PDFDocument = memo(function PDFDocument({
         </View>
         <View style={styles.section}>
           <Text style={styles.answer}>{onlyAnswerArr && onlyAnswerArr}</Text>
-          {/* {result222.onlyAnswersArray.map((item, index) => (
-            <Item item={item} key={index} />
-          ))} */}
         </View>
       </Page>
     </Document>
