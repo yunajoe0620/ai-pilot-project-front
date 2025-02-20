@@ -205,7 +205,6 @@ function SectionTwo() {
         )}
       </div>
       {/* isPDFDownload && instance.url */}
-      {/* 추후게 조건으로 넣을것  */}
       {isModal && (
         <ModalComponent
           component={
