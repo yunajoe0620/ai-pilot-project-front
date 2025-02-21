@@ -3,7 +3,10 @@ import { QuestionItem } from "../../schemas/problem";
 export const formatQuestion = (data: QuestionItem) => {
   const { target, subject, theme, level, problemType, problemCount } = data;
   return `학년수준이 ${targetObject[target]}이고 과목이 ${subjectObject[subject]}이며 ${theme}이라는 주제에 해당하는 ${levelObject[level]}수준의 문제를 ${problemTypeObject[problemType]}의 유형으로 문제를 
-  \${problemCount}개 만들어줘 한문제가 끝날 때 마다 ***** 기호를 넣어줘. 답은 맨 마지막에 한번에 알려줘. 다른말은 하지 말고 문제랑 답만 알려죠. 객관식 유형일때 선택지 전에 -------choices------기호를 넣어줘`;
+  ${problemCount}개 만들어줘 한문제가 끝날 때 마다 ***** 기호를 넣어줘. 답은 맨 마지막에 한번에 알려줘. 다른말은 하지 말고 문제랑 답만 알려죠. 객관식 유형일때 선택지 전에 -------choices------기호를 넣어줘.
+  그리고 하나의 선택지가 끝난후 -------choicesEnd------ 라고 넣어줘. 
+  그리고 행렬은 \\begin{pmatrix} 3 & 1 \\ 2 & 4 \\end{pmatrix} 구조로 보내줘
+  `;
 };
 
 type ObjectType = {
@@ -57,13 +60,33 @@ export const replaceParentheses = (text: string) => {
   return text.replace(/\\\(|\\\)/g, "");
 };
 
-export const transformLatexString = (inputString: string) => {
-  let transformedString = inputString.replace(/begin/g, "\\\\begin");
+export const transformLatexString = (str1: string) => {
+  const regex = /\\(\\\()?\\begin{pmatrix}([^\\]*?)\\end{pmatrix}(\\\))?/g;
 
-  transformedString = transformedString.replace(
-    /end{pmatrix}.*/g,
-    "\\\\end{pmatrix}"
+  const str2 = str1.replace(
+    regex,
+    "\\\\\\begin{pmatrix}$2\\\\\\\\end{pmatrix}"
   );
+  return str2;
+};
 
-  return transformedString;
+export const splitItem = (item: string) => {
+  if (!item)
+    return {
+      question: "",
+      choices: "",
+    };
+
+  const splitItems = item.split("-------choices------");
+  console.log("splitItems ====>>>>>>>", splitItems);
+
+  const question = splitItems[0];
+  // console.log("question", question);
+  const choices = splitItems[1];
+  // console.log("choices", choices);
+
+  return {
+    question,
+    choices,
+  };
 };
