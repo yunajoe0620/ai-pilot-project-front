@@ -1,9 +1,9 @@
-import { Canvas, Image, StyleSheet, Text, View } from "@react-pdf/renderer";
+import { Image, StyleSheet, Text, View } from "@react-pdf/renderer";
 import * as htmlToImage from "html-to-image";
+import katex from "katex"; // KaTeX를 직접 import
 import "katex/dist/katex.min.css";
 import { useEffect, useState } from "react";
 import { useIframeStore } from "../../store";
-
 export const styles = StyleSheet.create({
   section: {
     color: "black",
@@ -29,9 +29,8 @@ function Item({ item }: ItemProps) {
   // console.log("item,", item);
   const isIframeLoad = useIframeStore((state) => state.isIframeLoad);
 
-  const handleIframeLoad = useIframeStore((state) => state.handleIframeLoad);
-
-  const [latexImage, setLatexImage] = useState<HTMLCanvasElement | string>("");
+  // const [latexImage, setLatexImage] = useState<HTMLCanvasElement | string>("");
+  // https://latex.js.org/usage.html#in-the-browser
   const [imageUrl, setImageUrl] = useState("");
 
   // const splitItems = item.split("-------choices-------");
@@ -40,19 +39,26 @@ function Item({ item }: ItemProps) {
   // console.log("aa", aa, "bb", bb);
 
   // html2canvas는 기본적으로 iframe의 콘텐츠를 캡처할 수 없거나 제한적인 경우가 많습니다. CORS 설정을 통해 문제를 해결할 수 있지만, 외부 도메인에서 로드된 콘텐츠는 클라이언트 측에서 캡처가 불가능할 수 있습니다.
+
+  const latexString = `\\begin{bmatrix} 1 & 4 \\\\ 2 & 5 \\\\ 3 & 6 \\end{bmatrix}`;
+
   useEffect(() => {
     const convertStringToImage = async () => {
-      const latexString = `\\begin{bmatrix} 1 & 4 \\\\ 2 & 5 \\\\ 3 & 6 \\end{bmatrix}`;
       const div = document.createElement("div");
 
-      div.innerHTML = `<span style="width: 300px; height: 200px;">테스트입니다</span>`;
+      div.innerHTML = `<span id="latex-container" style="width: 300px; height: 200px;">${katex.renderToString(
+        latexString
+      )}</span>`;
       document.body.appendChild(div);
+
+      console.log("div ==============>>>>>>", div);
 
       try {
         const canvas = await htmlToImage.toCanvas(div);
         const dataUrl = canvas.toDataURL();
+        console.log("dataUr");
         setImageUrl(dataUrl);
-        setLatexImage(canvas);
+        // setLatexImage(canvas);
       } catch (error) {
         console.error("Error converting HTML to image:", error);
       }
@@ -73,10 +79,10 @@ function Item({ item }: ItemProps) {
     <View style={styles.section}>
       <Text style={styles.question}>{item}</Text>
       {imageUrl && (
-        <Image style={{ width: "1200px", height: "40px" }} src={imageUrl} />
+        <Image style={{ width: "1200px", height: "24px" }} src={imageUrl} />
       )}
 
-      <Canvas
+      {/* <Canvas
         paint={(painter, availableWidth, availableHeight) => {
           painter
             .save()
@@ -87,27 +93,7 @@ function Item({ item }: ItemProps) {
 
           return null;
         }}
-      />
-
-      {/* <Text>
-        <InlineMath
-          math={"1번. \\begin{bmatrix} 1 & 4 & 2 & 5 & 3 & 6 \\end{bmatrix}"}
-        />
-      </Text> */}
-      {/* 인라인 수식 */}
-      {/* <Text>
-        <InlineMath math="1번. \\begin{bmatrix} 1 & 4 & 2 & 5 & 3 & 6 \\end{bmatrix}" />
-      </Text> */}
-
-      {/* 블록 수식 예시 */}
-      {/* <Text>
-        <BlockMath math="A = \\begin{bmatrix} 1 & 4 \\ 2 & 5 \\ 3 & 6 \\end{bmatrix}" />
-      </Text> */}
-
-      {/* react-latex를 사용하여 인라인 수식 처리 */}
-      {/* <Text>
-        <Latex>{`1번. \\begin{bmatrix} 1 & 4 & 2 & 5 & 3 & 6 \\end{bmatrix}`}</Latex>
-      </Text> */}
+      /> */}
     </View>
   );
 }
