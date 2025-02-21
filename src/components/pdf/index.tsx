@@ -7,6 +7,7 @@ import {
   View,
 } from "@react-pdf/renderer";
 import { memo, useEffect, useState } from "react";
+import { useIframeStore } from "../../store";
 import {
   problemSplit,
   problemTypeObject,
@@ -63,6 +64,8 @@ const PDFDocument = memo(function PDFDocument({
   subject,
   problemType,
 }: PDFDocumentProps) {
+  const isIframeLoad = useIframeStore((state) => state.isIframeLoad);
+
   const [problemArr, setProblemArr] = useState([]);
   const [onlyProblemsArr, setOnlyProblemsArr] = useState([]);
   const [onlyAnswerArr, setOnlyAnswersArr] = useState("");

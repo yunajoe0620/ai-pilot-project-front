@@ -1,7 +1,5 @@
 import { usePDF } from "@react-pdf/renderer";
 import { useEffect, useRef, useState } from "react";
-import { BlockMath, InlineMath } from "react-katex";
-import Latex from "react-latex";
 import { createQuestion } from "../actions/get-problems";
 import Iframe from "../components/iframe";
 import ModalComponent from "../components/modal/modal-component";
@@ -109,8 +107,8 @@ function SectionTwo() {
   const sample3 = `\\begin{bmatrix} 1 & 4 \\\\ 2 & 5 \\\\ 3 & 6 \\end{bmatrix}`;
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="h-full w-full flex flex-col items-center  bg-blue-100">
+    <div className="flex flex-col items-center h-screen">
+      <div className="h-full w-full flex flex-col items-center bg-blue-100 ">
         <h1 className="font-bold text-4xl mt-40 mb-10">AI 맞춤형 학습</h1>
         <div className="flex flex-col gap-10 p-4 mb-10 ">
           {/* 대상 선택하기 */}
@@ -196,7 +194,7 @@ function SectionTwo() {
         >
           문제 생성 하기
         </button>
-        <BlockMath
+        {/* <BlockMath
           math={"\\begin{bmatrix} 1 & 4 \\\\ 2 & 5 \\\\ 3 & 6 \\end{bmatrix}"}
         />
         <InlineMath
@@ -211,7 +209,7 @@ function SectionTwo() {
           2 & 5 \\\\
           3 & 6
           \\end{bmatrix}
-        $$`}</Latex>
+        $$`}</Latex> */}
 
         {isLoading && <p>문제를 생성하고 있습니다</p>}
         {!isLoading && isProblemGenerate && (

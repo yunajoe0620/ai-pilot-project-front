@@ -11,7 +11,6 @@ function useOnClickOutside<T extends HTMLElement | HTMLIFrameElement>(
   useEffect(() => {
     if (!isMount) return;
     if (!ref) return;
-    console.log("useOnClickOuttside ===>>>>>>>>", ref);
 
     document.addEventListener(eventName, handler);
 
