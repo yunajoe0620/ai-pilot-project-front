@@ -38,13 +38,14 @@ function SectionTwo() {
   const [pdfProblems, setPdfProblems] = useState<[] | PromiseResultItemArray[]>(
     []
   );
-  const [pdfAnswers, setPdfAnswers] = useState([]);
+  const [pdfAnswers, setPdfAnswers] = useState("");
 
   // pdf hooks
   const [instance, updateInstance] = usePDF({
     document: (
       <PDFDocument
-        problems={pdfProblems}
+        pdfProblems={pdfProblems}
+        pdfAnswers={pdfAnswers}
         target={target}
         subject={subject}
         problemType={problemType}
@@ -102,46 +103,12 @@ function SectionTwo() {
       returnPromiseProblemsArray(splitOnlyProblemData);
 
     const result = await Promise.all(promiseProblemsArray);
-    // result
-    //     [
-    //       {
-    //           "type": "text",
-    //           "value": "1. 다음 단어의 의미로 가장 적합한 것은 무엇인가요? \"Enormous\"  \nA) 작다  \nB) 중간 크기이다  \nC) 매우 크다  \nD) 평범하다  \n"
-    //       }
-    //   ],
-    //   [
-    //       {
-    //           "type": "text",
-    //           "value": "  \n2. 다음 중 동의어가 아닌 단어는 무엇인가요? \"Happy\"  \nA) Joyful  \nB) Cheerful  \nC) Sad  \nD) Elated  \n"
-    //       }
-    //   ],
-    //   [
-    //       {
-    //           "type": "text",
-    //           "value": "  \n3. \"Obsolete\"의 반의어는 무엇인가요?  \nA) Outdated  \nB) Modern  \nC) Old-fashioned  \nD) Ancient  \n"
-    //       }
-    //   ],
-    //   [
-    //       {
-    //           "type": "text",
-    //           "value": "  \n4. 다음 중 '사라지다'라는 의미의 단어는 무엇인가요? \"Vanish\"  \nA) Appear  \nB) Disappear  \nC) Remain  \nD) Stay  \n"
-    //       }
-    //   ],
-    //   [
-    //       {
-    //           "type": "text",
-    //           "value": "  \n5. \"Crisis\"의 뜻은 무엇인가요?  \nA) 평화  \nB) 위기  \nC) 기쁨  \nD) 안정  \n"
-    //       }
-    //   ],
-    //   [
-    //       {
-    //           "type": "text",
-    //           "value": "  \n"
-    //       }
-    //   ]
-    // ]
-    console.log("result", result);
+
+    // for only 문제
     setPdfProblems(result);
+    // for only 답
+    setPdfAnswers(onlyAnswerData);
+
     setIsLoading(false);
     setIsProblemGenerate(true);
     setResponseProblems(response);
@@ -152,10 +119,13 @@ function SectionTwo() {
     setIsModal(true);
   };
 
+  console.log("pdfANswers", pdfAnswers, typeof pdfAnswers);
+
   useEffect(() => {
     updateInstance(
       <PDFDocument
-        problems={pdfProblems}
+        pdfProblems={pdfProblems}
+        pdfAnswers={pdfAnswers}
         target={target}
         subject={subject}
         problemType={problemType}
@@ -163,7 +133,8 @@ function SectionTwo() {
     );
   }, [responseProblems]);
 
-  const sample3 = `\\begin{bmatrix} 1 & 4 \\\\ 2 & 5 \\\\ 3 & 6 \\end{bmatrix}`;
+  //  아래처럼 되어야 한다
+  const sample = `\\begin{bmatrix} 1 & 4 \\\\ 2 & 5 \\\\ 3 & 6 \\end{bmatrix}`;
 
   return (
     <div className="flex flex-col items-center h-screen">

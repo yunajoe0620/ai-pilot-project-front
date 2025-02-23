@@ -22,7 +22,8 @@ Font.register({
 });
 
 interface PDFDocumentProps {
-  problems: [] | PromiseResultItemArray[];
+  pdfProblems: [] | PromiseResultItemArray[];
+  pdfAnswers: string;
   target: string;
   subject: string;
   problemType: string;
@@ -44,7 +45,7 @@ export const styles = StyleSheet.create({
     fontSize: 16,
   },
   section: {
-    backgroundColor: "#b8a0a0",
+    // backgroundColor: "#b8a0a0",
     color: "black",
     padding: 10,
   },
@@ -56,7 +57,8 @@ export const styles = StyleSheet.create({
 });
 
 const PDFDocument = memo(function PDFDocument({
-  problems,
+  pdfProblems,
+  pdfAnswers,
   target,
   subject,
   problemType,
@@ -71,7 +73,7 @@ const PDFDocument = memo(function PDFDocument({
           </Text>
         </View>
         <View>
-          {problems.map((item, index) => (
+          {pdfProblems.map((item, index) => (
             <Item item={item} key={index} />
           ))}
         </View>
@@ -79,6 +81,7 @@ const PDFDocument = memo(function PDFDocument({
       <Page size="A4" style={styles.page}>
         <View style={styles.section}>
           <Text style={styles.title}>답안지</Text>
+          <Text>{pdfAnswers}</Text>
         </View>
       </Page>
     </Document>

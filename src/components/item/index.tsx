@@ -11,19 +11,21 @@ export const styles = StyleSheet.create({
   question: {
     fontFamily: "SpoqaHanSans",
     fontSize: 20,
+    marginLeft: 10,
   },
   imageContainer: {
-    display: "flex", // 이미지 컨테이너로 flex 사용
-    justifyContent: "center", // 가운데 정렬
-    alignItems: "center", // 가운데 정렬
-    width: 100, // 100% 너비
-    height: 50, // 적절한 높이 설정
+    // display: "flex", // 이미지 컨테이너로 flex 사용
+    // justifyContent: "center", // 가운데 정렬
+    // alignItems: "center", // 가운데 정렬
+    // width: 100, // 100% 너비
+    // height: 50, // 적절한 높이 설정
     // backgroundColor: "blue", // 배경색을 설정하여 이미지 크기 확인
   },
   image: {
-    width: "100%", // 100% 너비로 꽉 차게
-    height: "100%", // 100% 높이로 꽉 차게
-    objectFit: "cover", // 비율을 유지하면서 꽉 차게
+    // width: "100%", // 100% 너비로 꽉 차게
+    marginLeft: 20,
+    height: 40, // 100% 높이로 꽉 차게
+    // objectFit: "cover", // 비율을 유지하면서 꽉 차게
   },
 });
 

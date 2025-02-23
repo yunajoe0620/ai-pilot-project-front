@@ -2,12 +2,11 @@ import * as htmlToImage from "html-to-image";
 import KaTeX from "katex";
 import "katex/dist/katex.min.css";
 import { QuestionItem } from "../../schemas/problem";
-
+// 그리고 행렬은 \begin{pmatrix} 3 & 1 \\ 2 & 4 \\end{pmatrix} 구조로 보내줘.
 export const formatQuestion = (data: QuestionItem) => {
   const { target, subject, theme, level, problemType, problemCount } = data;
   return `학년수준이 ${targetObject[target]}이고 과목이 ${subjectObject[subject]}이며 ${theme}이라는 주제에 해당하는 ${levelObject[level]}수준의 문제를 ${problemTypeObject[problemType]}의 유형으로 문제를 
-  ${problemCount}개 만들어줘 한문제가 끝날 때 마다 ***** 기호를 넣어줘. 답은 맨 마지막에 한번에 알려줘. ****answer**** 이라는 기호를 답 전에 알려죠. 답을 해당문제-답 (ex. 1-A) 형식으로 알려줘 다른말은 하지 말고 문제랑 답만 알려죠.
-  그리고 행렬은 \begin{pmatrix} 3 & 1 \\ 2 & 4 \\end{pmatrix} 구조로 보내줘. 
+  ${problemCount}개 만들어줘 한문제가 끝날 때 마다 ***** 기호를 넣어줘. 답은 맨 마지막에 한번에 알려줘. ****answer**** 이라는 기호를 답 전에 알려죠. 답을 해당문제-답 (ex. 1-A) 형식으로 알려줘 다른말은 하지 말고 문제랑 답만 알려죠. 
   `;
 };
 
@@ -81,18 +80,24 @@ const convertStringToImage = async (value: any) => {
 };
 
 export const removeParentheses = (item: string) => {
-  const prefixRegex = /\\\(/g; // \(
-  const suffixRegex = /\\\)/g; // \)
-
+  const prefixRegex = /\\\(/g; // \( 제거하기
+  const suffixRegex = /\\\)/g; // \)  제거하기
   const result = item.replace(prefixRegex, "").replace(suffixRegex, "");
+  return result;
+};
 
+export const removeBrackets = (item: string) => {
+  const prefixRegex = /\\\[/g; // \[ 제거하기
+  const suffixRegex = /\\\\/g; // \]  제거하기
+  const result = item.replace(prefixRegex, "").replace(suffixRegex, "");
   return result;
 };
 
 const initItemArray = async (item: any) => {
-  // console.log("item", item);
+  console.log("item", item);
   // 1. 행렬 \(\begin{pmatrix} 3 & 1 \\ 2 & 4 \end{pmatrix}\)의 행렬식 값은 얼마인가?
   item = removeParentheses(item);
+  item = removeBrackets(item);
   // \(\begin{pmatrix} 3 & 1 \\ 2 & 4 \end{pmatrix}\)
   // \begin{pmatrix} 3 & 1 \\ 2 & 4 \end{pmatrix} + \begin{pmatrix} 1 & 2 \\ 3 & 0 \end{pmatrix}
 
@@ -105,7 +110,6 @@ const initItemArray = async (item: any) => {
     const result = await Promise.all(
       array.map(async (data) => {
         const isFormula = KATEX_REGEX.test(data);
-        console.log("isFormula", isFormula);
         const text = isFormula ? await convertStringToImage(data) : data;
         return {
           type: isFormula ? "image" : "text",
@@ -133,16 +137,6 @@ export const replaceParentheses = (text: string) => {
   return text.replace(/\\\(|\\\)/g, "");
 };
 
-// export const transformLatexString = (str1: string) => {
-//   const regex = /\\(\\\()?\\begin{pmatrix}([^\\]*?)\\end{pmatrix}(\\\))?/g;
-
-//   const str2 = str1.replace(
-//     regex,
-//     "\\\\\\begin{pmatrix}$2\\\\\\\\end{pmatrix}"
-//   );
-//   return str2;
-// };
-
 export const _TEST_transformGPTKatexToKatex = ({
   targetString,
 }: {
@@ -167,20 +161,20 @@ export const _TEST_removeKATAXTag = (value: string) => {
   return result;
 };
 
-export const splitItem = (item: string) => {
-  if (!item)
-    return {
-      question: "",
-      choices: "",
-    };
+// export const splitItem = (item: string) => {
+//   if (!item)
+//     return {
+//       question: "",
+//       choices: "",
+//     };
 
-  const splitItems = item.split("-------choices------");
+//   const splitItems = item.split("-------choices------");
 
-  const question = splitItems[0];
-  const choices = splitItems[1];
+//   const question = splitItems[0];
+//   const choices = splitItems[1];
 
-  return {
-    question,
-    choices,
-  };
-};
+//   return {
+//     question,
+//     choices,
+//   };
+// };
