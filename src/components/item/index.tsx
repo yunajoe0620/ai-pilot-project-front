@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
   image: {
     // width: "100%", // 100% 너비로 꽉 차게
     marginLeft: 20,
-    height: 40, // 100% 높이로 꽉 차게
+    // height: 40, // 100% 높이로 꽉 차게
     // objectFit: "cover", // 비율을 유지하면서 꽉 차게
   },
 });

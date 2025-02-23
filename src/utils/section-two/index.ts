@@ -55,15 +55,20 @@ export const problemAndanswerSplit = (problems: any) => {
   };
 };
 
-export const problemSplit = (problems: any) => {
+export const problemSplit = (problems: string) => {
   if (!problems) return [];
   const arr = problems.split("*****");
   return arr;
 };
 
-const convertStringToImage = async (value: any) => {
+const convertStringToImage = async (value: string) => {
   const div = document.createElement("div");
-  div.innerHTML = `<span id="latex-container" style="width: 200px; height: 60px;">${KaTeX.renderToString(
+
+  // div.style.height = "40px";
+  // div.style.display = "none";
+  // div.style.visibility = "hidden";
+
+  div.innerHTML = `<span id="latex-container" style="display: block; height: 40px background:red">${KaTeX.renderToString(
     _TEST_removeKATAXTag(value)
   )}</span>`;
 
@@ -93,15 +98,14 @@ export const removeBrackets = (item: string) => {
   return result;
 };
 
-const initItemArray = async (item: any) => {
+const initItemArray = async (item: string) => {
   console.log("item", item);
-  // 1. 행렬 \(\begin{pmatrix} 3 & 1 \\ 2 & 4 \end{pmatrix}\)의 행렬식 값은 얼마인가?
+  // 1. 행렬 \(\begin{pmatrix} 3 & 1 \\ 2 & 4 \end{pmatrix}\)의 행렬식 값은 얼마인가? 잘됨
+  // A = \(\begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}\) 안됨
+  // A) \(\begin{pmatrix} 10 & 12 \\ 14 & 16 \end{pmatrix}\)  잘됨
   item = removeParentheses(item);
   item = removeBrackets(item);
-  // \(\begin{pmatrix} 3 & 1 \\ 2 & 4 \end{pmatrix}\)
-  // \begin{pmatrix} 3 & 1 \\ 2 & 4 \end{pmatrix} + \begin{pmatrix} 1 & 2 \\ 3 & 0 \end{pmatrix}
 
-  //
   const KATEX_REGEX = /(<KATEX>.*<\/KATEX>)/;
   try {
     const replaceItem = _TEST_transformGPTKatexToKatex({ targetString: item });
