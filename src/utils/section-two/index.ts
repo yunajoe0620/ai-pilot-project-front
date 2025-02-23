@@ -62,17 +62,19 @@ export const problemSplit = (problems: string) => {
 };
 
 const convertStringToImage = async (value: string) => {
+  const root = document.getElementById("image");
   const div = document.createElement("div");
 
   // div.style.height = "40px";
   // div.style.display = "none";
   // div.style.visibility = "hidden";
 
-  div.innerHTML = `<span id="latex-container" style="display: block; height: 40px background:red">${KaTeX.renderToString(
+  div.innerHTML = `<span id="latex-container" style="font-size: 40px; background:red;">${KaTeX.renderToString(
     _TEST_removeKATAXTag(value)
   )}</span>`;
 
-  document.body.appendChild(div);
+  root?.appendChild(div);
+  // document.body.appendChild(div);
 
   try {
     const canvas = await htmlToImage.toCanvas(div);

@@ -45,7 +45,6 @@ export const styles = StyleSheet.create({
     fontSize: 16,
   },
   section: {
-    // backgroundColor: "#b8a0a0",
     color: "black",
     padding: 10,
   },
