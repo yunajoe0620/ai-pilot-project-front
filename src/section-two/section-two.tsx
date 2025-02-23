@@ -4,6 +4,12 @@ import { createQuestion } from "../actions/get-problems";
 import Iframe from "../components/iframe";
 import ModalComponent from "../components/modal/modal-component";
 import PDFDocument from "../components/pdf";
+import { PromiseResultItemArray } from "../schemas/problem";
+import {
+  problemAndanswerSplit,
+  problemSplit,
+  returnPromiseProblemsArray,
+} from "../utils/section-two";
 
 function SectionTwo() {
   // 대상
@@ -29,11 +35,16 @@ function SectionTwo() {
   // server결과값
   const [responseProblems, setResponseProblems] = useState({ response: "" });
 
+  const [pdfProblems, setPdfProblems] = useState<[] | PromiseResultItemArray[]>(
+    []
+  );
+  const [pdfAnswers, setPdfAnswers] = useState([]);
+
   // pdf hooks
   const [instance, updateInstance] = usePDF({
     document: (
       <PDFDocument
-        problems={responseProblems}
+        problems={pdfProblems}
         target={target}
         subject={subject}
         problemType={problemType}
@@ -83,6 +94,54 @@ function SectionTwo() {
       problemType,
       problemCount,
     });
+
+    const { onlyProblemData, onlyAnswerData } = problemAndanswerSplit(response);
+    const splitOnlyProblemData = problemSplit(onlyProblemData);
+
+    const { promiseProblemsArray } =
+      returnPromiseProblemsArray(splitOnlyProblemData);
+
+    const result = await Promise.all(promiseProblemsArray);
+    // result
+    //     [
+    //       {
+    //           "type": "text",
+    //           "value": "1. 다음 단어의 의미로 가장 적합한 것은 무엇인가요? \"Enormous\"  \nA) 작다  \nB) 중간 크기이다  \nC) 매우 크다  \nD) 평범하다  \n"
+    //       }
+    //   ],
+    //   [
+    //       {
+    //           "type": "text",
+    //           "value": "  \n2. 다음 중 동의어가 아닌 단어는 무엇인가요? \"Happy\"  \nA) Joyful  \nB) Cheerful  \nC) Sad  \nD) Elated  \n"
+    //       }
+    //   ],
+    //   [
+    //       {
+    //           "type": "text",
+    //           "value": "  \n3. \"Obsolete\"의 반의어는 무엇인가요?  \nA) Outdated  \nB) Modern  \nC) Old-fashioned  \nD) Ancient  \n"
+    //       }
+    //   ],
+    //   [
+    //       {
+    //           "type": "text",
+    //           "value": "  \n4. 다음 중 '사라지다'라는 의미의 단어는 무엇인가요? \"Vanish\"  \nA) Appear  \nB) Disappear  \nC) Remain  \nD) Stay  \n"
+    //       }
+    //   ],
+    //   [
+    //       {
+    //           "type": "text",
+    //           "value": "  \n5. \"Crisis\"의 뜻은 무엇인가요?  \nA) 평화  \nB) 위기  \nC) 기쁨  \nD) 안정  \n"
+    //       }
+    //   ],
+    //   [
+    //       {
+    //           "type": "text",
+    //           "value": "  \n"
+    //       }
+    //   ]
+    // ]
+    console.log("result", result);
+    setPdfProblems(result);
     setIsLoading(false);
     setIsProblemGenerate(true);
     setResponseProblems(response);
@@ -96,7 +155,7 @@ function SectionTwo() {
   useEffect(() => {
     updateInstance(
       <PDFDocument
-        problems={responseProblems}
+        problems={pdfProblems}
         target={target}
         subject={subject}
         problemType={problemType}
@@ -113,7 +172,7 @@ function SectionTwo() {
         <div className="flex flex-col gap-10 p-4 mb-10 ">
           {/* 대상 선택하기 */}
           <div className="flex flex-row gap-20 justify-between">
-            <label>학생&학년</label>
+            <label className="font-bold text-2xl">학년</label>
             <select
               className="border-2 w-[180px] text-center"
               onChange={handleTarget}
@@ -127,7 +186,7 @@ function SectionTwo() {
           </div>
           {/* 과목선택 */}
           <div className="flex flex-row justify-between">
-            <label>과목</label>
+            <label className="font-bold text-2xl">과목</label>
             <select
               className="border-2 w-[180px] text-center"
               onChange={handleSubject}
@@ -141,7 +200,7 @@ function SectionTwo() {
           </div>
           {/* 주제선택 */}
           <div className="flex flex-row justify-between">
-            <label>주제</label>
+            <label className="font-bold text-2xl">주제</label>
             <input
               className="border-2 w-[180px] text-center"
               onChange={handleTheme}
@@ -150,7 +209,7 @@ function SectionTwo() {
           </div>
           {/* 난이도 선택 */}
           <div className="flex flex-row justify-between">
-            <label>난이도</label>
+            <label className="font-bold text-2xl">난이도</label>
             <select
               className="border-2 w-[180px] text-center"
               onChange={handleLevel}
@@ -163,7 +222,7 @@ function SectionTwo() {
           </div>
           {/* 문제유형 선택 */}
           <div className="flex flex-row justify-between">
-            <label>문제유형</label>
+            <label className="font-bold text-2xl">문제유형</label>
             <select
               className="border-2 w-[180px] text-center"
               onChange={handleProblemType}
@@ -175,7 +234,7 @@ function SectionTwo() {
           </div>
           {/* 문제갯수 선택 */}
           <div className="flex flex-row justify-between">
-            <label>문제갯수</label>
+            <label className="font-bold text-2xl">문제갯수</label>
             <select
               className="border-2 w-[180px] text-center"
               onChange={handleProblemCount}
@@ -189,27 +248,11 @@ function SectionTwo() {
           </div>
         </div>
         <button
-          className="border-2 bg-blue-800  text-sky-100 font-bold w-[200px] p-4 cursor-pointer"
+          className="border-2 bg-blue-800  text-sky-100 font-bold w-[200px] p-4 cursor-pointer hover:bg-blue-500"
           onClick={handleGenerateProblems}
         >
           문제 생성 하기
         </button>
-        {/* <BlockMath
-          math={"\\begin{bmatrix} 1 & 4 \\\\ 2 & 5 \\\\ 3 & 6 \\end{bmatrix}"}
-        />
-        <InlineMath
-          math={
-            "InlineMath입니다아아. \\begin{bmatrix} 1 & 4 & 2 & 5 & 3 & 6 \\end{bmatrix}"
-          }
-        />
-        <InlineMath math={sample3}></InlineMath>
-        <Latex>{`라텍스문법입니다$$
-          \\begin{bmatrix}
-          1 & 4 \\\\
-          2 & 5 \\\\
-          3 & 6
-          \\end{bmatrix}
-        $$`}</Latex> */}
 
         {isLoading && <p>문제를 생성하고 있습니다</p>}
         {!isLoading && isProblemGenerate && (

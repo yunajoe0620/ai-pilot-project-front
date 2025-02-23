@@ -11,3 +11,12 @@ export const questionItemSchema = z.object({
 });
 
 export type QuestionItem = z.infer<typeof questionItemSchema>;
+
+export const promiseResultItemSchema = z.object({
+  type: z.string(),
+  value: z.string(),
+});
+
+export type PromiseResultItem = z.infer<typeof promiseResultItemSchema>;
+
+export type PromiseResultItemArray = z.infer<typeof promiseResultItemSchema>[];
