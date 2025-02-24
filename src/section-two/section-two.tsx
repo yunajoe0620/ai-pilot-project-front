@@ -121,6 +121,7 @@ function SectionTwo() {
   const handlerMultipleChoiceHander = (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
+    // const value = e.target.value;
     setProblemType((prev) => {
       return {
         ...prev,
@@ -347,31 +348,6 @@ function SectionTwo() {
               </div>
             </div>
           </div>
-          {/* <div className="flex flex-row justify-between">
-            <label className="font-bold text-2xl">문제유형</label>
-            <select
-              className="border-2 w-[180px] text-center"
-              onChange={handleProblemType}
-            >
-              <option value="text-menu">문제 유형 선택하기</option>
-              <option value="short-answer-question">객관식</option>
-              <option value="essay-question">주관식</option>
-            </select>
-          </div> */}
-          {/* 문제갯수 선택 */}
-          {/* <div className="flex flex-row justify-between">
-            <label className="font-bold text-2xl">문제갯수</label>
-            <select
-              className="border-2 w-[180px] text-center"
-              onChange={handleProblemCount}
-            >
-              <option value="text-menu">문제 갯수 선택하기</option>
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="30">30</option>
-            </select>
-          </div> */}
         </div>
         <button
           className="border-2 bg-blue-800  text-sky-100 font-bold w-[200px] p-4 cursor-pointer hover:bg-blue-500"
