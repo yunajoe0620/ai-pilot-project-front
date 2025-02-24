@@ -142,7 +142,7 @@ function SectionTwo() {
         <h1 className="font-bold text-4xl mt-40 mb-10">AI 맞춤형 학습</h1>
         <div className="flex flex-col gap-10 p-4 mb-10 ">
           {/* 대상 선택하기 */}
-          <div className="flex flex-row gap-20 justify-between">
+          <div className="flex flex-row gap-x-30 justify-between">
             <label className="font-bold text-2xl">학년</label>
             <select
               className="border-2 w-[180px] text-center"
@@ -181,7 +181,35 @@ function SectionTwo() {
           {/* 난이도 선택 */}
           <div className="flex flex-row justify-between">
             <label className="font-bold text-2xl">난이도</label>
-            <select
+            <div>
+              {" "}
+              <div>
+                <label className="font-bold bg-red-200 mr-4">쉬움</label>
+                <select
+                  className="border-2 w-[180px] text-center"
+                  onChange={handleLevel}
+                >
+                  <option value="text-menu">문제갯수</option>
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="15">15</option>
+                </select>
+              </div>
+              <div>
+                <label className="font-bold bg-red-200 mr-4">쉬움</label>
+                <select
+                  className="border-2 w-[180px] text-center"
+                  onChange={handleLevel}
+                >
+                  <option value="text-menu">문제갯수</option>
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="15">15</option>
+                </select>
+              </div>
+            </div>
+
+            {/* <select
               className="border-2 w-[180px] text-center"
               onChange={handleLevel}
             >
@@ -189,7 +217,7 @@ function SectionTwo() {
               <option value="easy">쉬움</option>
               <option value="medium">보통</option>
               <option value="difficulty">어려움</option>
-            </select>
+            </select> */}
           </div>
           {/* 문제유형 선택 */}
           <div className="flex flex-row justify-between">
