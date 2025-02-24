@@ -65,16 +65,11 @@ const convertStringToImage = async (value: string) => {
   const root = document.getElementById("image");
   const div = document.createElement("div");
 
-  // div.style.height = "40px";
-  // div.style.display = "none";
-  // div.style.visibility = "hidden";
-
-  div.innerHTML = `<span id="latex-container" style="font-size: 40px; background:red;">${KaTeX.renderToString(
+  div.innerHTML = `<span id="latex-container" style="font-size: 40px;">${KaTeX.renderToString(
     _TEST_removeKATAXTag(value)
   )}</span>`;
 
   root?.appendChild(div);
-  // document.body.appendChild(div);
 
   try {
     const canvas = await htmlToImage.toCanvas(div);
@@ -95,7 +90,7 @@ export const removeParentheses = (item: string) => {
 
 export const removeBrackets = (item: string) => {
   const prefixRegex = /\\\[/g; // \[ 제거하기
-  const suffixRegex = /\\\\/g; // \]  제거하기
+  const suffixRegex = /\\\\]/g; // \]  제거하기
   const result = item.replace(prefixRegex, "").replace(suffixRegex, "");
   return result;
 };
@@ -105,6 +100,22 @@ const initItemArray = async (item: string) => {
   // 1. 행렬 \(\begin{pmatrix} 3 & 1 \\ 2 & 4 \end{pmatrix}\)의 행렬식 값은 얼마인가? 잘됨
   // A = \(\begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}\) 안됨
   // A) \(\begin{pmatrix} 10 & 12 \\ 14 & 16 \end{pmatrix}\)  잘됨
+  //
+  // 아래도 잘 안됨
+  // \[
+  //   A = \begin{pmatrix}
+  //   1 & 2 \\
+  //   3 & 4 \\
+  //   5 & 6
+  //   \end{pmatrix}
+  //   \]
+
+  // 아래처럼 표시됨
+  //   <KATEX>\begin{pmatrix}
+  // 2 & 3
+  // 1 & 4
+  // \end{pmatrix}</KATEX>
+  // \]
   item = removeParentheses(item);
   item = removeBrackets(item);
 
@@ -166,21 +177,3 @@ export const _TEST_removeKATAXTag = (value: string) => {
   const result = prefixReplaced.replace(suffixRegex, "");
   return result;
 };
-
-// export const splitItem = (item: string) => {
-//   if (!item)
-//     return {
-//       question: "",
-//       choices: "",
-//     };
-
-//   const splitItems = item.split("-------choices------");
-
-//   const question = splitItems[0];
-//   const choices = splitItems[1];
-
-//   return {
-//     question,
-//     choices,
-//   };
-// };
