@@ -6,6 +6,7 @@ import ModalComponent from "../components/modal/modal-component";
 import PDFDocument from "../components/pdf";
 import { PromiseResultItemArray } from "../schemas/problem";
 import {
+  handleLevelSum,
   problemAndanswerSplit,
   problemSplit,
   returnPromiseProblemsArray,
@@ -18,17 +19,15 @@ function SectionTwo() {
   const [subject, setSubject] = useState("과목선택하기");
   //   주제
   const [theme, setTheme] = useState("");
-  //   난이도
-  // const [level, setLevel] = useState("난이도선택하기");
 
-  // 난이도222
+  // 난이도
   const [level, setLevel] = useState({
     easy: "0",
     medium: "0",
     difficult: "0",
   });
-  //   문제유형222
-  // const [problemType, setProblemType] = useState("문제유형선택하기");
+  //  문제유형
+
   const [problemType, setProblemType] = useState({
     multipleChoice: "0",
     subject: "0",
@@ -96,9 +95,6 @@ function SectionTwo() {
         easy: e.target.value,
       };
     });
-
-    // totalCount
-    setProblemCount((prev) => prev + Number(e.target.value));
   };
 
   // 난이도 보통 handler
@@ -109,7 +105,6 @@ function SectionTwo() {
         medium: e.target.value,
       };
     });
-    setProblemCount((prev) => prev + Number(e.target.value));
   };
 
   // 난이도 어려움 handler
@@ -120,10 +115,9 @@ function SectionTwo() {
         difficult: e.target.value,
       };
     });
-    setProblemCount((prev) => prev + Number(e.target.value));
   };
 
-  // 유형 handler
+  // 객관식 유형 handler
   const handlerMultipleChoiceHander = (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -135,6 +129,7 @@ function SectionTwo() {
     });
   };
 
+  // 주관식 유형 handler
   const handlerSubjectiveHandler = (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -145,19 +140,6 @@ function SectionTwo() {
       };
     });
   };
-
-  // const handleLevel = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  //   console.log("eee", e.target.value);
-  //   // setLevel(e.target.value);
-  // };
-
-  // const handleProblemType = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  //   setProblemType(e.target.value);
-  // };
-
-  // const handleProblemCount = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  //   setProblemCount(e.target.value);
-  // };
 
   const handleGenerateProblems = async () => {
     setIsLoading(true);
@@ -193,8 +175,6 @@ function SectionTwo() {
     setIsModal(true);
   };
 
-  // console.log("pdfANswers", pdfAnswers, typeof pdfAnswers);
-
   useEffect(() => {
     updateInstance(
       <PDFDocument
@@ -207,22 +187,34 @@ function SectionTwo() {
     );
   }, [responseProblems]);
 
-  // 객관식 또는 주관식의 갯수가 생기는 순간, 나머지도 채워지게 하기
-  // 중요한것은 난이도를 우선적으로 하고 나서 유형을 선택한다는 점은 일단
   useEffect(() => {
     if (problemType.multipleChoice !== "0") {
+      console.log("주관식 유형이 자동으로 돌아갑니다앙아");
       setProblemType((prev) => {
-        const calValue = problemCount - Number(problemType.subject);
+        const calValue = problemCount - Number(prev.multipleChoice);
         return {
           ...prev,
           subject: String(calValue),
         };
       });
     } else if (problemType.subject !== "0") {
+      console.log("객관식 유형이 자동으로 돌아갑니다앙아");
+      setProblemType((prev) => {
+        const calValue = problemCount - Number(problemType.multipleChoice);
+        return {
+          ...prev,
+          multipleChoice: String(calValue),
+        };
+      });
     }
-  }, []);
+  }, [problemCount, problemType.multipleChoice, problemType.subject]);
 
-  //  아래처럼 되어야 한다
+  // 총갯수 합
+  useEffect(() => {
+    const result = handleLevelSum(level);
+    setProblemCount(result);
+  }, [level.easy, level.medium, level.difficult]);
+
   // const sample = `\\begin{bmatrix} 1 & 4 \\\\ 2 & 5 \\\\ 3 & 6 \\end{bmatrix}`;
 
   return (
@@ -270,14 +262,14 @@ function SectionTwo() {
           {/* 난이도 선택 */}
           <div className="flex flex-row justify-between">
             <label className="font-bold text-2xl">난이도</label>
-            <div className="bg-amber-200 flex flex-col gap-y-2">
+            <div className="flex flex-col gap-y-2">
               <div className="flex justify-between">
                 <label className="font-bold bg-red-200 mr-4">쉬움</label>
                 <select
                   className="border-2 w-[180px] text-center"
                   onChange={handleEasyLevel}
                 >
-                  <option value="text-menu">문제갯수</option>
+                  <option value="0">0</option>
                   <option value="5">5</option>
                   <option value="10">10</option>
                   <option value="15">15</option>
@@ -289,7 +281,7 @@ function SectionTwo() {
                   className="border-2 w-[180px] text-center"
                   onChange={handleMediumLevel}
                 >
-                  <option value="text-menu">문제갯수</option>
+                  <option value="0">0</option>
                   <option value="5">5</option>
                   <option value="10">10</option>
                   <option value="15">15</option>
@@ -301,7 +293,7 @@ function SectionTwo() {
                   className="border-2 w-[180px] text-center"
                   onChange={handleDifficultLevel}
                 >
-                  <option value="text-menu">문제갯수</option>
+                  <option value="0">0</option>
                   <option value="5">5</option>
                   <option value="10">10</option>
                   <option value="15">15</option>
@@ -323,13 +315,14 @@ function SectionTwo() {
           <div className="flex flex-row justify-between">
             <label className="font-bold text-2xl">유형</label>
             <div className="bg-amber-200 flex flex-col gap-y-2">
+              {/* 객관식 */}
               <div className="flex justify-between">
                 <label className="font-bold bg-red-200 mr-4">객관식</label>
                 <select
                   className="border-2 w-[180px] text-center"
                   onChange={handlerMultipleChoiceHander}
                 >
-                  <option value="text-menu">문제갯수</option>
+                  <option value="0">0</option>
                   <option value="5">5</option>
                   <option value="10">10</option>
                   <option value="15">15</option>
@@ -337,13 +330,14 @@ function SectionTwo() {
                   <option value="15">25</option>
                 </select>
               </div>
+              {/* 주관식 */}
               <div className="flex justify-between">
                 <label className="font-bold bg-red-200 mr-4">주관식</label>
                 <select
                   className="border-2 w-[180px] text-center"
                   onChange={handlerSubjectiveHandler}
                 >
-                  <option value="text-menu">문제갯수</option>
+                  <option value="0">0</option>
                   <option value="5">5</option>
                   <option value="10">10</option>
                   <option value="15">15</option>

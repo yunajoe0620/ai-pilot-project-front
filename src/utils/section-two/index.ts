@@ -177,3 +177,11 @@ export const _TEST_removeKATAXTag = (value: string) => {
   const result = prefixReplaced.replace(suffixRegex, "");
   return result;
 };
+
+export const handleLevelSum = (levelObject: any) => {
+  let sum =
+    Number(levelObject.easy) +
+    Number(levelObject.medium) +
+    Number(levelObject.difficult);
+  return sum;
+};
