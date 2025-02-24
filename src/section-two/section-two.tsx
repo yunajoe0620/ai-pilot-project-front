@@ -121,7 +121,11 @@ function SectionTwo() {
   const handlerMultipleChoiceHander = (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    // const value = e.target.value;
+    const valueNumber = Number(e.target.value);
+    if (valueNumber > problemCount) {
+      alert("총 문제보다 문제수가 커질 수가 없습니다");
+      return;
+    }
     setProblemType((prev) => {
       return {
         ...prev,
@@ -134,6 +138,11 @@ function SectionTwo() {
   const handlerSubjectiveHandler = (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
+    const valueNumber = Number(e.target.value);
+    if (valueNumber > problemCount) {
+      alert("총 문제보다 문제수가 커질 수가 없습니다");
+      return;
+    }
     setProblemType((prev) => {
       return {
         ...prev,
@@ -190,7 +199,6 @@ function SectionTwo() {
 
   useEffect(() => {
     if (problemType.multipleChoice !== "0") {
-      console.log("주관식 유형이 자동으로 돌아갑니다앙아");
       setProblemType((prev) => {
         const calValue = problemCount - Number(prev.multipleChoice);
         return {
@@ -199,7 +207,6 @@ function SectionTwo() {
         };
       });
     } else if (problemType.subject !== "0") {
-      console.log("객관식 유형이 자동으로 돌아갑니다앙아");
       setProblemType((prev) => {
         const calValue = problemCount - Number(problemType.multipleChoice);
         return {
@@ -215,8 +222,6 @@ function SectionTwo() {
     const result = handleLevelSum(level);
     setProblemCount(result);
   }, [level.easy, level.medium, level.difficult]);
-
-  // const sample = `\\begin{bmatrix} 1 & 4 \\\\ 2 & 5 \\\\ 3 & 6 \\end{bmatrix}`;
 
   return (
     <div className="flex flex-col items-center h-screen">
@@ -301,16 +306,6 @@ function SectionTwo() {
                 </select>
               </div>
             </div>
-
-            {/* <select
-              className="border-2 w-[180px] text-center"
-              onChange={handleLevel}
-            >
-              <option value="text-menu">난이도 선택하기</option>
-              <option value="easy">쉬움</option>
-              <option value="medium">보통</option>
-              <option value="difficulty">어려움</option>
-            </select> */}
           </div>
           {/* 문제유형 선택 */}
           <div className="flex flex-row justify-between">
@@ -320,6 +315,7 @@ function SectionTwo() {
               <div className="flex justify-between">
                 <label className="font-bold bg-red-200 mr-4">객관식</label>
                 <select
+                  value={problemType.multipleChoice}
                   className="border-2 w-[180px] text-center"
                   onChange={handlerMultipleChoiceHander}
                 >
@@ -327,8 +323,8 @@ function SectionTwo() {
                   <option value="5">5</option>
                   <option value="10">10</option>
                   <option value="15">15</option>
-                  <option value="15">20</option>
-                  <option value="15">25</option>
+                  <option value="20">20</option>
+                  <option value="25">25</option>
                 </select>
               </div>
               {/* 주관식 */}
@@ -337,13 +333,14 @@ function SectionTwo() {
                 <select
                   className="border-2 w-[180px] text-center"
                   onChange={handlerSubjectiveHandler}
+                  value={problemType.subject}
                 >
                   <option value="0">0</option>
                   <option value="5">5</option>
                   <option value="10">10</option>
                   <option value="15">15</option>
-                  <option value="15">20</option>
-                  <option value="15">25</option>
+                  <option value="20">20</option>
+                  <option value="25">25</option>
                 </select>
               </div>
             </div>
@@ -369,7 +366,6 @@ function SectionTwo() {
           </div>
         )}
       </div>
-      {/* isPDFDownload && instance.url */}
       {isModal && (
         <ModalComponent
           component={
