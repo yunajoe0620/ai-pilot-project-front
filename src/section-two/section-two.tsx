@@ -314,7 +314,7 @@ function SectionTwo() {
           {/* 문제유형 선택 */}
           <div className="flex flex-row justify-between">
             <label className="font-bold text-2xl">유형</label>
-            <div className="bg-amber-200 flex flex-col gap-y-2">
+            <div className="flex flex-col gap-y-2">
               {/* 객관식 */}
               <div className="flex justify-between">
                 <label className="font-bold bg-red-200 mr-4">객관식</label>
