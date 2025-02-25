@@ -5,9 +5,16 @@ export const questionItemSchema = z.object({
   target: z.string(),
   subject: z.string(),
   theme: z.string(),
-  level: z.string(),
-  problemType: z.string(),
-  problemCount: z.string(),
+  level: z.object({
+    easy: z.string(),
+    medium: z.string(),
+    difficult: z.string(),
+  }),
+  problemType: z.object({
+    multipleChoice: z.string(),
+    subject: z.string(),
+  }),
+  problemCount: z.number(),
 });
 
 export type QuestionItem = z.infer<typeof questionItemSchema>;
