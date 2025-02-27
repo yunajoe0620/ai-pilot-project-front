@@ -8,11 +8,7 @@ import {
 } from "@react-pdf/renderer";
 import { memo } from "react";
 import { PromiseResultItemArray } from "../../schemas/problem";
-import {
-  problemTypeObject,
-  subjectObject,
-  targetObject,
-} from "../../utils/section-two";
+import { subjectObject, targetObject } from "../../utils/section-two";
 import Item from "../item";
 
 // TODO: cdn으로 다른 폰트 찾아보기!
@@ -26,7 +22,10 @@ interface PDFDocumentProps {
   pdfAnswers: string;
   target: string;
   subject: string;
-  problemType: string;
+  problemType: {
+    multipleChoice: string;
+    subject: string;
+  };
 }
 
 export const styles = StyleSheet.create({
@@ -68,7 +67,7 @@ const PDFDocument = memo(function PDFDocument({
         <View style={styles.section}>
           <Text style={styles.subTitle}>
             {targetObject[target]} {subjectObject[subject]} 영역{" "}
-            {problemTypeObject[problemType]} 유형 문제
+            {/* {problemTypeObject[problemType]} 유형 문제 */}
           </Text>
         </View>
         <View>

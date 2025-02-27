@@ -1,24 +1,19 @@
-// API 호출 펑션
-"use server";
-
 import { baseUrl } from "../../api";
-import { QuestionItem } from "../../schemas/problem";
-import { formatQuestion } from "../../utils/section-two";
 
-export const createQuestion = async (data: QuestionItem) => {
-  const promptData = formatQuestion(data);
-
+export const createPdf = async (data: string) => {
   try {
-    const url = `${baseUrl}/problem/generate`;
+    const url = `${baseUrl}/pdf/generate`;
     const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify({ promptData }),
+      body: JSON.stringify({ data }),
     });
-    return response.json();
+    const result = await response.text();
+    console.log("result ========>>>>>>>>>", result);
+    return result;
   } catch (error) {
     if (error instanceof Error) {
       return {

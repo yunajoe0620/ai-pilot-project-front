@@ -5,12 +5,7 @@ import Iframe from "../components/iframe";
 import ModalComponent from "../components/modal/modal-component";
 import PDFDocument from "../components/pdf";
 import { PromiseResultItemArray } from "../schemas/problem";
-import {
-  handleLevelSum,
-  problemAndanswerSplit,
-  problemSplit,
-  returnPromiseProblemsArray,
-} from "../utils/section-two";
+import { handleLevelSum } from "../utils/section-two";
 
 function SectionTwo() {
   // 대상
@@ -35,10 +30,6 @@ function SectionTwo() {
 
   // 총 문제 갯수
   const [problemCount, setProblemCount] = useState(0);
-
-  console.log("총갯수", problemCount);
-  console.log("level", level);
-  console.log("problemType", problemType);
 
   // pdf 다운로드
   const [isPDFDownload, setIsPDFDownload] = useState(false);
@@ -153,31 +144,38 @@ function SectionTwo() {
 
   const handleGenerateProblems = async () => {
     setIsLoading(true);
-    const response = await createQuestion({
-      target,
-      subject,
-      theme,
-      level,
-      problemType,
-      problemCount,
-    });
 
-    const { onlyProblemData, onlyAnswerData } = problemAndanswerSplit(response);
-    const splitOnlyProblemData = problemSplit(onlyProblemData);
+    try {
+      const response = await createQuestion({
+        target,
+        subject,
+        theme,
+        level,
+        problemType,
+        problemCount,
+      });
+      console.log("response===>>>>>>>>>>", response);
+    } catch (error) {
+      console.error("Error converting HTML to image:", error);
+      return "";
+    }
 
-    const { promiseProblemsArray } =
-      returnPromiseProblemsArray(splitOnlyProblemData);
+    // const { onlyProblemData, onlyAnswerData } = problemAndanswerSplit(response);
+    // const splitOnlyProblemData = problemSplit(onlyProblemData);
 
-    const result = await Promise.all(promiseProblemsArray);
+    // const { promiseProblemsArray } =
+    //   returnPromiseProblemsArray(splitOnlyProblemData);
 
-    // for only 문제
-    setPdfProblems(result);
-    // for only 답
-    setPdfAnswers(onlyAnswerData);
+    // const result = await Promise.all(promiseProblemsArray);
 
-    setIsLoading(false);
-    setIsProblemGenerate(true);
-    setResponseProblems(response);
+    // // for only 문제
+    // setPdfProblems(result);
+    // // for only 답
+    // setPdfAnswers(onlyAnswerData);
+
+    // setIsLoading(false);
+    // setIsProblemGenerate(true);
+    // setResponseProblems(response);
   };
 
   const handlePDFDownload = () => {
@@ -352,7 +350,6 @@ function SectionTwo() {
         >
           문제 생성 하기
         </button>
-
         {isLoading && <p>문제를 생성하고 있습니다</p>}
         {!isLoading && isProblemGenerate && (
           <div className="flex flex-col mt-10">

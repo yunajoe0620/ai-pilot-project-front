@@ -2,12 +2,13 @@ import * as htmlToImage from "html-to-image";
 import KaTeX from "katex";
 import "katex/dist/katex.min.css";
 import { QuestionItem } from "../../schemas/problem";
-// 그리고 행렬은 \begin{pmatrix} 3 & 1 \\ 2 & 4 \\end{pmatrix} 구조로 보내줘.
 export const formatQuestion = (data: QuestionItem) => {
   const { target, subject, theme, level, problemType, problemCount } = data;
-  return `학년수준이 ${targetObject[target]}이고 과목이 ${subjectObject[subject]}이며 ${theme}이라는 주제에 해당하는 ${levelObject[level]}수준의 문제를 ${problemTypeObject[problemType]}의 유형으로 문제를 
-  ${problemCount}개 만들어줘 한문제가 끝날 때 마다 ***** 기호를 넣어줘. 답은 맨 마지막에 한번에 알려줘. ****answer**** 이라는 기호를 답 전에 알려죠. 답을 해당문제-답 (ex. 1-A) 형식으로 알려줘 다른말은 하지 말고 문제랑 답만 알려죠. 
-  `;
+  const prompt = `학년 수준이 ${targetObject[target]}이고 과목이  ${subjectObject[subject]}이며 ${theme}문제를 
+  난이도가 쉬운거 ${level.easy}개, 보통 ${level.medium}개, 어려운거 ${level.difficult}개 만들어줘. 
+  총 ${problemCount}개 만들어주는데, 그 중 객관식 유형${problemType.multipleChoice}개, 주관식 유형 ${problemType.subject}개 만들어줘 
+  난이도 별로 나눠서 문제를 만들어줘. 정답은 맨 마지막에 한번에 알려줘`;
+  return prompt;
 };
 
 type ObjectType = {
@@ -96,7 +97,6 @@ export const removeBrackets = (item: string) => {
 };
 
 const initItemArray = async (item: string) => {
-  console.log("item", item);
   // 1. 행렬 \(\begin{pmatrix} 3 & 1 \\ 2 & 4 \end{pmatrix}\)의 행렬식 값은 얼마인가? 잘됨
   // A = \(\begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}\) 안됨
   // A) \(\begin{pmatrix} 10 & 12 \\ 14 & 16 \end{pmatrix}\)  잘됨
