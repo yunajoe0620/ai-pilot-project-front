@@ -4,22 +4,19 @@ import "katex/dist/katex.min.css";
 import { QuestionItem } from "../../schemas/problem";
 export const formatQuestion = (data: QuestionItem) => {
   const { target, subject, theme, level, problemType, problemCount } = data;
-  // const prompt = `Latex형식에 맞게 학년 수준이 ${targetObject[target]}이고 과목이  ${subjectObject[subject]}이며 ${theme}문제를
-  // 난이도가 쉬운거 ${level.easy}개, 보통 ${level.medium}개, 어려운거 ${level.difficult}개 만들어줘.
-  // 총 ${problemCount}개 만들어주는데, 그 중 객관식 유형${problemType.multipleChoice}개, 주관식 유형 ${problemType.subject}개 만들어줘
-  // 난이도 별로 나눠서 문제를 만들어줘. 정답은 맨 마지막에 한번에 알려줘. Please insert \\\\\\\\\\\\ after each question and \\noindent before each question
-  // Please insert \\\\\\\\\\\\\\\\ after each answer.
-  // Only tell me the question and answer.
-  // Left alignment.
-  // `;
-  const prompt = `In Latex format, create problems for a grade level of ${targetObject[target]} and a subject of ${subjectObject[subject]} with the theme ${theme}. 
+
+  const prompt = `In Latex format, create problems for a grade level of ${targetObject[target]} and a subject of ${subjectObject[subject]} with the theme ${theme}.   
+  Create a total of ${problemCount} problems, divided by difficulty (easy, medium, difficult), with the number of ${problemType.multipleChoice} multiple-choice problems 
+  and the number of ${problemType.subject} short-answer problems.
   Create ${level.easy} easy problems, ${level.medium} medium problems, and ${level.difficult} difficult problems. 
-  Make a total of ${problemCount} problems, with ${problemType.multipleChoice} multiple-choice questions and ${problemType.subject} short-answer questions. 
-  Divide the problems by difficulty. Provide the answers at the very end all at once. Please insert \\\\\\\\\\\\ after each question and \\noindent before each question. 
+  Please insert \\\\\\\\\\\\ after each question and \\noindent before each question. 
   Please insert \\\\\\\\\\\\\\\\ after each answer. 
-  Only tell me the question and answer. 
-  please make the easy, medium, and difficult proplems seperately.
-  Please insert \\\\\\\\ after the problem description when a formula appears."  
+  Please insert \\\\\\\\ after the problem description when a formula appears."
+  Provide the answers at the very end all at once. 
+  please make the easy, medium, and difficult proplems seperately.    
+  Don't say anything except for the questions and answer
+  The problems will be shown with their numbers and the problem statement only.  
+  When providing the answer, please insert *****answer***** before the answer.    
   `;
   return prompt;
 };

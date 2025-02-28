@@ -37,8 +37,6 @@ function SectionTwo() {
   // pdf 파일 이름
   const [pdfFileName, setPdfFileName] = useState("");
 
-  console.log("pdfFile", pdfFileName);
-
   // pdf hooks
   const [instance, updateInstance] = usePDF({
     document: (
@@ -140,6 +138,7 @@ function SectionTwo() {
     setIsLoading(true);
 
     try {
+      // {status, pdfResult:{filename:"", message:""}}
       const response = await createQuestion({
         target,
         subject,
