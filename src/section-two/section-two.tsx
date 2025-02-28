@@ -1,10 +1,7 @@
 import { usePDF } from "@react-pdf/renderer";
 import { useEffect, useRef, useState } from "react";
 import { createQuestion } from "../actions/get-problems";
-import Iframe from "../components/iframe";
-import ModalComponent from "../components/modal/modal-component";
 import PDFDocument from "../components/pdf";
-import { PromiseResultItemArray } from "../schemas/problem";
 import { handleLevelSum } from "../utils/section-two";
 
 function SectionTwo() {
@@ -37,20 +34,17 @@ function SectionTwo() {
   // pdf 모달
   const [isModal, setIsModal] = useState(false);
 
-  // server결과값
-  const [responseProblems, setResponseProblems] = useState({ response: "" });
+  // pdf 파일 이름
+  const [pdfFileName, setPdfFileName] = useState("");
 
-  const [pdfProblems, setPdfProblems] = useState<[] | PromiseResultItemArray[]>(
-    []
-  );
-  const [pdfAnswers, setPdfAnswers] = useState("");
+  console.log("pdfFile", pdfFileName);
 
   // pdf hooks
   const [instance, updateInstance] = usePDF({
     document: (
       <PDFDocument
-        pdfProblems={pdfProblems}
-        pdfAnswers={pdfAnswers}
+        // pdfProblems={pdfProblems}
+        // pdfAnswers={pdfAnswers}
         target={target}
         subject={subject}
         problemType={problemType}
@@ -154,46 +148,33 @@ function SectionTwo() {
         problemType,
         problemCount,
       });
-      console.log("response===>>>>>>>>>>", response);
+      if (response.status === 200) {
+        setIsLoading(false);
+        setIsProblemGenerate(true);
+        const { message, filename } = response.pdfresult;
+        setPdfFileName(filename);
+      }
     } catch (error) {
       console.error("Error converting HTML to image:", error);
       return "";
     }
-
-    // const { onlyProblemData, onlyAnswerData } = problemAndanswerSplit(response);
-    // const splitOnlyProblemData = problemSplit(onlyProblemData);
-
-    // const { promiseProblemsArray } =
-    //   returnPromiseProblemsArray(splitOnlyProblemData);
-
-    // const result = await Promise.all(promiseProblemsArray);
-
-    // // for only 문제
-    // setPdfProblems(result);
-    // // for only 답
-    // setPdfAnswers(onlyAnswerData);
-
-    // setIsLoading(false);
-    // setIsProblemGenerate(true);
-    // setResponseProblems(response);
   };
 
   const handlePDFDownload = () => {
-    setIsPDFDownload(true);
-    setIsModal(true);
+    window.open(`http://localhost:5000/pdf/${pdfFileName}.pdf`);
   };
 
   useEffect(() => {
     updateInstance(
       <PDFDocument
-        pdfProblems={pdfProblems}
-        pdfAnswers={pdfAnswers}
+        // pdfProblems={pdfProblems}
+        // pdfAnswers={pdfAnswers}
         target={target}
         subject={subject}
         problemType={problemType}
       />
     );
-  }, [responseProblems]);
+  }, []);
 
   useEffect(() => {
     if (problemType.multipleChoice !== "0") {
@@ -363,7 +344,7 @@ function SectionTwo() {
           </div>
         )}
       </div>
-      {isModal && (
+      {/* {isModal && (
         <ModalComponent
           component={
             <Iframe
@@ -373,7 +354,7 @@ function SectionTwo() {
             />
           }
         />
-      )}
+      )} */}
     </div>
   );
 }

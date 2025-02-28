@@ -9,7 +9,6 @@ import {
 import { memo } from "react";
 import { PromiseResultItemArray } from "../../schemas/problem";
 import { subjectObject, targetObject } from "../../utils/section-two";
-import Item from "../item";
 
 // TODO: cdn으로 다른 폰트 찾아보기!
 Font.register({
@@ -18,8 +17,8 @@ Font.register({
 });
 
 interface PDFDocumentProps {
-  pdfProblems: [] | PromiseResultItemArray[];
-  pdfAnswers: string;
+  pdfProblems?: [] | PromiseResultItemArray[];
+  pdfAnswers?: string;
   target: string;
   subject: string;
   problemType: {
@@ -55,8 +54,8 @@ export const styles = StyleSheet.create({
 });
 
 const PDFDocument = memo(function PDFDocument({
-  pdfProblems,
-  pdfAnswers,
+  // pdfProblems,
+  // pdfAnswers,
   target,
   subject,
   problemType,
@@ -70,17 +69,17 @@ const PDFDocument = memo(function PDFDocument({
             {/* {problemTypeObject[problemType]} 유형 문제 */}
           </Text>
         </View>
-        <View>
+        {/* <View>
           {pdfProblems.map((item, index) => (
             <Item item={item} key={index} />
           ))}
-        </View>
+        </View> */}
       </Page>
       <Page size="A4" style={styles.page}>
-        <View style={styles.section}>
+        {/* <View style={styles.section}>
           <Text style={styles.title}>답안지</Text>
           <Text>{pdfAnswers}</Text>
-        </View>
+        </View> */}
       </Page>
     </Document>
   );

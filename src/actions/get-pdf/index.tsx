@@ -12,7 +12,6 @@ export const createPdf = async (data: string) => {
       body: JSON.stringify({ data }),
     });
     const result = await response.text();
-    console.log("result ========>>>>>>>>>", result);
     return result;
   } catch (error) {
     if (error instanceof Error) {
