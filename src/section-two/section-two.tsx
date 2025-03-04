@@ -143,8 +143,24 @@ function SectionTwo() {
     setIsLoading(true);
     // 새로운 토픽을 추가했을떄
     if (newTopic.length > 0) {
+      console.log(
+        "문제생성",
+        target,
+        subject,
+        theme,
+        level,
+        problemType,
+        problemCount
+      );
       try {
-        const response = await createExtraQuestion(newTopic);
+        const response = await createExtraQuestion({
+          target,
+          subject,
+          theme: newTopic,
+          level,
+          problemType,
+          problemCount,
+        });
         console.log("새로운 topic Response입니디다아아아", response);
         if (response.status === 200) {
           setIsLoading(false);

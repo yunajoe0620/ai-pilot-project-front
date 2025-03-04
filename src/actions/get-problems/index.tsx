@@ -6,7 +6,9 @@ import { QuestionItem } from "../../schemas/problem";
 import { formatExtraQuestion, formatQuestion } from "../../utils/section-two";
 
 export const createQuestion = async (data: QuestionItem) => {
+  console.log("data", data);
   const promptData = formatQuestion(data);
+  console.log("promptData", promptData);
 
   try {
     const url = `${baseUrl}/problem/generate`;
@@ -33,7 +35,7 @@ export const createQuestion = async (data: QuestionItem) => {
   }
 };
 
-export const createExtraQuestion = async (data: string) => {
+export const createExtraQuestion = async (data: QuestionItem) => {
   const promptData = formatExtraQuestion(data);
   try {
     const url = `${baseUrl}/problem/generate`;
