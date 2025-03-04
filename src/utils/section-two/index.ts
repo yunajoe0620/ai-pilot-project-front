@@ -21,6 +21,20 @@ export const formatQuestion = (data: QuestionItem) => {
   return prompt;
 };
 
+export const formatExtraQuestion = (data: string) => {
+  const prompt = `In Latex format, create problems about ${data}
+    Please insert \\\\\\\\\\\\ after each question and \\noindent before each question. 
+  Please insert \\\\\\\\\\\\\\\\ after each answer. 
+  Please insert \\\\\\\\ after the problem description when a formula appears."
+  Provide the answers at the very end all at once. 
+  please make the easy, medium, and difficult proplems seperately.    
+  Don't say anything except for the questions and answer
+  The problems will be shown with their numbers and the problem statement only.  
+  When providing the answer, please insert *****answer***** before the answer.     
+  `;
+  return prompt;
+};
+
 type ObjectType = {
   [key: string]: string;
 };

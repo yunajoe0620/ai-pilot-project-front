@@ -3,7 +3,7 @@
 
 import { baseUrl } from "../../api";
 import { QuestionItem } from "../../schemas/problem";
-import { formatQuestion } from "../../utils/section-two";
+import { formatExtraQuestion, formatQuestion } from "../../utils/section-two";
 
 export const createQuestion = async (data: QuestionItem) => {
   const promptData = formatQuestion(data);
@@ -34,6 +34,7 @@ export const createQuestion = async (data: QuestionItem) => {
 };
 
 export const createExtraQuestion = async (data: string) => {
+  const promptData = formatExtraQuestion(data);
   try {
     const url = `${baseUrl}/problem/generate`;
     const response = await fetch(url, {
@@ -42,8 +43,9 @@ export const createExtraQuestion = async (data: string) => {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify({ data }),
+      body: JSON.stringify({ promptData }),
     });
+    console.log("response", response);
     return response.json();
   } catch (error) {
     if (error instanceof Error) {

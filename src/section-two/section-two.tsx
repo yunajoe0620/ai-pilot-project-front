@@ -60,6 +60,8 @@ function SectionTwo() {
   // for 새로운 문제 topic
   const [newTopic, setNewTopic] = useState("");
 
+  console.log("newTopIc", newTopic);
+
   const handleTarget = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setTarget(e.target.value);
   };
@@ -144,6 +146,12 @@ function SectionTwo() {
       try {
         const response = await createExtraQuestion(newTopic);
         console.log("새로운 topic Response입니디다아아아", response);
+        if (response.status === 200) {
+          setIsLoading(false);
+          setIsProblemGenerate(true);
+          const { message, filename } = response.pdfresult;
+          setPdfFileName(filename);
+        }
       } catch (error) {
         console.error("Error converting HTML to image:", error);
         return "";
