@@ -1,7 +1,5 @@
-import { usePDF } from "@react-pdf/renderer";
-import { useEffect, useRef, useState } from "react";
-import { createQuestion } from "../actions/get-problems";
-import PDFDocument from "../components/pdf";
+import { ChangeEvent, useEffect, useState } from "react";
+import { createExtraQuestion, createQuestion } from "../actions/get-problems";
 import { handleLevelSum } from "../utils/section-two";
 
 function SectionTwo() {
@@ -28,36 +26,40 @@ function SectionTwo() {
   // 총 문제 갯수
   const [problemCount, setProblemCount] = useState(0);
 
-  // pdf 다운로드
-  const [isPDFDownload, setIsPDFDownload] = useState(false);
+  // // pdf 다운로드
+  // const [isPDFDownload, setIsPDFDownload] = useState(false);
 
-  // pdf 모달
-  const [isModal, setIsModal] = useState(false);
+  // // pdf 모달
+  // const [isModal, setIsModal] = useState(false);
 
   // pdf 파일 이름
   const [pdfFileName, setPdfFileName] = useState("");
 
   // pdf hooks
-  const [instance, updateInstance] = usePDF({
-    document: (
-      <PDFDocument
-        // pdfProblems={pdfProblems}
-        // pdfAnswers={pdfAnswers}
-        target={target}
-        subject={subject}
-        problemType={problemType}
-      />
-    ),
-  });
+  // const [instance, updateInstance] = usePDF({
+  //   document: (
+  //     <PDFDocument
+  //       // pdfProblems={pdfProblems}
+  //       // pdfAnswers={pdfAnswers}
+  //       target={target}
+  //       subject={subject}
+  //       problemType={problemType}
+  //     />
+  //   ),
+  // });
 
-  const modalRef = useRef<HTMLIFrameElement>(null);
+  // const modalRef = useRef<HTMLIFrameElement>(null);
 
-  const handleModalClose = () => {
-    setIsModal(false);
-  };
+  // const handleModalClose = () => {
+  //   setIsModal(false);
+  // };
 
   const [isLoading, setIsLoading] = useState(false);
   const [isProblemGenerate, setIsProblemGenerate] = useState(false);
+
+  // for 새로운 문제 topic
+  const [newTopic, setNewTopic] = useState("");
+
   const handleTarget = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setTarget(e.target.value);
   };
@@ -134,28 +136,38 @@ function SectionTwo() {
     });
   };
 
+  // 문제생성성
   const handleGenerateProblems = async () => {
     setIsLoading(true);
-
-    try {
-      // {status, pdfResult:{filename:"", message:""}}
-      const response = await createQuestion({
-        target,
-        subject,
-        theme,
-        level,
-        problemType,
-        problemCount,
-      });
-      if (response.status === 200) {
-        setIsLoading(false);
-        setIsProblemGenerate(true);
-        const { message, filename } = response.pdfresult;
-        setPdfFileName(filename);
+    // 새로운 토픽을 추가했을떄
+    if (newTopic.length > 0) {
+      try {
+        const response = await createExtraQuestion(newTopic);
+        console.log("새로운 topic Response입니디다아아아", response);
+      } catch (error) {
+        console.error("Error converting HTML to image:", error);
+        return "";
       }
-    } catch (error) {
-      console.error("Error converting HTML to image:", error);
-      return "";
+    } else {
+      try {
+        const response = await createQuestion({
+          target,
+          subject,
+          theme,
+          level,
+          problemType,
+          problemCount,
+        });
+        if (response.status === 200) {
+          setIsLoading(false);
+          setIsProblemGenerate(true);
+          const { message, filename } = response.pdfresult;
+          setPdfFileName(filename);
+        }
+      } catch (error) {
+        console.error("Error converting HTML to image:", error);
+        return "";
+      }
     }
   };
 
@@ -163,17 +175,21 @@ function SectionTwo() {
     window.open(`http://localhost:5000/pdf/${pdfFileName}.pdf`);
   };
 
-  useEffect(() => {
-    updateInstance(
-      <PDFDocument
-        // pdfProblems={pdfProblems}
-        // pdfAnswers={pdfAnswers}
-        target={target}
-        subject={subject}
-        problemType={problemType}
-      />
-    );
-  }, []);
+  const handleMoreProblem = (e: ChangeEvent<HTMLInputElement>) => {
+    setNewTopic(e.target.value);
+  };
+
+  // useEffect(() => {
+  //   updateInstance(
+  //     <PDFDocument
+  //       // pdfProblems={pdfProblems}
+  //       // pdfAnswers={pdfAnswers}
+  //       target={target}
+  //       subject={subject}
+  //       problemType={problemType}
+  //     />
+  //   );
+  // }, []);
 
   useEffect(() => {
     if (problemType.multipleChoice !== "0") {
@@ -340,6 +356,13 @@ function SectionTwo() {
             >
               pdf로 문제 다운로드 받기
             </button>
+          </div>
+        )}
+        {/* 문제 생성 후 추가로 문제 받기 */}
+        {isProblemGenerate && (
+          <div>
+            <label>추가 토픽 적기</label>
+            <input value={newTopic} onChange={handleMoreProblem} />
           </div>
         )}
       </div>
