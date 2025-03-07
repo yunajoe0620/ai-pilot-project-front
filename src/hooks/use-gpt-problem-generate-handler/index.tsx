@@ -8,7 +8,8 @@ import { Level, ProblemType } from "../../type";
 function useGPTProblemGenerateHandler(
   setIsLoading: React.Dispatch<SetStateAction<boolean>>,
   setIsProblemGenerate: React.Dispatch<SetStateAction<boolean>>,
-  setPdfFileName: React.Dispatch<SetStateAction<string>>,
+  setProblemPdfFileName: React.Dispatch<SetStateAction<string>>,
+  setAnswerPdfFileName: React.Dispatch<SetStateAction<string>>,
   target: string,
   subject: string,
   theme: string,
@@ -30,11 +31,14 @@ function useGPTProblemGenerateHandler(
           problemType,
           problemCount,
         });
-        if (response.status === 200) {
+        const { status, message, problemPdfresult, answerPdfresult } = response;
+        if (status === 200) {
           setIsLoading(false);
           setIsProblemGenerate(true);
-          const { filename } = response.pdfresult;
-          setPdfFileName(filename);
+          setProblemPdfFileName(problemPdfresult.filename);
+          setAnswerPdfFileName(answerPdfresult.filename);
+          alert(message);
+          return;
         }
       } catch (error) {
         throw error;
@@ -49,11 +53,14 @@ function useGPTProblemGenerateHandler(
           problemType,
           problemCount,
         });
-        if (response.status === 200) {
+        const { status, message, problemPdfresult, answerPdfresult } = response;
+        if (status === 200) {
           setIsLoading(false);
           setIsProblemGenerate(true);
-          const { filename } = response.pdfresult;
-          setPdfFileName(filename);
+          setProblemPdfFileName(problemPdfresult.filename);
+          setAnswerPdfFileName(answerPdfresult.filename);
+          alert(message);
+          return;
         }
       } catch (error) {
         throw error;

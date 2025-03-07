@@ -1,4 +1,3 @@
-// API 호출 펑션
 "use server";
 
 import { baseUrl } from "../../api";
@@ -88,7 +87,6 @@ export const createDeepSeekQuestion = async (data: QuestionItem) => {
   }
 };
 
-// deekSeek extra question
 export const createDeekSeekExtraQuestion = async (data: QuestionItem) => {
   const promptData = formatExtraQuestion(data);
   try {

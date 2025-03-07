@@ -28,7 +28,9 @@ function SectionTwo() {
   const [problemCount, setProblemCount] = useState(0);
 
   // pdf 파일 이름
-  const [pdfFileName, setPdfFileName] = useState("");
+  const [problemPdfFileName, setProblemPdfFileName] = useState("");
+
+  const [answerPdfFileName, setAnswerPdfFileName] = useState("");
 
   // pdf hooks
   // const [instance, updateInstance] = usePDF({
@@ -134,7 +136,8 @@ function SectionTwo() {
   const { handleChatGPTGenerateProblems } = useGPTProblemGenerateHandler(
     setIsLoading,
     setIsProblemGenerate,
-    setPdfFileName,
+    setProblemPdfFileName,
+    setAnswerPdfFileName,
     target,
     subject,
     theme,
@@ -148,7 +151,8 @@ function SectionTwo() {
   const { handleDeepSeekGenerateProblems } = useDeepSeekProblemGenerateHandler(
     setIsLoading,
     setIsProblemGenerate,
-    setPdfFileName,
+    setProblemPdfFileName,
+    setAnswerPdfFileName,
     target,
     subject,
     theme,
@@ -158,7 +162,8 @@ function SectionTwo() {
     newTopic
   );
   const handlePDFDownload = () => {
-    window.open(`http://localhost:5000/pdf/${pdfFileName}.pdf`);
+    window.open(`http://localhost:5000/pdf/${problemPdfFileName}.pdf`);
+    window.open(`http://localhost:5000/pdf/${answerPdfFileName}.pdf`);
   };
 
   const handleMoreProblem = (e: ChangeEvent<HTMLInputElement>) => {
@@ -346,7 +351,7 @@ function SectionTwo() {
               className="border-2 cursor-pointer bg-blue-400 cursor text-sky-100 font-bold  p-4"
               onClick={handlePDFDownload}
             >
-              pdf로 문제 다운로드 받기
+              pdf로 문제와 해설 다운로드 받기
             </button>
           </div>
         )}
