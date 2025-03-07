@@ -1,5 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { createExtraQuestion, createQuestion } from "../actions/get-problems";
+import { createDeepSeekQuestion } from "../actions/get-problems";
+import useGPTProblemGenerateHandler from "../hooks/use-gpt-problem-generate-handler";
+import { Level, ProblemType } from "../type";
 import { handleLevelSum } from "../utils/section-two";
 
 function SectionTwo() {
@@ -11,14 +13,14 @@ function SectionTwo() {
   const [theme, setTheme] = useState("");
 
   // 난이도
-  const [level, setLevel] = useState({
+  const [level, setLevel] = useState<Level>({
     easy: "0",
     medium: "0",
     difficult: "0",
   });
   //  문제유형
 
-  const [problemType, setProblemType] = useState({
+  const [problemType, setProblemType] = useState<ProblemType>({
     multipleChoice: "0",
     subject: "0",
   });
@@ -136,42 +138,28 @@ function SectionTwo() {
     });
   };
 
-  // 문제생성성
-  const handleGenerateProblems = async () => {
+  const { handleChatGPTGenerateProblems } = useGPTProblemGenerateHandler(
+    setIsLoading,
+    setIsProblemGenerate,
+    setPdfFileName,
+    target,
+    subject,
+    theme,
+    level,
+    problemType,
+    problemCount,
+    newTopic
+  );
+
+  // 문제생성 using chat gpt
+
+  // deek seek로 문제 생성하기
+  const handleDeepSeekGenerateProblems = async () => {
     setIsLoading(true);
-    // 새로운 토픽을 추가했을떄
     if (newTopic.length > 0) {
-      console.log(
-        "문제생성",
-        target,
-        subject,
-        theme,
-        level,
-        problemType,
-        problemCount
-      );
-      try {
-        const response = await createExtraQuestion({
-          target,
-          subject,
-          theme: newTopic,
-          level,
-          problemType,
-          problemCount,
-        });
-        if (response.status === 200) {
-          setIsLoading(false);
-          setIsProblemGenerate(true);
-          const { filename } = response.pdfresult;
-          setPdfFileName(filename);
-        }
-      } catch (error) {
-        console.error("Error converting HTML to image:", error);
-        return "";
-      }
     } else {
       try {
-        const response = await createQuestion({
+        const response = await createDeepSeekQuestion({
           target,
           subject,
           theme,
@@ -187,7 +175,7 @@ function SectionTwo() {
         }
       } catch (error) {
         console.error("Error converting HTML to image:", error);
-        return "";
+        return;
       }
     }
   };
@@ -362,10 +350,16 @@ function SectionTwo() {
           </div>
         </div>
         <button
-          className="border-2 bg-blue-800  text-sky-100 font-bold w-[200px] p-4 cursor-pointer hover:bg-blue-500"
-          onClick={handleGenerateProblems}
+          className="border-2 bg-blue-800  text-sky-100 font-bold  p-4 cursor-pointer hover:bg-blue-500"
+          onClick={handleChatGPTGenerateProblems}
         >
-          문제 생성 하기
+          Chat GPT 로 문제 생성 하기
+        </button>
+        <button
+          className="border-2 bg-blue-800  text-sky-100 font-bold  p-4 cursor-pointer hover:bg-blue-500"
+          onClick={handleDeepSeekGenerateProblems}
+        >
+          Deep Seek 로 문제 생성 하기
         </button>
         {isLoading && <p>문제를 생성하고 있습니다</p>}
         {!isLoading && isProblemGenerate && (
