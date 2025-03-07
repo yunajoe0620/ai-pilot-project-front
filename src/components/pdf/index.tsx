@@ -6,28 +6,25 @@ import {
   Text,
   View,
 } from "@react-pdf/renderer";
-import { memo, useEffect, useState } from "react";
-import {
-  problemSplit,
-  problemTypeObject,
-  seperateQuestionAndAnswerArray,
-  subjectObject,
-  targetObject,
-} from "../../utils/section-two";
-import Item from "../item";
+import { memo } from "react";
+import { PromiseResultItemArray } from "../../schemas/problem";
+import { subjectObject, targetObject } from "../../utils/section-two";
 
 // TODO: cdn으로 다른 폰트 찾아보기!
 Font.register({
   family: "SpoqaHanSans",
   src: "https://cdn.jsdelivr.net/gh/spoqa/spoqa-han-sans@01ff0283e4f36e159ffbf744b36e16ef742da6d8/Subset/SpoqaHanSans/SpoqaHanSansLight.ttf",
 });
+
 interface PDFDocumentProps {
-  problems: {
-    response: string;
-  };
+  pdfProblems?: [] | PromiseResultItemArray[];
+  pdfAnswers?: string;
   target: string;
   subject: string;
-  problemType: string;
+  problemType: {
+    multipleChoice: string;
+    subject: string;
+  };
 }
 
 export const styles = StyleSheet.create({
@@ -46,7 +43,6 @@ export const styles = StyleSheet.create({
     fontSize: 16,
   },
   section: {
-    backgroundColor: "#b8a0a0",
     color: "black",
     padding: 10,
   },
@@ -58,59 +54,32 @@ export const styles = StyleSheet.create({
 });
 
 const PDFDocument = memo(function PDFDocument({
-  problems,
+  // pdfProblems,
+  // pdfAnswers,
   target,
   subject,
   problemType,
 }: PDFDocumentProps) {
-  const [problemArr, setProblemArr] = useState([]);
-  const [onlyProblemsArr, setOnlyProblemsArr] = useState([]);
-  const [onlyAnswerArr, setOnlyAnswersArr] = useState("");
-  const result = problemSplit(problems);
-
-  useEffect(() => {
-    if (result) {
-      setProblemArr(result);
-    }
-  }, [problems]);
-
-  useEffect(() => {
-    const { onlyProblemsArray, onlyAnswersArray } =
-      seperateQuestionAndAnswerArray(problemArr);
-    setOnlyProblemsArr(onlyProblemsArray);
-    setOnlyAnswersArr(onlyAnswersArray);
-  }, [problemArr]);
-
-  console.log(
-    "문제만 뽑았습니다",
-    onlyProblemsArr,
-    "정답만 뽑았습니다",
-    onlyAnswerArr
-  );
-
   return (
     <Document title="fine-teacher-problems-pdf">
       <Page size="A4" style={styles.page}>
         <View style={styles.section}>
           <Text style={styles.subTitle}>
             {targetObject[target]} {subjectObject[subject]} 영역{" "}
-            {problemTypeObject[problemType]} 유형 문제
+            {/* {problemTypeObject[problemType]} 유형 문제 */}
           </Text>
         </View>
-        <View>
-          {onlyProblemsArr &&
-            onlyProblemsArr.map((item, index) => (
-              <Item item={item} key={index} />
-            ))}
-        </View>
+        {/* <View>
+          {pdfProblems.map((item, index) => (
+            <Item item={item} key={index} />
+          ))}
+        </View> */}
       </Page>
       <Page size="A4" style={styles.page}>
-        <View style={styles.section}>
+        {/* <View style={styles.section}>
           <Text style={styles.title}>답안지</Text>
-        </View>
-        <View style={styles.section}>
-          <Text style={styles.answer}>{onlyAnswerArr && onlyAnswerArr}</Text>
-        </View>
+          <Text>{pdfAnswers}</Text>
+        </View> */}
       </Page>
     </Document>
   );

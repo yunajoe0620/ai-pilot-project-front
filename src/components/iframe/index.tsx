@@ -1,5 +1,6 @@
-import { RefObject } from "react";
+import { RefObject, useEffect } from "react";
 import useOnClickOutside from "../../hooks/use-onclick-outside";
+import { useIframeStore } from "../../store";
 
 interface IframProps {
   url: string | null;
@@ -8,7 +9,13 @@ interface IframProps {
 }
 
 function Iframe({ url, modalRef, handleModalClose }: IframProps) {
+  const handleIframeLoad = useIframeStore((state) => state.handleIframeLoad);
+
   useOnClickOutside(modalRef, handleModalClose, "mousedown");
+
+  useEffect(() => {
+    handleIframeLoad();
+  }, []);
 
   if (!url) return;
 
