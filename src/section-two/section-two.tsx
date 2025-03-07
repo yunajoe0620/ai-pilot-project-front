@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { createDeepSeekQuestion } from "../actions/get-problems";
+import useDeepSeekProblemGenerateHandler from "../hooks/use-deepSeek-problem-generate";
 import useGPTProblemGenerateHandler from "../hooks/use-gpt-problem-generate-handler";
 import { Level, ProblemType } from "../type";
 import { handleLevelSum } from "../utils/section-two";
@@ -19,7 +19,6 @@ function SectionTwo() {
     difficult: "0",
   });
   //  문제유형
-
   const [problemType, setProblemType] = useState<ProblemType>({
     multipleChoice: "0",
     subject: "0",
@@ -27,12 +26,6 @@ function SectionTwo() {
 
   // 총 문제 갯수
   const [problemCount, setProblemCount] = useState(0);
-
-  // // pdf 다운로드
-  // const [isPDFDownload, setIsPDFDownload] = useState(false);
-
-  // // pdf 모달
-  // const [isModal, setIsModal] = useState(false);
 
   // pdf 파일 이름
   const [pdfFileName, setPdfFileName] = useState("");
@@ -151,35 +144,19 @@ function SectionTwo() {
     newTopic
   );
 
-  // 문제생성 using chat gpt
-
   // deek seek로 문제 생성하기
-  const handleDeepSeekGenerateProblems = async () => {
-    setIsLoading(true);
-    if (newTopic.length > 0) {
-    } else {
-      try {
-        const response = await createDeepSeekQuestion({
-          target,
-          subject,
-          theme,
-          level,
-          problemType,
-          problemCount,
-        });
-        if (response.status === 200) {
-          setIsLoading(false);
-          setIsProblemGenerate(true);
-          const { filename } = response.pdfresult;
-          setPdfFileName(filename);
-        }
-      } catch (error) {
-        console.error("Error converting HTML to image:", error);
-        return;
-      }
-    }
-  };
-
+  const { handleDeepSeekGenerateProblems } = useDeepSeekProblemGenerateHandler(
+    setIsLoading,
+    setIsProblemGenerate,
+    setPdfFileName,
+    target,
+    subject,
+    theme,
+    level,
+    problemType,
+    problemCount,
+    newTopic
+  );
   const handlePDFDownload = () => {
     window.open(`http://localhost:5000/pdf/${pdfFileName}.pdf`);
   };

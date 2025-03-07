@@ -15,12 +15,11 @@ function useGPTProblemGenerateHandler(
   level: Level,
   problemType: ProblemType,
   problemCount: number,
-  newTopic?: string
+  newTopic: string
 ) {
   const handleChatGPTGenerateProblems = async () => {
     setIsLoading(true);
-    if (!newTopic) return;
-    // 추가 질문 X
+
     if (newTopic.length === 0) {
       try {
         const response = await createQuestion({
