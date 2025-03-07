@@ -60,8 +60,6 @@ function SectionTwo() {
   // for 새로운 문제 topic
   const [newTopic, setNewTopic] = useState("");
 
-  console.log("newTopIc", newTopic);
-
   const handleTarget = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setTarget(e.target.value);
   };
@@ -161,11 +159,10 @@ function SectionTwo() {
           problemType,
           problemCount,
         });
-        console.log("새로운 topic Response입니디다아아아", response);
         if (response.status === 200) {
           setIsLoading(false);
           setIsProblemGenerate(true);
-          const { message, filename } = response.pdfresult;
+          const { filename } = response.pdfresult;
           setPdfFileName(filename);
         }
       } catch (error) {
@@ -185,7 +182,7 @@ function SectionTwo() {
         if (response.status === 200) {
           setIsLoading(false);
           setIsProblemGenerate(true);
-          const { message, filename } = response.pdfresult;
+          const { filename } = response.pdfresult;
           setPdfFileName(filename);
         }
       } catch (error) {
