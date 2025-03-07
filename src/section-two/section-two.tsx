@@ -213,7 +213,6 @@ function SectionTwo() {
       <div className="h-full w-full flex flex-col items-center bg-blue-100 ">
         <h1 className="font-bold text-4xl mt-40 mb-10">AI 맞춤형 학습</h1>
         <div className="flex flex-col gap-10 p-4 mb-10 ">
-          {/* 대상 선택하기 */}
           <div className="flex flex-row gap-x-30 justify-between">
             <label className="font-bold text-2xl">학년</label>
             <select
@@ -227,7 +226,6 @@ function SectionTwo() {
               <option value="university">대학교</option>
             </select>
           </div>
-          {/* 과목선택 */}
           <div className="flex flex-row justify-between">
             <label className="font-bold text-2xl">과목</label>
             <select
@@ -241,7 +239,6 @@ function SectionTwo() {
               <option value="history">역사</option>
             </select>
           </div>
-          {/* 주제선택 */}
           <div className="flex flex-row justify-between">
             <label className="font-bold text-2xl">주제</label>
             <input
@@ -250,7 +247,6 @@ function SectionTwo() {
               value={theme}
             />
           </div>
-          {/* 난이도 선택 */}
           <div className="flex flex-row justify-between">
             <label className="font-bold text-2xl">난이도</label>
             <div className="flex flex-col gap-y-2">
@@ -292,11 +288,9 @@ function SectionTwo() {
               </div>
             </div>
           </div>
-          {/* 문제유형 선택 */}
           <div className="flex flex-row justify-between">
             <label className="font-bold text-2xl">유형</label>
             <div className="flex flex-col gap-y-2">
-              {/* 객관식 */}
               <div className="flex justify-between">
                 <label className="font-bold bg-red-200 mr-4">객관식</label>
                 <select
@@ -312,7 +306,6 @@ function SectionTwo() {
                   <option value="25">25</option>
                 </select>
               </div>
-              {/* 주관식 */}
               <div className="flex justify-between">
                 <label className="font-bold bg-red-200 mr-4">주관식</label>
                 <select
