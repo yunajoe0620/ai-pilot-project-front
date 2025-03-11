@@ -1,4 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react";
+import { baseUrl } from "../api";
 import useDeepSeekProblemGenerateHandler from "../hooks/use-deepSeek-problem-generate";
 import useGPTProblemGenerateHandler from "../hooks/use-gpt-problem-generate-handler";
 import { Level, ProblemType } from "../type";
@@ -161,9 +162,12 @@ function SectionTwo() {
     problemCount,
     newTopic
   );
+  // http://192.168.0.20:5000/
   const handlePDFDownload = () => {
-    window.open(`http://localhost:5000/pdf/${problemPdfFileName}.pdf`);
-    window.open(`http://localhost:5000/pdf/${answerPdfFileName}.pdf`);
+    // window.open(`http://localhost:5000/pdf/${problemPdfFileName}.pdf`);
+    // window.open(`http://localhost:5000/pdf/${answerPdfFileName}.pdf`);
+    window.open(`${baseUrl}/pdf/${problemPdfFileName}.pdf`);
+    window.open(`${baseUrl}/pdf/${answerPdfFileName}.pdf`);
   };
 
   const handleMoreProblem = (e: ChangeEvent<HTMLInputElement>) => {

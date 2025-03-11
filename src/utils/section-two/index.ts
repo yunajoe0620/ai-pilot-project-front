@@ -18,7 +18,8 @@ export const formatQuestion = (data: QuestionItem) => {
   The problems will be shown with their numbers and the problem statement only.  
   When providing the answer, please insert *****answer***** before the answer.    
   Please provide the answer along with the explanation.
-  Return the question and answer in Korean    
+  Return the question and answer in Korean 
+  When answering in English, insert \\\\\\\\\\\\\\ right after the question number.   
   `;
   return prompt;
 };
