@@ -6,5 +6,5 @@ export type Level = {
 
 export type ProblemType = {
   multipleChoice: string;
-  subject: string;
+  shortAnswer: string;
 };

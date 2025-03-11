@@ -2,11 +2,25 @@
 
 import { baseUrl } from "../../api";
 import { QuestionItem } from "../../schemas/problem";
-import { formatExtraQuestion, formatQuestion } from "../../utils/section-two";
+import {
+  formatExtraQuestion,
+  formatQuestion,
+  mixedFormatQuestion,
+} from "../../utils/section-two";
 
 export const createQuestion = async (data: QuestionItem) => {
-  const promptData = formatQuestion(data);
-  console.log("promptData", promptData);
+  const problemType = data.problemType;
+  let promptData;
+
+  // 2개의 타입을 선택하였을 때
+  if (problemType.multipleChoice !== "" && problemType.shortAnswer !== "") {
+    promptData = mixedFormatQuestion(data);
+  } else {
+    // 1개의 type을 선택하였을 때
+    promptData = formatQuestion(data);
+  }
+
+  console.log("프람프트데이터어어", promptData);
 
   try {
     const url = `${baseUrl}/problem/generate`;

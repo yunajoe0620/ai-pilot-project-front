@@ -12,7 +12,7 @@ export const questionItemSchema = z.object({
   }),
   problemType: z.object({
     multipleChoice: z.string(),
-    subject: z.string(),
+    shortAnswer: z.string(),
   }),
   problemCount: z.number(),
 });

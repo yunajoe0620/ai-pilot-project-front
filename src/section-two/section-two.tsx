@@ -22,7 +22,7 @@ function SectionTwo() {
   //  문제유형
   const [problemType, setProblemType] = useState<ProblemType>({
     multipleChoice: "0",
-    subject: "0",
+    shortAnswer: "0",
   });
 
   // 총 문제 갯수
@@ -32,6 +32,8 @@ function SectionTwo() {
   const [problemPdfFileName, setProblemPdfFileName] = useState("");
 
   const [answerPdfFileName, setAnswerPdfFileName] = useState("");
+
+  //
 
   // pdf hooks
   // const [instance, updateInstance] = usePDF({
@@ -45,12 +47,6 @@ function SectionTwo() {
   //     />
   //   ),
   // });
-
-  // const modalRef = useRef<HTMLIFrameElement>(null);
-
-  // const handleModalClose = () => {
-  //   setIsModal(false);
-  // };
 
   const [isLoading, setIsLoading] = useState(false);
   const [isProblemGenerate, setIsProblemGenerate] = useState(false);
@@ -129,7 +125,7 @@ function SectionTwo() {
     setProblemType((prev) => {
       return {
         ...prev,
-        subject: e.target.value,
+        shortAnswer: e.target.value,
       };
     });
   };
@@ -162,7 +158,6 @@ function SectionTwo() {
     problemCount,
     newTopic
   );
-  // http://192.168.0.20:5000/
   const handlePDFDownload = () => {
     // window.open(`http://localhost:5000/pdf/${problemPdfFileName}.pdf`);
     // window.open(`http://localhost:5000/pdf/${answerPdfFileName}.pdf`);
@@ -192,10 +187,10 @@ function SectionTwo() {
         const calValue = problemCount - Number(prev.multipleChoice);
         return {
           ...prev,
-          subject: String(calValue),
+          shortAnswer: String(calValue),
         };
       });
-    } else if (problemType.subject !== "0") {
+    } else if (problemType.shortAnswer !== "0") {
       setProblemType((prev) => {
         const calValue = problemCount - Number(problemType.multipleChoice);
         return {
@@ -204,7 +199,7 @@ function SectionTwo() {
         };
       });
     }
-  }, [problemCount, problemType.multipleChoice, problemType.subject]);
+  }, [problemCount, problemType.multipleChoice, problemType.shortAnswer]);
 
   // 총갯수 합
   useEffect(() => {
@@ -315,7 +310,7 @@ function SectionTwo() {
                 <select
                   className="border-2 w-[180px] text-center"
                   onChange={handlerSubjectiveHandler}
-                  value={problemType.subject}
+                  value={problemType.shortAnswer}
                 >
                   <option value="0">0</option>
                   <option value="5">5</option>
