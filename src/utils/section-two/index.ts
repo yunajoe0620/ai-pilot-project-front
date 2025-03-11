@@ -32,18 +32,30 @@ export const mixedFormatQuestion = (data: QuestionItem) => {
   and  ${data.level.difficult} difficult questions. mix multiple-choice and short-answer questions evenly across the easy, medium, and difficult levels in korean.
   Send the questions in the following format and insert \\\\\\\\\\\\\\\\  after each question
   Easy: \\\\\\\\  
-  Question
-  Question
-  Question ... 
+  1. Question
+  2. Question
+  3. Question ... 
   Medium: \\\\\\\\
-  Question
-  Question
-  Question ... 
+  1. Question
+  2. Question
+  3. Question ... 
   Difficult: \\\\\\\\
-  Question
-  Question
-  Question ..."    
-  
+  1. Question
+  2. Question
+  3. Question ..."    
+  Send the correct answers in the following format:
+  Easy: \\\\\\\\ 
+  1. answer - Explanation
+  2. answer - Explanation
+  3. answer - Explanation ....
+  Medium: \\\\\\\\  
+  1. answer - Explanation
+  2. answer - Explanation
+  3. answer - Explanation ....
+  Difficult: \\\\\\\\  
+  1. answer - Explanation
+  2. answer - Explanation
+  3. answer - Explanation ....
   `;
 
   return prompt;
