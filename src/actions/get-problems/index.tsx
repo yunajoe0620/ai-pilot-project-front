@@ -7,7 +7,6 @@ import {
   formatQuestion,
   mixedFormatQuestion,
 } from "../../utils/section-two";
-
 export const createQuestion = async (data: QuestionItem) => {
   const problemType = data.problemType;
   let promptData;

@@ -26,7 +26,6 @@ export const formatQuestion = (data: QuestionItem) => {
 
 // 문제 유형을 주관식과 객관식 섞어서 할때!
 export const mixedFormatQuestion = (data: QuestionItem) => {
-  console.log("data =========>>>>>>>>>>>", data);
   const prompt = `Create ${data.problemType.multipleChoice} multiple-choice questions and ${data.problemType.shortAnswer} short-answer questions.
   on the topic of ${data.theme} in ${data.subject} at the ${data.target} school level, and send ${data.level.easy} easy, send ${data.level.medium} medium,
   and  ${data.level.difficult} difficult questions. mix multiple-choice and short-answer questions evenly across the easy, medium, and difficult levels in korean.
@@ -43,6 +42,7 @@ export const mixedFormatQuestion = (data: QuestionItem) => {
   1. Question
   2. Question
   3. Question ..."    
+  When returning the answer, please display it as '******answer*****"
   Send the correct answers in the following format:
   Easy: \\\\\\\\ 
   1. answer - Explanation
