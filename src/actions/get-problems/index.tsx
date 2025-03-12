@@ -12,14 +12,14 @@ export const createQuestion = async (data: QuestionItem) => {
   let promptData;
 
   // 2개의 타입을 선택하였을 때
-  if (problemType.multipleChoice !== "" && problemType.shortAnswer !== "") {
+  if (problemType.multipleChoice !== "0" && problemType.shortAnswer !== "0") {
+    console.log("객관식과 주관식 혼합형 문제를 냅니다");
     promptData = mixedFormatQuestion(data);
   } else {
     // 1개의 type을 선택하였을 때
+    console.log("객관식 또오는 주관식 문제만 나온다아아아");
     promptData = formatQuestion(data);
   }
-
-  console.log("프람프트데이터어어", promptData);
 
   try {
     const url = `${baseUrl}/problem/generate`;
