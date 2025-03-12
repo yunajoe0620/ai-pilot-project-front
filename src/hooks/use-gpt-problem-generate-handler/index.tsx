@@ -10,6 +10,8 @@ function useGPTProblemGenerateHandler(
   setIsProblemGenerate: React.Dispatch<SetStateAction<boolean>>,
   setProblemPdfFileName: React.Dispatch<SetStateAction<string>>,
   setAnswerPdfFileName: React.Dispatch<SetStateAction<string>>,
+  model: string,
+  language: string,
   target: string,
   subject: string,
   theme: string,
@@ -19,11 +21,18 @@ function useGPTProblemGenerateHandler(
   newTopic: string
 ) {
   const handleChatGPTGenerateProblems = async () => {
+    if (model === "deepSeekV3" || model === "deepSeekR1") {
+      alert("GPT MODEL만 적용이 가능합니다");
+      return;
+    }
+
     setIsLoading(true);
 
     if (newTopic.length === 0) {
       try {
         const response = await createQuestion({
+          model,
+          language,
           target,
           subject,
           theme,
@@ -46,6 +55,8 @@ function useGPTProblemGenerateHandler(
     } else {
       try {
         const response = await createExtraQuestion({
+          model,
+          language,
           target,
           subject,
           theme: newTopic,

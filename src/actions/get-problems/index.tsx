@@ -2,25 +2,29 @@
 
 import { baseUrl } from "../../api";
 import { QuestionItem } from "../../schemas/problem";
+import { usePromptStore } from "../../store";
 import {
   formatExtraQuestion,
   formatQuestion,
   mixedFormatQuestion,
 } from "../../utils/section-two";
 export const createQuestion = async (data: QuestionItem) => {
+  const handlePrompt = usePromptStore((state) => state.handlePrompt);
   const problemType = data.problemType;
   let promptData;
 
   // 2개의 타입을 선택하였을 때
   if (problemType.multipleChoice !== "0" && problemType.shortAnswer !== "0") {
-    console.log("객관식과 주관식 혼합형 문제를 냅니다");
     promptData = mixedFormatQuestion(data);
+    if (promptData) {
+      handlePrompt(promptData);
+    }
   } else {
-    // 1개의 type을 선택하였을 때
-    console.log("객관식 또오는 주관식 문제만 나온다아아아");
     promptData = formatQuestion(data);
+    if (promptData) {
+      handlePrompt(promptData);
+    }
   }
-  console.log("생성된 prompt입니다", promptData);
 
   try {
     const url = `${baseUrl}/problem/generate`;

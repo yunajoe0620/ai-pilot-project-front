@@ -2,6 +2,8 @@
 import { z } from "zod";
 
 export const questionItemSchema = z.object({
+  model: z.string(),
+  language: z.string(),
   target: z.string(),
   subject: z.string(),
   theme: z.string(),

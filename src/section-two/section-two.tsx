@@ -2,10 +2,17 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { baseUrl } from "../api";
 import useDeepSeekProblemGenerateHandler from "../hooks/use-deepSeek-problem-generate";
 import useGPTProblemGenerateHandler from "../hooks/use-gpt-problem-generate-handler";
+import { usePromptStore } from "../store";
 import { Level, ProblemType } from "../type";
 import { handleLevelSum } from "../utils/section-two";
 
 function SectionTwo() {
+  // AI 모델
+  const [model, setModel] = useState("");
+
+  // 언어
+  const [language, setLanguage] = useState("");
+
   // 대상
   const [target, setTarget] = useState("대상선택하기");
   // 과목
@@ -35,16 +42,20 @@ function SectionTwo() {
   const [isLoading, setIsLoading] = useState(false);
   const [isProblemGenerate, setIsProblemGenerate] = useState(false);
 
-  // for 새로운 문제 topic
   const [newTopic, setNewTopic] = useState("");
 
-  // for handler
   const [isMultipleHandlerMoving, setIsMultipleHandlerMoving] = useState(false);
   const [isShortAnswerHandlerMoving, setIsShortAnswerHandlerMoving] =
     useState(false);
 
-  console.log("객관식 handler", isMultipleHandlerMoving);
-  console.log("주관식 handler", isShortAnswerHandlerMoving);
+  // AI모델 handler
+  const handleAIModel = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setModel(e.target.value);
+  };
+
+  const handleLanguage = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setLanguage(e.target.value);
+  };
 
   const handleTarget = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setTarget(e.target.value);
@@ -134,11 +145,17 @@ function SectionTwo() {
     });
   };
 
+  // forPromptData
+  const prompt = usePromptStore((state) => state.prompt);
+  console.log("prompt2222", prompt);
+
   const { handleChatGPTGenerateProblems } = useGPTProblemGenerateHandler(
     setIsLoading,
     setIsProblemGenerate,
     setProblemPdfFileName,
     setAnswerPdfFileName,
+    model,
+    language,
     target,
     subject,
     theme,
@@ -205,6 +222,32 @@ function SectionTwo() {
       <div className="h-full w-full flex flex-col items-center bg-blue-100 ">
         <h1 className="font-bold text-4xl mt-40 mb-10">AI 맞춤형 학습</h1>
         <div className="flex flex-col gap-10 p-4 mb-10 ">
+          {/* AI MODEL */}
+          <div className="flex flex-row gap-x-30 justify-between">
+            <label className="font-bold text-2xl">AI 모델</label>
+            <select
+              className="border-2 w-[180px] text-center"
+              onChange={handleAIModel}
+            >
+              <option value="text-menu">대상선택하기</option>
+              <option value="gpt40Mini">gpt-4o-mini</option>
+              <option value="gpt40">gpt-4o</option>
+              <option value="deepSeekV3">deep-seek-v3</option>
+              <option value="deepSeekR1">deep-seek-r1</option>
+            </select>
+          </div>
+          {/* 언어 */}
+          <div className="flex flex-row gap-x-30 justify-between">
+            <label className="font-bold text-2xl">언어</label>
+            <select
+              className="border-2 w-[180px] text-center"
+              onChange={handleLanguage}
+            >
+              <option value="text-menu">대상선택하기</option>
+              <option value="korean">한국어</option>
+              <option value="english">영어</option>
+            </select>
+          </div>
           <div className="flex flex-row gap-x-30 justify-between">
             <label className="font-bold text-2xl">학년</label>
             <select

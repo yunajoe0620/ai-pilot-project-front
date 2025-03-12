@@ -1,111 +1,19 @@
 import "katex/dist/katex.min.css";
 import { QuestionItem } from "../../schemas/problem";
+import { EnglishSimplePrompt, KoreanSimplePrompt } from "../prompt";
 
 // 객관식 또는 주관식이 하나만 설정하였을 때
 export const formatQuestion = (data: QuestionItem) => {
-  let problemType =
-    data.problemType.multipleChoice !== "0" ? "multiple-choice" : "shortAnswer";
-  let problemTypeNumbers =
-    data.problemType.multipleChoice !== "0"
-      ? data.problemType.multipleChoice
-      : data.problemType.shortAnswer;
-  const prompt = `Create ${problemTypeNumbers} ${problemType} questions on the topic of ${data.theme} in ${data.subject} at the ${data.target} school level,
-  and send ${data.level.easy} easy, send ${data.level.medium} medium, and  ${data.level.difficult} difficult questions.
-  The format for short-answer questions is as follows
-  Easy: \\\\\\\\  
-  1. Question  \\\\\\\\
-  2. Question  \\\\\\\\
-  3. Question  \\\\\\\\
-   .......... \\\\\\\\
-
-  Medium: \\\\\\\\
-  1. Question \\\\\\\\
-  2. Question  \\\\\\\\
-  3. Question  \\\\\\\\    
-  .......... \\\\\\\\   
-
-  Difficult: \\\\\\\\
-  1. Question \\\\\\\\
-  2. Question \\\\\\\\
-  3. Question \\\\\\\\    
-  .......... \\\\\\\\
-
-  
-  Before the answers comes out, please insert *****answer***** just once."
-  Please provide the answer along with the explanation.  
-  Send the correct answers in the following format
-
-  Easy: \\\\\\\\ 
-  1. answer - Explanation \\\\\\\\
-  2. answer - Explanation \\\\\\\\
-  3. answer - Explanation \\\\\\\\
-    .......... \\\\\\\\
-
-  Medium: \\\\\\\\  
-  1. answer - Explanation \\\\\\\\
-  2. answer - Explanation \\\\\\\\
-  3. answer - Explanation \\\\\\\\
-    .......... \\\\\\\\
-
-  Difficult: \\\\\\\\  
-  1. answer - Explanation \\\\\\\\
-  2. answer - Explanation \\\\\\\\
-  3. answer - Explanation \\\\\\\\
-    .......... \\\\\\\\   
-
-  The format for multiple-choice questions is as follows
-    Easy: \\\\\\\\  
-  1. Question  \\\\\\\\
-   a) option \\\\\\\\
-  2. Question  \\\\\\\\
-   b) option \\\\\\\\
-  3. Question  \\\\\\\\
-   c) option \\\\\\\\
-
-   .......... \\\\\\\\
-
-  Medium: \\\\\\\\
-  1. Question \\\\\\\\
-   a) option \\\\\\\\
-  2. Question  \\\\\\\\
-   b) option \\\\\\\\
-  3. Question  \\\\\\\\
-   c) option \\\\\\\\    
-  .......... \\\\\\\\   
-
-  Difficult: \\\\\\\\
-  1. Question \\\\\\\\
-   a) option \\\\\\\\
-  2. Question \\\\\\\\
-   b) option \\\\\\\\
-  3. Question \\\\\\\\ 
-  c) option \\\\\\\\    
-  .......... \\\\\\\\   
-    
-  Before the answers comes out, please insert *****answer***** just once."
-  Please provide the answer along with the explanation.  
-  Send the correct answers in the following format
-
-  Easy: \\\\\\\\ 
-  1. answer - Explanation \\\\\\\\
-  2. answer - Explanation \\\\\\\\
-  3. answer - Explanation \\\\\\\\
-    .......... \\\\\\\\
-
-  Medium: \\\\\\\\  
-  1. answer - Explanation \\\\\\\\
-  2. answer - Explanation \\\\\\\\
-  3. answer - Explanation \\\\\\\\
-    .......... \\\\\\\\
-
-  Difficult: \\\\\\\\  
-  1. answer - Explanation \\\\\\\\
-  2. answer - Explanation \\\\\\\\
-  3. answer - Explanation \\\\\\\\
-    .......... \\\\\\\\   
-
-  `;
-  return prompt;
+  console.log("보낸데이터입니다아앙", data.language === "korean");
+  switch (data.language) {
+    case "korean":
+      return KoreanSimplePrompt(data);
+    case "english": {
+      return EnglishSimplePrompt(data);
+    }
+    default:
+      undefined;
+  }
 };
 
 // 문제 유형을 주관식과 객관식 섞어서 설정하였을때

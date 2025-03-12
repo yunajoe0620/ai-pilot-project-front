@@ -8,10 +8,6 @@ const router = createBrowserRouter([
     path: "/",
     element: <IndexPage />,
   },
-  // {
-  //   path: "/one",
-  //   element: <SectionOne />,
-  // },
   {
     path: "/section-two",
     element: <SectionTwo />,

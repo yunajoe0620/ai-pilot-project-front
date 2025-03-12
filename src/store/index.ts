@@ -1,11 +1,13 @@
 import { create } from "zustand";
 
 interface StoreState {
-  isIframeLoad: boolean;
-  handleIframeLoad: () => void;
+  prompt: string;
+  handlePrompt: (newPrompt: string) => void;
 }
-export const useIframeStore = create<StoreState>((set) => ({
-  isIframeLoad: true,
-  handleIframeLoad: () =>
-    set((state) => ({ isIframeLoad: !state.isIframeLoad })),
+export const usePromptStore = create<StoreState>((set) => ({
+  prompt: "",
+  handlePrompt: (newPrompt: string) =>
+    set(() => ({
+      prompt: newPrompt,
+    })),
 }));
