@@ -30,10 +30,7 @@ function SectionTwo() {
 
   // pdf 파일 이름
   const [problemPdfFileName, setProblemPdfFileName] = useState("");
-
   const [answerPdfFileName, setAnswerPdfFileName] = useState("");
-
-  //
 
   // pdf hooks
   // const [instance, updateInstance] = usePDF({
@@ -53,6 +50,11 @@ function SectionTwo() {
 
   // for 새로운 문제 topic
   const [newTopic, setNewTopic] = useState("");
+
+  // for handler
+  const [isMultipleHandlerMoving, setIsMultipleHandlerMoving] = useState(false);
+  const [isShortAnswerHandlerMoving, setIsShortAnswerHandlerMoving] =
+    useState(false);
 
   const handleTarget = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setTarget(e.target.value);
@@ -105,6 +107,10 @@ function SectionTwo() {
       alert("총 문제보다 문제수가 커질 수가 없습니다");
       return;
     }
+    // 객관식 유형 true로
+    setIsMultipleHandlerMoving(true);
+    // 주관식 유형 false로
+    setIsShortAnswerHandlerMoving(false);
     setProblemType((prev) => {
       return {
         ...prev,
@@ -118,11 +124,14 @@ function SectionTwo() {
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const valueNumber = Number(e.target.value);
-    console.log("핸드러가 안되유", valueNumber);
     if (valueNumber > problemCount) {
       alert("총 문제보다 문제수가 커질 수가 없습니다");
       return;
     }
+    // 객관식 유형 false로
+    setIsMultipleHandlerMoving(false);
+    // 주관식 유형 true
+    setIsShortAnswerHandlerMoving(true);
     setProblemType((prev) => {
       return {
         ...prev,
@@ -168,37 +177,37 @@ function SectionTwo() {
     setNewTopic(e.target.value);
   };
 
-  // useEffect(() => {
-  //   updateInstance(
-  //     <PDFDocument
-  //       // pdfProblems={pdfProblems}
-  //       // pdfAnswers={pdfAnswers}
-  //       target={target}
-  //       subject={subject}
-  //       problemType={problemType}
-  //     />
-  //   );
-  // }, []);
+  console.log(
+    "isMultipleHandlerMoving =========>>>>>>>>>",
+    isMultipleHandlerMoving
+  );
+  console.log(
+    "isShortAnswerHandlerMovingg =========>>>>>>>>>",
+    isShortAnswerHandlerMoving
+  );
 
-  // useEffect(() => {
-  //   if (problemType.multipleChoice !== "0") {
-  //     setProblemType((prev) => {
-  //       const calValue = problemCount - Number(prev.multipleChoice);
-  //       return {
-  //         ...prev,
-  //         shortAnswer: String(calValue),
-  //       };
-  //     });
-  //   } else if (problemType.shortAnswer !== "0") {
-  //     setProblemType((prev) => {
-  //       const calValue = problemCount - Number(problemType.multipleChoice);
-  //       return {
-  //         ...prev,
-  //         multipleChoice: String(calValue),
-  //       };
-  //     });
-  //   }
-  // }, [problemCount, problemType.multipleChoice, problemType.shortAnswer]);
+  useEffect(() => {
+    // 객관식이 움직였을때 주관식 유형을 자동으로 계산한다
+    if (isMultipleHandlerMoving) {
+      const calValue = problemCount - Number(problemType.multipleChoice);
+      setProblemType((prev) => {
+        return {
+          ...prev,
+          shortAnswer: String(calValue),
+        };
+      });
+    }
+    // 주관식이 움직였을때 객관식 유형을 자동으로 계산한다.
+    if (isShortAnswerHandlerMoving) {
+      const calValue = problemCount - Number(problemType.shortAnswer);
+      setProblemType((prev) => {
+        return {
+          ...prev,
+          multipleChoice: String(calValue),
+        };
+      });
+    }
+  }, [isMultipleHandlerMoving, isShortAnswerHandlerMoving]);
 
   // 총갯수 합
   useEffect(() => {

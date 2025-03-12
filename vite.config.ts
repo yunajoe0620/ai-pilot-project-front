@@ -8,12 +8,13 @@ export default defineConfig({
     exclude: ["@ffmpeg/ffmpeg", "@ffmpeg/util"],
   },
   server: {
+    allowedHosts: ["7044-1-220-74-162.ngrok-free.app", "localhost'"],
     headers: {
       "Cross-Origin-Opener-Policy": "same-origin",
       "Cross-Origin-Embedder-Policy": "require-corp",
     },
   },
   build: {
-    target: "esnext", // ES Module 지원을 보장
+    target: "esnext",
   },
 });
