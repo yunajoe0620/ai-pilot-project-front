@@ -3,11 +3,7 @@
 import { baseUrl } from "../../api";
 import { QuestionItem } from "../../schemas/problem";
 import { AIModelMap } from "../../utils/prompt";
-import {
-  formatExtraQuestion,
-  formatQuestion,
-  mixedFormatQuestion,
-} from "../../utils/section-two";
+import { formatExtraQuestion } from "../../utils/section-two";
 
 export const createQuestion = async (sentPrompt: string, aiModel: string) => {
   // const problemType = data.problemType;
@@ -46,6 +42,7 @@ export const createQuestion = async (sentPrompt: string, aiModel: string) => {
   }
 };
 
+// extra로 문제 던질때 for gpt
 export const createExtraQuestion = async (data: QuestionItem) => {
   const promptData = formatExtraQuestion(data);
   try {
@@ -73,26 +70,30 @@ export const createExtraQuestion = async (data: QuestionItem) => {
   }
 };
 
-export const createDeepSeekQuestion = async (data: QuestionItem) => {
-  const problemType = data.problemType;
-  let promptData;
+export const createDeepSeekQuestion = async (
+  sentPrompt: string,
+  aiModel: string
+) => {
+  // const problemType = data.problemType;
+  // let promptData;
 
-  // 2개의 타입을 선택하였을 때
-  if (problemType.multipleChoice !== "0" && problemType.shortAnswer !== "0") {
-    promptData = mixedFormatQuestion(data);
-  } else {
-    // 1개의 type을 선택하였을 때
-    promptData = formatQuestion(data);
-  }
+  // // 2개의 타입을 선택하였을 때
+  // if (problemType.multipleChoice !== "0" && problemType.shortAnswer !== "0") {
+  //   promptData = mixedFormatQuestion(data);
+  // } else {
+  //   // 1개의 type을 선택하였을 때
+  //   promptData = formatQuestion(data);
+  // }
   try {
     const url = `${baseUrl}/problem/generate/deekseek`;
+    const model = AIModelMap[aiModel];
     const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify({ promptData }),
+      body: JSON.stringify({ promptData: sentPrompt, model }),
     });
     return response.json();
   } catch (error) {
@@ -109,6 +110,7 @@ export const createDeepSeekQuestion = async (data: QuestionItem) => {
   }
 };
 
+// extra로 문제 던질때 for deelseek
 export const createDeekSeekExtraQuestion = async (data: QuestionItem) => {
   const promptData = formatExtraQuestion(data);
   try {

@@ -171,13 +171,10 @@ function SectionTwo() {
     setIsProblemGenerate,
     setProblemPdfFileName,
     setAnswerPdfFileName,
-    target,
-    subject,
-    theme,
-    level,
-    problemType,
-    problemCount,
-    newTopic
+    setAIOutput,
+    model,
+    newTopic,
+    sentPrompt
   );
   const handlePDFDownload = () => {
     window.open(`${baseUrl}/pdf/${problemPdfFileName}.pdf`);
@@ -215,8 +212,6 @@ function SectionTwo() {
   const handlePrompt = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setSentPrompt(e.target.value);
   };
-
-  console.log("수정이 된 prompt ======>>>>>>", sentPrompt);
 
   // 총갯수 합
   useEffect(() => {
