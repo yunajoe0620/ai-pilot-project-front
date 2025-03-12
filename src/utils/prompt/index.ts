@@ -1,4 +1,11 @@
-import { QuestionItem } from "../../schemas/problem";
+import { Item } from "../../schemas/problem";
+
+export const AIModelMap: Record<string, string> = {
+  gpt40Mini: "gpt-4o-mini",
+  gpt40: "gpt-4o",
+  deepSeekV3: "",
+  deepSeekR1: "",
+};
 const KoreanGradeMap: Record<string, string> = {
   elementary: "초등학교",
   middleschool: "중학교",
@@ -18,7 +25,7 @@ const KoreanProblemType: Record<string, string> = {
   shortAnswer: "죽관식",
 };
 
-export const KoreanSimplePrompt = (data: QuestionItem) => {
+export const KoreanSimplePrompt = (data: Item) => {
   let problemType =
     data.problemType.multipleChoice !== "0" ? "multipleChoice" : "shortAnswer";
   let problemTypeNumbers =
@@ -130,7 +137,7 @@ export const KoreanSimplePrompt = (data: QuestionItem) => {
   return prompt;
 };
 
-export const EnglishSimplePrompt = (data: QuestionItem) => {
+export const EnglishSimplePrompt = (data: Item) => {
   let problemType =
     data.problemType.multipleChoice !== "0" ? "multiple-choice" : "shortAnswer";
   let problemTypeNumbers =

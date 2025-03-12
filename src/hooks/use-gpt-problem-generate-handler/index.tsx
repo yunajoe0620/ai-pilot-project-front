@@ -1,81 +1,61 @@
 import { SetStateAction } from "react";
-import {
-  createExtraQuestion,
-  createQuestion,
-} from "../../actions/get-problems";
-import { Level, ProblemType } from "../../type";
+import { createQuestion } from "../../actions/get-problems";
 
 function useGPTProblemGenerateHandler(
   setIsLoading: React.Dispatch<SetStateAction<boolean>>,
   setIsProblemGenerate: React.Dispatch<SetStateAction<boolean>>,
   setProblemPdfFileName: React.Dispatch<SetStateAction<string>>,
   setAnswerPdfFileName: React.Dispatch<SetStateAction<string>>,
+  setAIOutput: React.Dispatch<SetStateAction<string>>,
   model: string,
-  language: string,
-  target: string,
-  subject: string,
-  theme: string,
-  level: Level,
-  problemType: ProblemType,
-  problemCount: number,
-  newTopic: string
+
+  newTopic: string,
+  sentPrompt: string
 ) {
   const handleChatGPTGenerateProblems = async () => {
     if (model === "deepSeekV3" || model === "deepSeekR1") {
       alert("GPT MODEL만 적용이 가능합니다");
       return;
     }
-
     setIsLoading(true);
-
     if (newTopic.length === 0) {
       try {
-        const response = await createQuestion({
-          model,
-          language,
-          target,
-          subject,
-          theme,
-          level,
-          problemType,
-          problemCount,
-        });
-        const { status, message, problemPdfresult, answerPdfresult } = response;
+        const response = await createQuestion(sentPrompt, model);
+        const { status, message, problemPdfresult, answerPdfresult, result } =
+          response;
+
         if (status === 200) {
           setIsLoading(false);
           setIsProblemGenerate(true);
           setProblemPdfFileName(problemPdfresult.filename);
           setAnswerPdfFileName(answerPdfresult.filename);
+          setAIOutput(result.response);
           alert(message);
-          return;
         }
       } catch (error) {
         throw error;
       }
     } else {
-      try {
-        const response = await createExtraQuestion({
-          model,
-          language,
-          target,
-          subject,
-          theme: newTopic,
-          level,
-          problemType,
-          problemCount,
-        });
-        const { status, message, problemPdfresult, answerPdfresult } = response;
-        if (status === 200) {
-          setIsLoading(false);
-          setIsProblemGenerate(true);
-          setProblemPdfFileName(problemPdfresult.filename);
-          setAnswerPdfFileName(answerPdfresult.filename);
-          alert(message);
-          return;
-        }
-      } catch (error) {
-        throw error;
-      }
+      // try {
+      //   const response = await createExtraQuestion({
+      //     model,
+      //     theme: newTopic,
+      //     level,
+      //     problemType,
+      //     problemCount,
+      //   });
+      //   const { status, message, problemPdfresult, answerPdfresult } = response;
+      //   if (status === 200) {
+      //     setIsLoading(false);
+      //     setIsProblemGenerate(true);
+      //     setProblemPdfFileName(problemPdfresult.filename);
+      //     setAnswerPdfFileName(answerPdfresult.filename);
+      //     alert(message);
+      //     return;
+      //   }
+      // } catch (error) {
+      //   throw error;
+      // }
     }
   };
   return {

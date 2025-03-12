@@ -1,10 +1,13 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { baseUrl } from "../api";
 import useDeepSeekProblemGenerateHandler from "../hooks/use-deepSeek-problem-generate";
 import useGPTProblemGenerateHandler from "../hooks/use-gpt-problem-generate-handler";
-import { usePromptStore } from "../store";
 import { Level, ProblemType } from "../type";
-import { handleLevelSum } from "../utils/section-two";
+import {
+  formatQuestion,
+  handleLevelSum,
+  mixedFormatQuestion,
+} from "../utils/section-two";
 
 function SectionTwo() {
   // AI 모델
@@ -47,6 +50,12 @@ function SectionTwo() {
   const [isMultipleHandlerMoving, setIsMultipleHandlerMoving] = useState(false);
   const [isShortAnswerHandlerMoving, setIsShortAnswerHandlerMoving] =
     useState(false);
+
+  //  생성된 Prompt
+  const [sentPrompt, setSentPrompt] = useState("");
+
+  //  AI Output
+  const [AIOutput, setAIOutput] = useState("");
 
   // AI모델 handler
   const handleAIModel = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -145,24 +154,15 @@ function SectionTwo() {
     });
   };
 
-  // forPromptData
-  const prompt = usePromptStore((state) => state.prompt);
-  console.log("prompt2222", prompt);
-
   const { handleChatGPTGenerateProblems } = useGPTProblemGenerateHandler(
     setIsLoading,
     setIsProblemGenerate,
     setProblemPdfFileName,
     setAnswerPdfFileName,
+    setAIOutput,
     model,
-    language,
-    target,
-    subject,
-    theme,
-    level,
-    problemType,
-    problemCount,
-    newTopic
+    newTopic,
+    sentPrompt
   );
 
   // deek seek로 문제 생성하기
@@ -184,9 +184,9 @@ function SectionTwo() {
     window.open(`${baseUrl}/pdf/${answerPdfFileName}.pdf`);
   };
 
-  const handleMoreProblem = (e: ChangeEvent<HTMLInputElement>) => {
-    setNewTopic(e.target.value);
-  };
+  // const handleMoreProblem = (e: ChangeEvent<HTMLInputElement>) => {
+  //   setNewTopic(e.target.value);
+  // };
 
   useEffect(() => {
     // 객관식이 움직였을때 주관식 유형을 자동으로 계산한다
@@ -211,14 +211,51 @@ function SectionTwo() {
     }
   }, [problemType.multipleChoice, problemType.shortAnswer]);
 
+  // handle Prompt
+  const handlePrompt = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setSentPrompt(e.target.value);
+  };
+
+  console.log("수정이 된 prompt ======>>>>>>", sentPrompt);
+
   // 총갯수 합
   useEffect(() => {
     const result = handleLevelSum(level);
     setProblemCount(result);
   }, [level.easy, level.medium, level.difficult]);
 
+  // for prompt 렌더링
+  useEffect(() => {
+    let promptData;
+    if (problemType.multipleChoice !== "0" && problemType.shortAnswer !== "0") {
+      promptData = mixedFormatQuestion({
+        language,
+        target,
+        subject,
+        theme,
+        level,
+        problemType,
+        problemCount,
+      });
+    } else {
+      promptData = formatQuestion({
+        language,
+        target,
+        subject,
+        theme,
+        level,
+        problemType,
+        problemCount,
+      });
+    }
+
+    if (typeof promptData === "string") {
+      setSentPrompt(promptData);
+    }
+  }, [language, target, subject, theme, level, problemType, problemCount]);
+
   return (
-    <div className="flex flex-col items-center h-screen">
+    <div className="flex flex-col items-center h-full">
       <div className="h-full w-full flex flex-col items-center bg-blue-100 ">
         <h1 className="font-bold text-4xl mt-40 mb-10">AI 맞춤형 학습</h1>
         <div className="flex flex-col gap-10 p-4 mb-10 ">
@@ -359,6 +396,14 @@ function SectionTwo() {
             </div>
           </div>
         </div>
+        <div className="flex flex-col mt-10 w-full">
+          <p className="text-2xl">전달된 prompt</p>
+          <textarea
+            value={sentPrompt}
+            onChange={handlePrompt}
+            className="resize-none  w-full h-48 p-2 border border-gray-300 rounded-md bg-white"
+          />
+        </div>
         <button
           className="border-2 bg-blue-800  text-sky-100 font-bold  p-4 cursor-pointer hover:bg-blue-500"
           onClick={handleChatGPTGenerateProblems}
@@ -372,6 +417,18 @@ function SectionTwo() {
           Deep Seek 로 문제 생성 하기
         </button>
         {isLoading && <p>문제를 생성하고 있습니다</p>}
+
+        {/* AI 아웃풋 */}
+        {!isLoading && isProblemGenerate && (
+          <div className="flex flex-col mt-10 w-full">
+            <p className="text-2xl">AI output</p>
+            <textarea
+              value={AIOutput}
+              className="resize-none  w-full h-48 p-2 border border-gray-300 rounded-md bg-white"
+            />
+          </div>
+        )}
+
         {!isLoading && isProblemGenerate && (
           <div className="flex flex-col mt-10">
             <p className="text-2xl">문제가 생성되었습니다</p>
@@ -384,24 +441,13 @@ function SectionTwo() {
           </div>
         )}
         {/* 문제 생성 후 추가로 문제 받기 */}
-        {isProblemGenerate && (
+        {/* {isProblemGenerate && (
           <div>
             <label>추가 토픽 적기</label>
             <input value={newTopic} onChange={handleMoreProblem} />
           </div>
-        )}
+        )} */}
       </div>
-      {/* {isModal && (
-        <ModalComponent
-          component={
-            <Iframe
-              url={instance.url}
-              modalRef={modalRef}
-              handleModalClose={handleModalClose}
-            />
-          }
-        />
-      )} */}
     </div>
   );
 }

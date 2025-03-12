@@ -1,8 +1,7 @@
 // ZOD type
 import { z } from "zod";
 
-export const questionItemSchema = z.object({
-  model: z.string(),
+export const ItemSchema = z.object({
   language: z.string(),
   target: z.string(),
   subject: z.string(),
@@ -19,7 +18,13 @@ export const questionItemSchema = z.object({
   problemCount: z.number(),
 });
 
-export type QuestionItem = z.infer<typeof questionItemSchema>;
+export type Item = z.infer<typeof ItemSchema>;
+
+export const QuestionItemSchema = ItemSchema.extend({
+  model: z.string(),
+});
+
+export type QuestionItem = z.infer<typeof QuestionItemSchema>;
 
 export const promiseResultItemSchema = z.object({
   type: z.string(),

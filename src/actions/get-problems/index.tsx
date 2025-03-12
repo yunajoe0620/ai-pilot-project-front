@@ -2,39 +2,34 @@
 
 import { baseUrl } from "../../api";
 import { QuestionItem } from "../../schemas/problem";
-import { usePromptStore } from "../../store";
+import { AIModelMap } from "../../utils/prompt";
 import {
   formatExtraQuestion,
   formatQuestion,
   mixedFormatQuestion,
 } from "../../utils/section-two";
-export const createQuestion = async (data: QuestionItem) => {
-  const handlePrompt = usePromptStore((state) => state.handlePrompt);
-  const problemType = data.problemType;
-  let promptData;
 
-  // 2개의 타입을 선택하였을 때
-  if (problemType.multipleChoice !== "0" && problemType.shortAnswer !== "0") {
-    promptData = mixedFormatQuestion(data);
-    if (promptData) {
-      handlePrompt(promptData);
-    }
-  } else {
-    promptData = formatQuestion(data);
-    if (promptData) {
-      handlePrompt(promptData);
-    }
-  }
+export const createQuestion = async (sentPrompt: string, aiModel: string) => {
+  // const problemType = data.problemType;
+  // let promptData;
+
+  // // 2개의 타입을 선택하였을 때
+  // if (problemType.multipleChoice !== "0" && problemType.shortAnswer !== "0") {
+  //   promptData = mixedFormatQuestion(data);
+  // } else {
+  //   promptData = formatQuestion(data);
+  // }
 
   try {
     const url = `${baseUrl}/problem/generate`;
+    const model = AIModelMap[aiModel];
     const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify({ promptData }),
+      body: JSON.stringify({ promptData: sentPrompt, model }),
     });
     return response.json();
   } catch (error) {
@@ -84,14 +79,11 @@ export const createDeepSeekQuestion = async (data: QuestionItem) => {
 
   // 2개의 타입을 선택하였을 때
   if (problemType.multipleChoice !== "0" && problemType.shortAnswer !== "0") {
-    console.log("객관식과 주관식 혼합형 문제를 냅니다");
     promptData = mixedFormatQuestion(data);
   } else {
     // 1개의 type을 선택하였을 때
-    console.log("객관식 또오는 주관식 문제만 나온다아아아");
     promptData = formatQuestion(data);
   }
-  console.log("생성된 prompt입니다", promptData);
   try {
     const url = `${baseUrl}/problem/generate/deekseek`;
     const response = await fetch(url, {
