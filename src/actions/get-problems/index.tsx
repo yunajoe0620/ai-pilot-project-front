@@ -20,6 +20,7 @@ export const createQuestion = async (data: QuestionItem) => {
     console.log("객관식 또오는 주관식 문제만 나온다아아아");
     promptData = formatQuestion(data);
   }
+  console.log("생성된 prompt입니다", promptData);
 
   try {
     const url = `${baseUrl}/problem/generate`;
@@ -74,7 +75,19 @@ export const createExtraQuestion = async (data: QuestionItem) => {
 };
 
 export const createDeepSeekQuestion = async (data: QuestionItem) => {
-  const promptData = formatQuestion(data);
+  const problemType = data.problemType;
+  let promptData;
+
+  // 2개의 타입을 선택하였을 때
+  if (problemType.multipleChoice !== "0" && problemType.shortAnswer !== "0") {
+    console.log("객관식과 주관식 혼합형 문제를 냅니다");
+    promptData = mixedFormatQuestion(data);
+  } else {
+    // 1개의 type을 선택하였을 때
+    console.log("객관식 또오는 주관식 문제만 나온다아아아");
+    promptData = formatQuestion(data);
+  }
+  console.log("생성된 prompt입니다", promptData);
   try {
     const url = `${baseUrl}/problem/generate/deekseek`;
     const response = await fetch(url, {

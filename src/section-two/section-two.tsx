@@ -118,6 +118,7 @@ function SectionTwo() {
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const valueNumber = Number(e.target.value);
+    console.log("핸드러가 안되유", valueNumber);
     if (valueNumber > problemCount) {
       alert("총 문제보다 문제수가 커질 수가 없습니다");
       return;
@@ -159,8 +160,6 @@ function SectionTwo() {
     newTopic
   );
   const handlePDFDownload = () => {
-    // window.open(`http://localhost:5000/pdf/${problemPdfFileName}.pdf`);
-    // window.open(`http://localhost:5000/pdf/${answerPdfFileName}.pdf`);
     window.open(`${baseUrl}/pdf/${problemPdfFileName}.pdf`);
     window.open(`${baseUrl}/pdf/${answerPdfFileName}.pdf`);
   };
@@ -181,25 +180,25 @@ function SectionTwo() {
   //   );
   // }, []);
 
-  useEffect(() => {
-    if (problemType.multipleChoice !== "0") {
-      setProblemType((prev) => {
-        const calValue = problemCount - Number(prev.multipleChoice);
-        return {
-          ...prev,
-          shortAnswer: String(calValue),
-        };
-      });
-    } else if (problemType.shortAnswer !== "0") {
-      setProblemType((prev) => {
-        const calValue = problemCount - Number(problemType.multipleChoice);
-        return {
-          ...prev,
-          multipleChoice: String(calValue),
-        };
-      });
-    }
-  }, [problemCount, problemType.multipleChoice, problemType.shortAnswer]);
+  // useEffect(() => {
+  //   if (problemType.multipleChoice !== "0") {
+  //     setProblemType((prev) => {
+  //       const calValue = problemCount - Number(prev.multipleChoice);
+  //       return {
+  //         ...prev,
+  //         shortAnswer: String(calValue),
+  //       };
+  //     });
+  //   } else if (problemType.shortAnswer !== "0") {
+  //     setProblemType((prev) => {
+  //       const calValue = problemCount - Number(problemType.multipleChoice);
+  //       return {
+  //         ...prev,
+  //         multipleChoice: String(calValue),
+  //       };
+  //     });
+  //   }
+  // }, [problemCount, problemType.multipleChoice, problemType.shortAnswer]);
 
   // 총갯수 합
   useEffect(() => {
