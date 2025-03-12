@@ -32,19 +32,6 @@ function SectionTwo() {
   const [problemPdfFileName, setProblemPdfFileName] = useState("");
   const [answerPdfFileName, setAnswerPdfFileName] = useState("");
 
-  // pdf hooks
-  // const [instance, updateInstance] = usePDF({
-  //   document: (
-  //     <PDFDocument
-  //       // pdfProblems={pdfProblems}
-  //       // pdfAnswers={pdfAnswers}
-  //       target={target}
-  //       subject={subject}
-  //       problemType={problemType}
-  //     />
-  //   ),
-  // });
-
   const [isLoading, setIsLoading] = useState(false);
   const [isProblemGenerate, setIsProblemGenerate] = useState(false);
 
@@ -103,7 +90,9 @@ function SectionTwo() {
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const valueNumber = Number(e.target.value);
-    if (valueNumber > problemCount) {
+    const shortAnswerQuestion = Number(problemType.shortAnswer);
+
+    if (valueNumber + shortAnswerQuestion > problemCount) {
       alert("총 문제보다 문제수가 커질 수가 없습니다");
       return;
     }
@@ -124,7 +113,9 @@ function SectionTwo() {
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const valueNumber = Number(e.target.value);
-    if (valueNumber > problemCount) {
+    const multipleChoiceQuestion = Number(problemType.multipleChoice);
+
+    if (valueNumber + multipleChoiceQuestion > problemCount) {
       alert("총 문제보다 문제수가 커질 수가 없습니다");
       return;
     }
@@ -177,19 +168,14 @@ function SectionTwo() {
     setNewTopic(e.target.value);
   };
 
-  console.log(
-    "isMultipleHandlerMoving =========>>>>>>>>>",
-    isMultipleHandlerMoving
-  );
-  console.log(
-    "isShortAnswerHandlerMovingg =========>>>>>>>>>",
-    isShortAnswerHandlerMoving
-  );
-
   useEffect(() => {
     // 객관식이 움직였을때 주관식 유형을 자동으로 계산한다
     if (isMultipleHandlerMoving) {
+      console.log("객관식을 움직였습니다", problemCount, problemType);
+
       const calValue = problemCount - Number(problemType.multipleChoice);
+      console.log("나머지 주관식 value", calValue);
+
       setProblemType((prev) => {
         return {
           ...prev,
@@ -199,7 +185,9 @@ function SectionTwo() {
     }
     // 주관식이 움직였을때 객관식 유형을 자동으로 계산한다.
     if (isShortAnswerHandlerMoving) {
+      console.log("주관식을 움직였습니다", problemCount, problemType);
       const calValue = problemCount - Number(problemType.shortAnswer);
+      console.log("나머지 객관식 value", calValue);
       setProblemType((prev) => {
         return {
           ...prev,
