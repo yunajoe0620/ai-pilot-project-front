@@ -43,6 +43,9 @@ function SectionTwo() {
   const [isShortAnswerHandlerMoving, setIsShortAnswerHandlerMoving] =
     useState(false);
 
+  console.log("객관식 handler", isMultipleHandlerMoving);
+  console.log("주관식 handler", isShortAnswerHandlerMoving);
+
   const handleTarget = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setTarget(e.target.value);
   };
@@ -171,31 +174,25 @@ function SectionTwo() {
   useEffect(() => {
     // 객관식이 움직였을때 주관식 유형을 자동으로 계산한다
     if (isMultipleHandlerMoving) {
-      console.log("객관식을 움직였습니다", problemCount, problemType);
-
       const calValue = problemCount - Number(problemType.multipleChoice);
-      console.log("나머지 주관식 value", calValue);
-
-      setProblemType((prev) => {
+      setProblemType(() => {
         return {
-          ...prev,
+          multipleChoice: String(problemType.multipleChoice),
           shortAnswer: String(calValue),
         };
       });
     }
     // 주관식이 움직였을때 객관식 유형을 자동으로 계산한다.
     if (isShortAnswerHandlerMoving) {
-      console.log("주관식을 움직였습니다", problemCount, problemType);
       const calValue = problemCount - Number(problemType.shortAnswer);
-      console.log("나머지 객관식 value", calValue);
-      setProblemType((prev) => {
+      setProblemType(() => {
         return {
-          ...prev,
           multipleChoice: String(calValue),
+          shortAnswer: String(problemType.shortAnswer),
         };
       });
     }
-  }, [isMultipleHandlerMoving, isShortAnswerHandlerMoving]);
+  }, [problemType.multipleChoice, problemType.shortAnswer]);
 
   // 총갯수 합
   useEffect(() => {
