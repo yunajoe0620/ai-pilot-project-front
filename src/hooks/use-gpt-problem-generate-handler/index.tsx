@@ -16,45 +16,24 @@ function useGPTProblemGenerateHandler(
       alert("GPT MODEL만 적용이 가능합니다");
       return;
     }
-    setIsLoading(true);
-    if (newTopic.length === 0) {
-      try {
-        const response = await createQuestion(sentPrompt, model);
-        const { status, message, problemPdfresult, answerPdfresult, result } =
-          response;
 
-        if (status === 200) {
-          setIsLoading(false);
-          setIsProblemGenerate(true);
-          setProblemPdfFileName(problemPdfresult.filename);
-          setAnswerPdfFileName(answerPdfresult.filename);
-          setAIOutput(result.response);
-          alert(message);
-        }
-      } catch (error) {
-        throw error;
+    setIsLoading(true);
+
+    try {
+      const response = await createQuestion(sentPrompt, model);
+      const { status, message, problemPdfresult, answerPdfresult, result } =
+        response;
+
+      if (status === 200) {
+        setIsLoading(false);
+        setIsProblemGenerate(true);
+        setProblemPdfFileName(problemPdfresult.filename);
+        setAnswerPdfFileName(answerPdfresult.filename);
+        setAIOutput(result.response);
+        alert(message);
       }
-    } else {
-      // try {
-      //   const response = await createExtraQuestion({
-      //     model,
-      //     theme: newTopic,
-      //     level,
-      //     problemType,
-      //     problemCount,
-      //   });
-      //   const { status, message, problemPdfresult, answerPdfresult } = response;
-      //   if (status === 200) {
-      //     setIsLoading(false);
-      //     setIsProblemGenerate(true);
-      //     setProblemPdfFileName(problemPdfresult.filename);
-      //     setAnswerPdfFileName(answerPdfresult.filename);
-      //     alert(message);
-      //     return;
-      //   }
-      // } catch (error) {
-      //   throw error;
-      // }
+    } catch (error) {
+      throw error;
     }
   };
   return {
