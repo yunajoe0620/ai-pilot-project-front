@@ -421,6 +421,7 @@ function SectionTwo() {
           <div className="flex flex-col mt-10 w-full">
             <p className="text-2xl">AI output</p>
             <textarea
+              readOnly
               value={AIOutput}
               className="resize-none  w-full h-48 p-2 border border-gray-300 rounded-md bg-white"
             />
