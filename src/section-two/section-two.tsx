@@ -45,8 +45,6 @@ function SectionTwo() {
   const [isLoading, setIsLoading] = useState(false);
   const [isProblemGenerate, setIsProblemGenerate] = useState(false);
 
-  const [newTopic, setNewTopic] = useState("");
-
   const [isMultipleHandlerMoving, setIsMultipleHandlerMoving] = useState(false);
   const [isShortAnswerHandlerMoving, setIsShortAnswerHandlerMoving] =
     useState(false);
@@ -77,6 +75,8 @@ function SectionTwo() {
   const handleTheme = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTheme(e.target.value);
   };
+
+  console.log("prompt", model, sentPrompt);
 
   // 난이도 쉬움 handler
   const handleEasyLevel = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -161,7 +161,6 @@ function SectionTwo() {
     setAnswerPdfFileName,
     setAIOutput,
     model,
-    newTopic,
     sentPrompt
   );
 
@@ -173,7 +172,6 @@ function SectionTwo() {
     setAnswerPdfFileName,
     setAIOutput,
     model,
-    newTopic,
     sentPrompt
   );
 
@@ -250,7 +248,16 @@ function SectionTwo() {
     if (typeof promptData === "string") {
       setSentPrompt(promptData);
     }
-  }, [language, target, subject, theme, level, problemType, problemCount]);
+  }, [
+    language,
+    target,
+    subject,
+    theme,
+    level,
+    problemType,
+    problemCount,
+    sentPrompt,
+  ]);
 
   return (
     <div className="flex flex-col items-center h-full">

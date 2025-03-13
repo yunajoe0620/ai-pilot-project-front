@@ -8,7 +8,6 @@ function useDeepSeekProblemGenerateHandler(
   setAnswerPdfFileName: React.Dispatch<SetStateAction<string>>,
   setAIOutput: React.Dispatch<SetStateAction<string>>,
   model: string,
-  newTopic: string,
   sentPrompt: string
 ) {
   const handleDeepSeekGenerateProblems = async () => {
