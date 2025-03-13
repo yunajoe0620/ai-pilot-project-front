@@ -1,6 +1,11 @@
 import "katex/dist/katex.min.css";
 import { Item, QuestionItem } from "../../schemas/problem";
-import { EnglishSimplePrompt, KoreanSimplePrompt } from "../prompt";
+import {
+  EnglishMixedPrompt,
+  EnglishSimplePrompt,
+  KoreanMixedPrompt,
+  KoreanSimplePrompt,
+} from "../prompt";
 
 // 객관식 또는 주관식이 하나만 설정하였을 때
 export const formatQuestion = (data: Item) => {
@@ -17,52 +22,15 @@ export const formatQuestion = (data: Item) => {
 
 // 문제 유형을 주관식과 객관식 섞어서 설정하였을때
 export const mixedFormatQuestion = (data: Item) => {
-  const prompt = `Create ${data.problemType.multipleChoice} multiple-choice questions and ${data.problemType.shortAnswer} short-answer questions.
-  on the topic of ${data.theme} in ${data.subject} at the ${data.target} school level, and send ${data.level.easy} easy, send ${data.level.medium} medium,
-  and  ${data.level.difficult} difficult questions. mix multiple-choice and short-answer questions evenly across the easy, medium, and difficult levels in korean.
-
-  Easy: \\\\\\\\  
-  1. Question  \\\\\\\\
-  2. Question  \\\\\\\\
-  3. Question  \\\\\\\\
-   .......... \\\\\\\\
-
-  Medium: \\\\\\\\
-  1. Question \\\\\\\\
-  2. Question  \\\\\\\\
-  3. Question  \\\\\\\\    
-  .......... \\\\\\\\   
-
-  Difficult: \\\\\\\\
-  1. Question \\\\\\\\
-  2. Question \\\\\\\\
-  3. Question \\\\\\\\    
-  .......... \\\\\\\\
-
-  Before the answers comes out, please insert *****answer***** just once."
-  Please provide the answer along with the explanation.  
-  Send the correct answers in the following format:
-  Easy: \\\\\\\\ 
-  1. answer - Explanation \\\\\\\\
-  2. answer - Explanation \\\\\\\\
-  3. answer - Explanation \\\\\\\\
-    .......... \\\\\\\\
-
-  Medium: \\\\\\\\  
-  1. answer - Explanation \\\\\\\\
-  2. answer - Explanation \\\\\\\\
-  3. answer - Explanation \\\\\\\\
-    .......... \\\\\\\\
-
-  Difficult: \\\\\\\\  
-  1. answer - Explanation \\\\\\\\
-  2. answer - Explanation \\\\\\\\
-  3. answer - Explanation \\\\\\\\
-    .......... \\\\\\\\
-
-  `;
-
-  return prompt;
+  switch (data.language) {
+    case "korean":
+      return KoreanMixedPrompt(data);
+    case "english": {
+      return EnglishMixedPrompt(data);
+    }
+    default:
+      undefined;
+  }
 };
 
 export const formatExtraQuestion = (data: QuestionItem) => {

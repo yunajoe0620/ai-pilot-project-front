@@ -176,6 +176,7 @@ function SectionTwo() {
     newTopic,
     sentPrompt
   );
+
   const handlePDFDownload = () => {
     window.open(`${baseUrl}/pdf/${problemPdfFileName}.pdf`);
     window.open(`${baseUrl}/pdf/${answerPdfFileName}.pdf`);
@@ -222,6 +223,7 @@ function SectionTwo() {
   // for prompt 렌더링
   useEffect(() => {
     let promptData;
+    // 객관식과 주관식을 mix했을 때
     if (problemType.multipleChoice !== "0" && problemType.shortAnswer !== "0") {
       promptData = mixedFormatQuestion({
         language,
@@ -233,6 +235,7 @@ function SectionTwo() {
         problemCount,
       });
     } else {
+      // 객관식만 또는 주관식만 썼을 때
       promptData = formatQuestion({
         language,
         target,

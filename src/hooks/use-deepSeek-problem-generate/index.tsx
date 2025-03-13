@@ -10,13 +10,6 @@ function useDeepSeekProblemGenerateHandler(
   model: string,
   newTopic: string,
   sentPrompt: string
-  // target: string,
-  // subject: string,
-  // theme: string,
-  // level: Level,
-  // problemType: ProblemType,
-  // problemCount: number,
-  // newTopic: string
 ) {
   const handleDeepSeekGenerateProblems = async () => {
     setIsLoading(true);
@@ -36,6 +29,12 @@ function useDeepSeekProblemGenerateHandler(
           setProblemPdfFileName(problemPdfresult.filename);
           setAnswerPdfFileName(answerPdfresult.filename);
           setAIOutput(result.response);
+          alert(message);
+          return;
+        }
+        if (status === 400) {
+          setIsLoading(false);
+          setIsProblemGenerate(false);
           alert(message);
           return;
         }
