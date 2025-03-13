@@ -11,11 +11,19 @@ function useDeepSeekProblemGenerateHandler(
   sentPrompt: string
 ) {
   const handleDeepSeekGenerateProblems = async () => {
-    setIsLoading(true);
+    if (!model) {
+      alert("model를 선택해주세요");
+      return;
+    }
+    if (!sentPrompt) {
+      alert("prompt를 빈값으로 보낼수 없습니다");
+      return;
+    }
     if (model === "gpt40Mini" || model === "gpt40") {
       alert("DeepSeek MODEL만 적용이 가능합니다");
       return;
     }
+    setIsLoading(true);
 
     try {
       const response = await createDeepSeekQuestion(sentPrompt, model);

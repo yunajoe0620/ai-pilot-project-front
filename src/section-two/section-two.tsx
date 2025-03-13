@@ -248,16 +248,7 @@ function SectionTwo() {
     if (typeof promptData === "string") {
       setSentPrompt(promptData);
     }
-  }, [
-    language,
-    target,
-    subject,
-    theme,
-    level,
-    problemType,
-    problemCount,
-    sentPrompt,
-  ]);
+  }, [language, target, subject, theme, level, problemType, problemCount]);
 
   return (
     <div className="flex flex-col items-center h-full">
