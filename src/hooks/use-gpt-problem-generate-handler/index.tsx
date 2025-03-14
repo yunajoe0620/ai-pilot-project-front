@@ -19,8 +19,8 @@ function useGPTProblemGenerateHandler(
       alert("prompt를 빈값으로 보낼수 없습니다");
       return;
     }
-    if (model === "gpt40Mini" || model === "gpt40") {
-      alert("DeepSeek MODEL만 적용이 가능합니다");
+    if (model === "deepSeekV3" || model === "deepSeekR1") {
+      alert("GPT모델만 적용 가능합니다");
       return;
     }
     setIsLoading(true);
