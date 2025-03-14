@@ -76,8 +76,6 @@ function SectionTwo() {
     setTheme(e.target.value);
   };
 
-  console.log("prompt", model, sentPrompt);
-
   // 난이도 쉬움 handler
   const handleEasyLevel = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setLevel((prev) => {
@@ -180,9 +178,48 @@ function SectionTwo() {
     window.open(`${baseUrl}/pdf/${answerPdfFileName}.pdf`);
   };
 
-  // const handleMoreProblem = (e: ChangeEvent<HTMLInputElement>) => {
-  //   setNewTopic(e.target.value);
-  // };
+  const handleRegeneratePDF = async (data: string) => {
+    try {
+      const url = `${baseUrl}/problem/generate/pdf`;
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ data }),
+      });
+      console.log("response", response);
+      const jsonData = await response.json();
+      console.log("jsonDat", jsonData);
+      const { status, message, problemPdfresult, answerPdfresult } = jsonData;
+      if (status === 200) {
+        setIsLoading(false);
+        setIsProblemGenerate(true);
+        setProblemPdfFileName(problemPdfresult.filename);
+        setAnswerPdfFileName(answerPdfresult.filename);
+        alert(message);
+        return;
+      }
+      if (status === 400) {
+        setIsLoading(false);
+        setIsProblemGenerate(false);
+        alert(message);
+        return;
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        return {
+          status: "error",
+          error: error.message,
+        };
+      }
+      return {
+        status: "error",
+        error: "알수 없는 에러가 발생하였습니다.",
+      };
+    }
+  };
 
   useEffect(() => {
     // 객관식이 움직였을때 주관식 유형을 자동으로 계산한다
@@ -212,6 +249,12 @@ function SectionTwo() {
     setSentPrompt(e.target.value);
   };
 
+  // handleOutput
+
+  const handleAIOutput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setAIOutput(e.target.value);
+  };
+  console.log("AIOutput", AIOutput);
   // 총갯수 합
   useEffect(() => {
     const result = handleLevelSum(level);
@@ -419,8 +462,8 @@ function SectionTwo() {
           <div className="flex flex-col mt-10 w-full">
             <p className="text-2xl">AI output</p>
             <textarea
-              readOnly
               value={AIOutput}
+              onChange={handleAIOutput}
               className="resize-none  w-full h-48 p-2 border border-gray-300 rounded-md bg-white"
             />
           </div>
@@ -437,13 +480,16 @@ function SectionTwo() {
             </button>
           </div>
         )}
-        {/* 문제 생성 후 추가로 문제 받기 */}
-        {/* {isProblemGenerate && (
-          <div>
-            <label>추가 토픽 적기</label>
-            <input value={newTopic} onChange={handleMoreProblem} />
-          </div>
-        )} */}
+
+        {/*  */}
+        {AIOutput.length > 0 && (
+          <button
+            onClick={() => handleRegeneratePDF(AIOutput)}
+            className="border-2 cursor-pointer bg-blue-400 cursor text-sky-100 font-bold  p-4"
+          >
+            AI OUTPUT을 수정하여 문제 다시 재생성하기
+          </button>
+        )}
       </div>
     </div>
   );
