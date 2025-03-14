@@ -4,9 +4,9 @@ import { createQuestion } from "../../actions/get-problems";
 function useGPTProblemGenerateHandler(
   setIsLoading: React.Dispatch<SetStateAction<boolean>>,
   setIsProblemGenerate: React.Dispatch<SetStateAction<boolean>>,
-  setProblemPdfFileName: React.Dispatch<SetStateAction<string>>,
-  setAnswerPdfFileName: React.Dispatch<SetStateAction<string>>,
-  setAIOutput: React.Dispatch<SetStateAction<string>>,
+
+  setAIProblemOutput: React.Dispatch<SetStateAction<string>>,
+  setAIAnswerOutput: React.Dispatch<SetStateAction<string>>,
   model: string,
   sentPrompt: string
 ) {
@@ -27,16 +27,19 @@ function useGPTProblemGenerateHandler(
 
     try {
       const response = await createQuestion(sentPrompt, model);
-      const { status, message, problemPdfresult, answerPdfresult, result } =
-        response;
-
+      const { problemDocs, answerDocs, status, message } = response;
       if (status === 200) {
         setIsLoading(false);
         setIsProblemGenerate(true);
-        setProblemPdfFileName(problemPdfresult.filename);
-        setAnswerPdfFileName(answerPdfresult.filename);
-        setAIOutput(result.response);
+        setAIProblemOutput(problemDocs);
+        setAIAnswerOutput(answerDocs);
         alert(message);
+        return;
+      }
+
+      if (status === 400) {
+        alert(message);
+        return;
       }
     } catch (error) {
       throw error;

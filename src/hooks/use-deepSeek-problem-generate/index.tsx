@@ -4,9 +4,8 @@ import { createDeepSeekQuestion } from "../../actions/get-problems";
 function useDeepSeekProblemGenerateHandler(
   setIsLoading: React.Dispatch<SetStateAction<boolean>>,
   setIsProblemGenerate: React.Dispatch<SetStateAction<boolean>>,
-  setProblemPdfFileName: React.Dispatch<SetStateAction<string>>,
-  setAnswerPdfFileName: React.Dispatch<SetStateAction<string>>,
-  setAIOutput: React.Dispatch<SetStateAction<string>>,
+  setAIProblemOutput: React.Dispatch<SetStateAction<string>>,
+  setAIAnswerOutput: React.Dispatch<SetStateAction<string>>,
   model: string,
   sentPrompt: string
 ) {
@@ -27,23 +26,23 @@ function useDeepSeekProblemGenerateHandler(
 
     try {
       const response = await createDeepSeekQuestion(sentPrompt, model);
-      const { status, message, problemPdfresult, answerPdfresult, result } =
-        response;
-      if (status === 200) {
-        setIsLoading(false);
-        setIsProblemGenerate(true);
-        setProblemPdfFileName(problemPdfresult.filename);
-        setAnswerPdfFileName(answerPdfresult.filename);
-        setAIOutput(result.response);
-        alert(message);
-        return;
-      }
-      if (status === 400) {
-        setIsLoading(false);
-        setIsProblemGenerate(false);
-        alert(message);
-        return;
-      }
+      // const { status, message, problemPdfresult, answerPdfresult, result } =
+      //   response;
+      // if (status === 200) {
+      //   setIsLoading(false);
+      //   setIsProblemGenerate(true);
+      //   setProblemPdfFileName(problemPdfresult.filename);
+      //   setAnswerPdfFileName(answerPdfresult.filename);
+      //   setAIOutput(result.response);
+      //   alert(message);
+      //   return;
+      // }
+      // if (status === 400) {
+      //   setIsLoading(false);
+      //   setIsProblemGenerate(false);
+      //   alert(message);
+      //   return;
+      // }
     } catch (error) {
       throw error;
     }

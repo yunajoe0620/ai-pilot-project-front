@@ -53,7 +53,9 @@ function SectionTwo() {
   const [sentPrompt, setSentPrompt] = useState("");
 
   //  AI Output
-  const [AIOutput, setAIOutput] = useState("");
+  const [AIProblemOutput, setAIProblemOutput] = useState("");
+
+  const [AIAnswerOutput, setAIAnswerOutput] = useState("");
 
   // AI모델 handler
   const handleAIModel = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -155,9 +157,8 @@ function SectionTwo() {
   const { handleChatGPTGenerateProblems } = useGPTProblemGenerateHandler(
     setIsLoading,
     setIsProblemGenerate,
-    setProblemPdfFileName,
-    setAnswerPdfFileName,
-    setAIOutput,
+    setAIProblemOutput,
+    setAIAnswerOutput,
     model,
     sentPrompt
   );
@@ -166,17 +167,41 @@ function SectionTwo() {
   const { handleDeepSeekGenerateProblems } = useDeepSeekProblemGenerateHandler(
     setIsLoading,
     setIsProblemGenerate,
-    setProblemPdfFileName,
-    setAnswerPdfFileName,
-    setAIOutput,
+    setAIProblemOutput,
+    setAIAnswerOutput,
     model,
     sentPrompt
   );
 
-  const handlePDFDownload = () => {
-    window.open(`${baseUrl}/pdf/${problemPdfFileName}.pdf`);
-    window.open(`${baseUrl}/pdf/${answerPdfFileName}.pdf`);
+  // pdf로 만들기
+  const handleCreatePdf = async (problem: string, answer: string) => {
+    try {
+      const url = `${baseUrl}/pdf/generate`;
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ problem, answer }),
+      });
+      const jsonData = await response.json();
+      const { status, message, problemPdfresult, answerPdfresult } = jsonData;
+      if (status === 200) {
+        alert(message);
+        window.open(`${baseUrl}/pdf/${problemPdfresult.filename}.pdf`);
+        window.open(`${baseUrl}/pdf/${answerPdfresult.filename}.pdf`);
+      }
+      return;
+    } catch (error) {
+      throw error;
+    }
   };
+
+  // const handlePDFDownload = () => {
+  //   window.open(`${baseUrl}/pdf/${problemPdfFileName}.pdf`);
+  //   window.open(`${baseUrl}/pdf/${answerPdfFileName}.pdf`);
+  // };
 
   const handleRegeneratePDF = async (data: string) => {
     try {
@@ -249,12 +274,16 @@ function SectionTwo() {
     setSentPrompt(e.target.value);
   };
 
-  // handleOutput
-
-  const handleAIOutput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setAIOutput(e.target.value);
+  // 문제 생성
+  const handleAIProlbemOutput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setAIProblemOutput(e.target.value);
   };
-  console.log("AIOutput", AIOutput);
+
+  // 답 생성
+  const handleAIAnswerOutput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setAIAnswerOutput(e.target.value);
+  };
+
   // 총갯수 합
   useEffect(() => {
     const result = handleLevelSum(level);
@@ -457,19 +486,43 @@ function SectionTwo() {
         </button>
         {isLoading && <p>문제를 생성하고 있습니다</p>}
 
-        {/* AI 아웃풋 */}
+        {/* AI Problem 아웃풋 */}
         {!isLoading && isProblemGenerate && (
           <div className="flex flex-col mt-10 w-full">
-            <p className="text-2xl">AI output</p>
+            <p className="text-2xl">AI Problem output</p>
             <textarea
-              value={AIOutput}
-              onChange={handleAIOutput}
+              value={AIProblemOutput}
+              onChange={handleAIProlbemOutput}
               className="resize-none  w-full h-48 p-2 border border-gray-300 rounded-md bg-white"
             />
           </div>
         )}
 
+        {/* AI Answe4r 아웃풋 */}
         {!isLoading && isProblemGenerate && (
+          <div className="flex flex-col mt-10 w-full">
+            <p className="text-2xl">AI Answer output</p>
+            <textarea
+              value={AIAnswerOutput}
+              onChange={handleAIAnswerOutput}
+              className="resize-none  w-full h-48 p-2 border border-gray-300 rounded-md bg-white"
+            />
+          </div>
+        )}
+
+        {/* pdf로 생성하기기 */}
+        {isProblemGenerate &&
+          AIProblemOutput.length > 0 &&
+          AIAnswerOutput.length > 0 && (
+            <button
+              className="border-2 cursor-pointer bg-blue-400 cursor text-sky-100 font-bold  p-4"
+              onClick={() => handleCreatePdf(AIProblemOutput, AIAnswerOutput)}
+            >
+              문제와 답을 pdf 문제로 만들기기
+            </button>
+          )}
+
+        {/* {!isLoading && isProblemGenerate && (
           <div className="flex flex-col mt-10">
             <p className="text-2xl">문제가 생성되었습니다</p>
             <button
@@ -479,17 +532,16 @@ function SectionTwo() {
               pdf로 문제와 해설 다운로드 받기
             </button>
           </div>
-        )}
+        )} */}
 
-        {/*  */}
-        {AIOutput.length > 0 && (
+        {/* {AIOutput.length > 0 && (
           <button
             onClick={() => handleRegeneratePDF(AIOutput)}
             className="border-2 cursor-pointer bg-blue-400 cursor text-sky-100 font-bold  p-4"
           >
             AI OUTPUT을 수정하여 문제 다시 재생성하기
           </button>
-        )}
+        )} */}
       </div>
     </div>
   );
