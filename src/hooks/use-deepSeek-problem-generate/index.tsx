@@ -26,23 +26,19 @@ function useDeepSeekProblemGenerateHandler(
 
     try {
       const response = await createDeepSeekQuestion(sentPrompt, model);
-      // const { status, message, problemPdfresult, answerPdfresult, result } =
-      //   response;
-      // if (status === 200) {
-      //   setIsLoading(false);
-      //   setIsProblemGenerate(true);
-      //   setProblemPdfFileName(problemPdfresult.filename);
-      //   setAnswerPdfFileName(answerPdfresult.filename);
-      //   setAIOutput(result.response);
-      //   alert(message);
-      //   return;
-      // }
-      // if (status === 400) {
-      //   setIsLoading(false);
-      //   setIsProblemGenerate(false);
-      //   alert(message);
-      //   return;
-      // }
+      const { problemDocs, answerDocs, status, message } = response;
+      if (status === 200) {
+        setIsLoading(false);
+        setIsProblemGenerate(true);
+        setAIProblemOutput(problemDocs);
+        setAIAnswerOutput(answerDocs);
+        alert(message);
+        return;
+      }
+      if (status === 400) {
+        alert(message);
+        return;
+      }
     } catch (error) {
       throw error;
     }

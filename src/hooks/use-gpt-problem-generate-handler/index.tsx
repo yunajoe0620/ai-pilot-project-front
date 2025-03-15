@@ -4,7 +4,6 @@ import { createQuestion } from "../../actions/get-problems";
 function useGPTProblemGenerateHandler(
   setIsLoading: React.Dispatch<SetStateAction<boolean>>,
   setIsProblemGenerate: React.Dispatch<SetStateAction<boolean>>,
-
   setAIProblemOutput: React.Dispatch<SetStateAction<string>>,
   setAIAnswerOutput: React.Dispatch<SetStateAction<string>>,
   model: string,

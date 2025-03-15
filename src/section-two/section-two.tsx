@@ -198,11 +198,6 @@ function SectionTwo() {
     }
   };
 
-  // const handlePDFDownload = () => {
-  //   window.open(`${baseUrl}/pdf/${problemPdfFileName}.pdf`);
-  //   window.open(`${baseUrl}/pdf/${answerPdfFileName}.pdf`);
-  // };
-
   const handleRegeneratePDF = async (data: string) => {
     try {
       const url = `${baseUrl}/problem/generate/pdf`;
