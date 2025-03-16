@@ -40,6 +40,7 @@ export const KoreanSimplePrompt = (data: Item) => {
   ${data.level.easy}개의 쉬운 문제, ${
     data.level.medium
   }개의 중간 난이도 문제, ${data.level.difficult}개의 어려운 문제를 보내세요. 
+  수학 수식이 있을때 수식 앞뒤로 $표시를 넣어줘
   주관식 문제의 형식은 다음과 같습니다.
   쉬움: \\\\\\\\  
   1. Question  \\\\\\\\
@@ -57,30 +58,7 @@ export const KoreanSimplePrompt = (data: Item) => {
   1. Question \\\\\\\\
   2. Question \\\\\\\\
   3. Question \\\\\\\\    
-  .......... \\\\\\\\
-
-  
- 답이 나오기 전에 *****answer*****를 한 번만 삽입해주세요.
- 답과 함께 설명을 제공해주세요.
- 정답은 다음 형식으로 보내주세요.
-
-  쉬움: \\\\\\\\ 
-  1. answer - Explanation \\\\\\\\
-  2. answer - Explanation \\\\\\\\
-  3. answer - Explanation \\\\\\\\
-    .......... \\\\\\\\
-
-  중간: \\\\\\\\  
-  1. answer - Explanation \\\\\\\\
-  2. answer - Explanation \\\\\\\\
-  3. answer - Explanation \\\\\\\\
-    .......... \\\\\\\\
-
-  어려움: \\\\\\\\  
-  1. answer - Explanation \\\\\\\\
-  2. answer - Explanation \\\\\\\\
-  3. answer - Explanation \\\\\\\\
-    .......... \\\\\\\\   
+  .......... \\\\\\\\     
 
   객관식 문제의 형식은 다음과 같습니다.  
   쉬움: \\\\\\\\  
@@ -110,10 +88,10 @@ export const KoreanSimplePrompt = (data: Item) => {
   3. Question \\\\\\\\ 
   c) option \\\\\\\\    
   .......... \\\\\\\\   
-    
-  답이 나오기 전에 *****answer*****를 한 번만 삽입해주세요.
-  답과 함께 설명을 제공해주세요.
-  정답은 다음 형식으로 보내주세요.
+
+   답이 나오기 전에 *****answer*****를 한 번만 삽입해주세요.
+ 답과 함께 설명을 제공해주세요.
+ 정답은 다음 형식으로 보내주세요.
 
   쉬움: \\\\\\\\ 
   1. answer - Explanation \\\\\\\\
@@ -146,6 +124,7 @@ export const EnglishSimplePrompt = (data: Item) => {
       : data.problemType.shortAnswer;
   const prompt = `Create ${problemTypeNumbers} ${problemType} questions on the topic of ${data.theme} in ${data.subject} at the ${data.target} school level,
   and send ${data.level.easy} easy, send ${data.level.medium} medium, and  ${data.level.difficult} difficult questions.
+  When there is a mathematical expression, put dollar signs ($) around the expression.
   The format for short-answer questions is as follows
   Easy: \\\\\\\\  
   1. Question  \\\\\\\\
@@ -255,7 +234,9 @@ export const KoreanMixedPrompt = (data: Item) => {
     data.level.medium
   }개의 중간 난이도 문제, ${data.level.difficult}개의 어려운 문제를 보내세요.
   쉬운, 중간, 어려운 문제들 사이에 객관식과 주관식 질문을 고르게 섞어주세요.
+  수학 수식이 있을때 수식 앞뒤로 $표시를 넣어줘
 
+  주관식 문제의 형식은 다음과 같습니다.
   쉬움: \\\\\\\\  
   1. Question  \\\\\\\\
   2. Question  \\\\\\\\
@@ -273,6 +254,36 @@ export const KoreanMixedPrompt = (data: Item) => {
   2. Question \\\\\\\\
   3. Question \\\\\\\\    
   .......... \\\\\\\\
+
+    객관식 문제의 형식은 다음과 같습니다.  
+  쉬움: \\\\\\\\  
+  1. Question  \\\\\\\\
+   a) option \\\\\\\\
+  2. Question  \\\\\\\\
+   b) option \\\\\\\\
+  3. Question  \\\\\\\\
+   c) option \\\\\\\\
+
+   .......... \\\\\\\\
+
+  중간: \\\\\\\\
+  1. Question \\\\\\\\
+   a) option \\\\\\\\
+  2. Question  \\\\\\\\
+   b) option \\\\\\\\
+  3. Question  \\\\\\\\
+   c) option \\\\\\\\    
+  .......... \\\\\\\\   
+
+  어려움: \\\\\\\\
+  1. Question \\\\\\\\
+   a) option \\\\\\\\
+  2. Question \\\\\\\\
+   b) option \\\\\\\\
+  3. Question \\\\\\\\ 
+  c) option \\\\\\\\    
+  .......... \\\\\\\\   
+    
 
   답이 나오기 전에 *****answer*****를 한 번만 삽입해주세요.
   답과 함께 설명을 제공해주세요.
@@ -305,7 +316,7 @@ export const EnglishMixedPrompt = (data: Item) => {
   const prompt = `Create ${data.problemType.multipleChoice} multiple-choice questions and ${data.problemType.shortAnswer} short-answer questions.
   on the topic of ${data.theme} in ${data.subject} at the ${data.target} school level, and send ${data.level.easy} easy, send ${data.level.medium} medium,
   and  ${data.level.difficult} difficult questions. mix multiple-choice and short-answer questions evenly across the easy, medium, and difficult levels in korean.
-
+  When there is a mathematical expression, put dollar signs ($) around the expression.
   Easy: \\\\\\\\  
   1. Question  \\\\\\\\
   2. Question  \\\\\\\\

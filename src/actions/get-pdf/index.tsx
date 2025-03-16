@@ -1,6 +1,6 @@
 import { baseUrl } from "../../api";
 
-export const createPdf = async (data: string) => {
+export const createPdf = async (problem: string, answer: string) => {
   try {
     const url = `${baseUrl}/pdf/generate`;
     const response = await fetch(url, {
@@ -9,20 +9,11 @@ export const createPdf = async (data: string) => {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify({ data }),
+      body: JSON.stringify({ problem, answer }),
     });
-    const result = await response.text();
-    return result;
+    const jsonData = await response.json();
+    return jsonData;
   } catch (error) {
-    if (error instanceof Error) {
-      return {
-        status: "error",
-        error: error.message,
-      };
-    }
-    return {
-      status: "error",
-      error: "알수 없는 에러가 발생하였습니다.",
-    };
+    throw error;
   }
 };

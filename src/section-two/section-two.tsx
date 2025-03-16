@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { baseUrl } from "../api";
 import useDeepSeekProblemGenerateHandler from "../hooks/use-deepSeek-problem-generate";
 import useGPTProblemGenerateHandler from "../hooks/use-gpt-problem-generate-handler";
+import usePDFGenerateHandler from "../hooks/use-pdf-generate";
 import { Level, ProblemType } from "../type";
 import {
   formatQuestion,
@@ -38,10 +39,6 @@ function SectionTwo() {
   // 총 문제 갯수
   const [problemCount, setProblemCount] = useState(0);
 
-  // pdf 파일 이름
-  const [problemPdfFileName, setProblemPdfFileName] = useState("");
-  const [answerPdfFileName, setAnswerPdfFileName] = useState("");
-
   const [isLoading, setIsLoading] = useState(false);
   const [isProblemGenerate, setIsProblemGenerate] = useState(false);
 
@@ -56,6 +53,27 @@ function SectionTwo() {
   const [AIProblemOutput, setAIProblemOutput] = useState("");
 
   const [AIAnswerOutput, setAIAnswerOutput] = useState("");
+
+  const [pdfLoading, setPdfLoading] = useState(false);
+
+  // pdf 파일 이름
+  const [problemPdfFileName, setProblemPdfFileName] = useState("");
+  const [answerPdfFileName, setAnswerPdfFileName] = useState("");
+
+  // pdf status
+  const [pdfGenerateStatus, setPdfGenerateStatus] = useState(0);
+  // pdf message
+  const [pdfGenerateMessage, setPdfGenerateMessage] = useState("");
+
+  // restfunction
+  const handlePdfReset = () => {
+    setPdfLoading(false);
+    setProblemPdfFileName("");
+    setAnswerPdfFileName("");
+    setPdfGenerateStatus(0);
+    setPdfGenerateMessage("");
+    setIsProblemGenerate(false);
+  };
 
   // AI모델 handler
   const handleAIModel = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -174,72 +192,62 @@ function SectionTwo() {
   );
 
   // pdf로 만들기
-  const handleCreatePdf = async (problem: string, answer: string) => {
-    try {
-      const url = `${baseUrl}/pdf/generate`;
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({ problem, answer }),
-      });
-      const jsonData = await response.json();
-      const { status, message, problemPdfresult, answerPdfresult } = jsonData;
-      if (status === 200) {
-        alert(message);
-        window.open(`${baseUrl}/pdf/${problemPdfresult.filename}.pdf`);
-        window.open(`${baseUrl}/pdf/${answerPdfresult.filename}.pdf`);
-      }
-      return;
-    } catch (error) {
-      throw error;
-    }
+
+  const { handlePDFGenerate } = usePDFGenerateHandler(
+    setPdfLoading,
+    setProblemPdfFileName,
+    setAnswerPdfFileName,
+    setPdfGenerateStatus,
+    setPdfGenerateMessage
+  );
+
+  const handleOpenPdf = () => {
+    window.open(`${baseUrl}/pdf/${problemPdfFileName}.pdf`);
+    window.open(`${baseUrl}/pdf/${answerPdfFileName}.pdf`);
   };
 
-  const handleRegeneratePDF = async (data: string) => {
-    try {
-      const url = `${baseUrl}/problem/generate/pdf`;
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({ data }),
-      });
-      console.log("response", response);
-      const jsonData = await response.json();
-      console.log("jsonDat", jsonData);
-      const { status, message, problemPdfresult, answerPdfresult } = jsonData;
-      if (status === 200) {
-        setIsLoading(false);
-        setIsProblemGenerate(true);
-        setProblemPdfFileName(problemPdfresult.filename);
-        setAnswerPdfFileName(answerPdfresult.filename);
-        alert(message);
-        return;
-      }
-      if (status === 400) {
-        setIsLoading(false);
-        setIsProblemGenerate(false);
-        alert(message);
-        return;
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        return {
-          status: "error",
-          error: error.message,
-        };
-      }
-      return {
-        status: "error",
-        error: "알수 없는 에러가 발생하였습니다.",
-      };
-    }
-  };
+  // const handleRegeneratePDF = async (data: string) => {
+  //   try {
+  //     const url = `${baseUrl}/problem/generate/pdf`;
+  //     const response = await fetch(url, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Accept: "application/json",
+  //       },
+  //       body: JSON.stringify({ data }),
+  //     });
+  //     console.log("response", response);
+  //     const jsonData = await response.json();
+  //     console.log("jsonDat", jsonData);
+  //     const { status, message, problemPdfresult, answerPdfresult } = jsonData;
+  //     if (status === 200) {
+  //       setIsLoading(false);
+  //       setIsProblemGenerate(true);
+  //       setProblemPdfFileName(problemPdfresult.filename);
+  //       setAnswerPdfFileName(answerPdfresult.filename);
+  //       alert(message);
+  //       return;
+  //     }
+  //     if (status === 400) {
+  //       setIsLoading(false);
+  //       setIsProblemGenerate(false);
+  //       alert(message);
+  //       return;
+  //     }
+  //   } catch (error) {
+  //     if (error instanceof Error) {
+  //       return {
+  //         status: "error",
+  //         error: error.message,
+  //       };
+  //     }
+  //     return {
+  //       status: "error",
+  //       error: "알수 없는 에러가 발생하였습니다.",
+  //     };
+  //   }
+  // };
 
   useEffect(() => {
     // 객관식이 움직였을때 주관식 유형을 자동으로 계산한다
@@ -279,6 +287,13 @@ function SectionTwo() {
     setAIAnswerOutput(e.target.value);
   };
 
+  console.log(
+    "어후 힘들어",
+    problemPdfFileName,
+    answerPdfFileName,
+    pdfGenerateStatus,
+    pdfGenerateMessage
+  );
   // 총갯수 합
   useEffect(() => {
     const result = handleLevelSum(level);
@@ -469,13 +484,19 @@ function SectionTwo() {
         </div>
         <button
           className="border-2 bg-blue-800  text-sky-100 font-bold  p-4 cursor-pointer hover:bg-blue-500"
-          onClick={handleChatGPTGenerateProblems}
+          onClick={() => {
+            handleChatGPTGenerateProblems();
+            handlePdfReset();
+          }}
         >
           Chat GPT 로 문제 생성 하기
         </button>
         <button
           className="border-2 bg-blue-800  text-sky-100 font-bold  p-4 cursor-pointer hover:bg-blue-500"
-          onClick={handleDeepSeekGenerateProblems}
+          onClick={() => {
+            handleDeepSeekGenerateProblems();
+            handlePdfReset();
+          }}
         >
           Deep Seek 로 문제 생성 하기
         </button>
@@ -505,29 +526,29 @@ function SectionTwo() {
           </div>
         )}
 
-        {/* pdf로 생성하기기 */}
+        {/* pdf로 생성하기 클릭! */}
         {isProblemGenerate &&
-          AIProblemOutput.length > 0 &&
-          AIAnswerOutput.length > 0 && (
+          AIProblemOutput?.length > 0 &&
+          AIAnswerOutput?.length > 0 && (
             <button
               className="border-2 cursor-pointer bg-blue-400 cursor text-sky-100 font-bold  p-4"
-              onClick={() => handleCreatePdf(AIProblemOutput, AIAnswerOutput)}
+              onClick={() => handlePDFGenerate(AIProblemOutput, AIAnswerOutput)}
             >
-              문제와 답을 pdf 문제로 만들기기
+              문제와 답을 pdf 문제로 만들기
             </button>
           )}
-
-        {/* {!isLoading && isProblemGenerate && (
-          <div className="flex flex-col mt-10">
-            <p className="text-2xl">문제가 생성되었습니다</p>
+        {pdfLoading && <p>pdf 생성중.............</p>}
+        {!pdfLoading &&
+          pdfGenerateStatus === 200 &&
+          problemPdfFileName?.length > 0 &&
+          answerPdfFileName?.length > 0 && (
             <button
-              className="border-2 cursor-pointer bg-blue-400 cursor text-sky-100 font-bold  p-4"
-              onClick={handlePDFDownload}
+              onClick={handleOpenPdf}
+              className="border-2 bg-blue-800  text-sky-100 font-bold  p-4 cursor-pointer hover:bg-blue-500"
             >
-              pdf로 문제와 해설 다운로드 받기
+              문제와 답을 pdf로 다운로드하기
             </button>
-          </div>
-        )} */}
+          )}
 
         {/* {AIOutput.length > 0 && (
           <button
