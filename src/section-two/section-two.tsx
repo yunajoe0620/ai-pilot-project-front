@@ -206,49 +206,6 @@ function SectionTwo() {
     window.open(`${baseUrl}/pdf/${answerPdfFileName}.pdf`);
   };
 
-  // const handleRegeneratePDF = async (data: string) => {
-  //   try {
-  //     const url = `${baseUrl}/problem/generate/pdf`;
-  //     const response = await fetch(url, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Accept: "application/json",
-  //       },
-  //       body: JSON.stringify({ data }),
-  //     });
-  //     console.log("response", response);
-  //     const jsonData = await response.json();
-  //     console.log("jsonDat", jsonData);
-  //     const { status, message, problemPdfresult, answerPdfresult } = jsonData;
-  //     if (status === 200) {
-  //       setIsLoading(false);
-  //       setIsProblemGenerate(true);
-  //       setProblemPdfFileName(problemPdfresult.filename);
-  //       setAnswerPdfFileName(answerPdfresult.filename);
-  //       alert(message);
-  //       return;
-  //     }
-  //     if (status === 400) {
-  //       setIsLoading(false);
-  //       setIsProblemGenerate(false);
-  //       alert(message);
-  //       return;
-  //     }
-  //   } catch (error) {
-  //     if (error instanceof Error) {
-  //       return {
-  //         status: "error",
-  //         error: error.message,
-  //       };
-  //     }
-  //     return {
-  //       status: "error",
-  //       error: "알수 없는 에러가 발생하였습니다.",
-  //     };
-  //   }
-  // };
-
   useEffect(() => {
     // 객관식이 움직였을때 주관식 유형을 자동으로 계산한다
     if (isMultipleHandlerMoving) {

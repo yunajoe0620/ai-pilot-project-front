@@ -94,23 +94,31 @@ export const KoreanSimplePrompt = (data: Item) => {
  정답은 다음 형식으로 보내주세요.
 
   쉬움: \\\\\\\\ 
-  1. answer - Explanation \\\\\\\\
-  2. answer - Explanation \\\\\\\\
-  3. answer - Explanation \\\\\\\\
-    .......... \\\\\\\\
+  1. ...  \\\\\\\\ 
+  해설: \\\\\\\\
+  2. ...\\\\\\\\ 
+  해설:  \\\\\\\\
+  3. ... \\\\\\\\
+  해설: \\\\\\\\
+  .......... \\\\\\\\
 
   중간: \\\\\\\\  
-  1. answer - Explanation \\\\\\\\
-  2. answer - Explanation \\\\\\\\
-  3. answer - Explanation \\\\\\\\
-    .......... \\\\\\\\
+  1. ...  \\\\\\\\ 
+  해설: \\\\\\\\
+  2. ...\\\\\\\\ 
+  해설:  \\\\\\\\
+  3. ... \\\\\\\\
+  해설: \\\\\\\\
+  .......... \\\\\\\\
 
   어려움: \\\\\\\\  
-  1. answer - Explanation \\\\\\\\
-  2. answer - Explanation \\\\\\\\
-  3. answer - Explanation \\\\\\\\
-    .......... \\\\\\\\   
-
+  1. ...  \\\\\\\\ 
+  해설: \\\\\\\\
+  2. ...\\\\\\\\ 
+  해설:  \\\\\\\\
+  3. ... \\\\\\\\
+  해설: \\\\\\\\
+  .......... \\\\\\\\
   `;
   return prompt;
 };
@@ -150,22 +158,31 @@ export const EnglishSimplePrompt = (data: Item) => {
   Send the correct answers in the following format
 
   Easy: \\\\\\\\ 
-  1. answer - Explanation \\\\\\\\
-  2. answer - Explanation \\\\\\\\
-  3. answer - Explanation \\\\\\\\
+  1. answer 
+  Explanation \\\\\\\\
+  2. answer \\\\\\\\
+  Explanation \\\\\\\\
+  3. answer \\\\\\\\
+  Explanation \\\\\\\\
     .......... \\\\\\\\
 
   Medium: \\\\\\\\  
-  1. answer - Explanation \\\\\\\\
-  2. answer - Explanation \\\\\\\\
-  3. answer - Explanation \\\\\\\\
+  1. answer 
+  Explanation \\\\\\\\
+  2. answer \\\\\\\\
+  Explanation \\\\\\\\
+  3. answer \\\\\\\\
+  Explanation \\\\\\\\
     .......... \\\\\\\\
 
   Difficult: \\\\\\\\  
-  1. answer - Explanation \\\\\\\\
-  2. answer - Explanation \\\\\\\\
-  3. answer - Explanation \\\\\\\\
-    .......... \\\\\\\\   
+  1. answer 
+  Explanation \\\\\\\\
+  2. answer \\\\\\\\
+  Explanation \\\\\\\\
+  3. answer \\\\\\\\
+  Explanation \\\\\\\\
+    .......... \\\\\\\\
 
   The format for multiple-choice questions is as follows
     Easy: \\\\\\\\  
@@ -201,22 +218,31 @@ export const EnglishSimplePrompt = (data: Item) => {
   Send the correct answers in the following format
 
   Easy: \\\\\\\\ 
-  1. answer - Explanation \\\\\\\\
-  2. answer - Explanation \\\\\\\\
-  3. answer - Explanation \\\\\\\\
+  1. answer 
+  Explanation \\\\\\\\
+  2. answer \\\\\\\\
+  Explanation \\\\\\\\
+  3. answer \\\\\\\\
+  Explanation \\\\\\\\
     .......... \\\\\\\\
 
   Medium: \\\\\\\\  
-  1. answer - Explanation \\\\\\\\
-  2. answer - Explanation \\\\\\\\
-  3. answer - Explanation \\\\\\\\
+  1. answer 
+  Explanation \\\\\\\\
+  2. answer \\\\\\\\
+  Explanation \\\\\\\\
+  3. answer \\\\\\\\
+  Explanation \\\\\\\\
     .......... \\\\\\\\
 
   Difficult: \\\\\\\\  
-  1. answer - Explanation \\\\\\\\
-  2. answer - Explanation \\\\\\\\
-  3. answer - Explanation \\\\\\\\
-    .......... \\\\\\\\   
+  1. answer 
+  Explanation \\\\\\\\
+  2. answer \\\\\\\\
+  Explanation \\\\\\\\
+  3. answer \\\\\\\\
+  Explanation \\\\\\\\
+    .......... \\\\\\\\ 
 
   `;
   return prompt;
@@ -290,22 +316,31 @@ export const KoreanMixedPrompt = (data: Item) => {
   정답은 다음 형식으로 보내주세요.
 
   쉬움: \\\\\\\\ 
-  1. answer - Explanation \\\\\\\\
-  2. answer - Explanation \\\\\\\\
-  3. answer - Explanation \\\\\\\\
-    .......... \\\\\\\\
+  1. ...  \\\\\\\\ 
+  해설: \\\\\\\\
+  2. ...\\\\\\\\ 
+  해설:  \\\\\\\\
+  3. ... \\\\\\\\
+  해설: \\\\\\\\
+  .......... \\\\\\\\
 
   중간: \\\\\\\\  
-  1. answer - Explanation \\\\\\\\
-  2. answer - Explanation \\\\\\\\
-  3. answer - Explanation \\\\\\\\
-    .......... \\\\\\\\
+  1. ...  \\\\\\\\ 
+  해설: \\\\\\\\
+  2. ...\\\\\\\\ 
+  해설:  \\\\\\\\
+  3. ... \\\\\\\\
+  해설: \\\\\\\\
+  .......... \\\\\\\\
 
   어려움: \\\\\\\\  
-  1. answer - Explanation \\\\\\\\
-  2. answer - Explanation \\\\\\\\
-  3. answer - Explanation \\\\\\\\
-    .......... \\\\\\\\
+  1. ...  \\\\\\\\ 
+  해설: \\\\\\\\
+  2. ...\\\\\\\\ 
+  해설:  \\\\\\\\
+  3. ... \\\\\\\\
+  해설: \\\\\\\\
+  .......... \\\\\\\\  
 
   `;
 
