@@ -49,6 +49,9 @@ function SectionTwo() {
   //  생성된 Prompt
   const [sentPrompt, setSentPrompt] = useState("");
 
+  //  완전 생 AI OUPUT
+  const [result, setResult] = useState("");
+
   //  AI Output
   const [AIProblemOutput, setAIProblemOutput] = useState("");
 
@@ -177,6 +180,7 @@ function SectionTwo() {
     setIsProblemGenerate,
     setAIProblemOutput,
     setAIAnswerOutput,
+    setResult,
     model,
     sentPrompt
   );
@@ -187,6 +191,7 @@ function SectionTwo() {
     setIsProblemGenerate,
     setAIProblemOutput,
     setAIAnswerOutput,
+    setResult,
     model,
     sentPrompt
   );
@@ -234,23 +239,22 @@ function SectionTwo() {
     setSentPrompt(e.target.value);
   };
 
+  const handleAIRAWOutput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setSentPrompt(e.target.value);
+  };
+
   // 문제 생성
   const handleAIProlbemOutput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setAIProblemOutput(e.target.value);
   };
 
-  // 답 생성
+  // // 답 생성
   const handleAIAnswerOutput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setAIAnswerOutput(e.target.value);
   };
 
-  console.log(
-    "어후 힘들어",
-    problemPdfFileName,
-    answerPdfFileName,
-    pdfGenerateStatus,
-    pdfGenerateMessage
-  );
+  console.log("result", result);
+
   // 총갯수 합
   useEffect(() => {
     const result = handleLevelSum(level);
@@ -460,6 +464,17 @@ function SectionTwo() {
         </button>
         {isLoading && <p>문제를 생성하고 있습니다</p>}
 
+        {/* 완전 생 output */}
+        {!isLoading && isProblemGenerate && (
+          <div className="flex flex-col mt-10 w-full">
+            <p className="text-2xl">AI RAW Problem output</p>
+            <textarea
+              value={result}
+              onChange={handleAIRAWOutput}
+              className="resize-none  w-full h-48 p-2 border border-gray-300 rounded-md bg-white"
+            />
+          </div>
+        )}
         {/* AI Problem 아웃풋 */}
         {!isLoading && isProblemGenerate && (
           <div className="flex flex-col mt-10 w-full">

@@ -6,6 +6,7 @@ function useDeepSeekProblemGenerateHandler(
   setIsProblemGenerate: React.Dispatch<SetStateAction<boolean>>,
   setAIProblemOutput: React.Dispatch<SetStateAction<string>>,
   setAIAnswerOutput: React.Dispatch<SetStateAction<string>>,
+  setResult: React.Dispatch<SetStateAction<string>>,
   model: string,
   sentPrompt: string
 ) {
@@ -26,12 +27,13 @@ function useDeepSeekProblemGenerateHandler(
 
     try {
       const response = await createDeepSeekQuestion(sentPrompt, model);
-      const { problemDocs, answerDocs, status, message } = response;
+      const { result, problemDocs, answerDocs, status, message } = response;
       if (status === 200) {
         setIsLoading(false);
         setIsProblemGenerate(true);
         setAIProblemOutput(problemDocs);
         setAIAnswerOutput(answerDocs);
+        setResult(result.response);
         alert(message);
         return;
       }
