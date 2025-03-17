@@ -3,6 +3,7 @@ import { Item } from "../../schemas/problem";
 export const AIModelMap: Record<string, string> = {
   gpt40Mini: "gpt-4o-mini",
   gpt40: "gpt-4o",
+  gpto3Mini: "gpt-4",
   deepSeekV3: "deepseek-chat",
   deepSeekR1: "deepseek-reasoner",
 };

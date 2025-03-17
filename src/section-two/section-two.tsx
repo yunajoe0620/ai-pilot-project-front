@@ -304,6 +304,7 @@ function SectionTwo() {
               <option value="text-menu">대상선택하기</option>
               <option value="gpt40Mini">gpt-4o-mini</option>
               <option value="gpt40">gpt-4o</option>
+              <option value="gpto3Mini">gpt-o3-mini</option>
               <option value="deepSeekV3">deep-seek-v3</option>
               <option value="deepSeekR1">deep-seek-r1</option>
             </select>
