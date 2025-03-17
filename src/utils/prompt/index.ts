@@ -42,6 +42,7 @@ export const KoreanSimplePrompt = (data: Item) => {
     data.level.medium
   }개의 중간 난이도 문제, ${data.level.difficult}개의 어려운 문제를 보내세요. 
   수학 수식이 있을때 수식 앞뒤로 $표시를 넣어줘
+  _ 기호에는 \ 표시를 넣어줘
   주관식 문제의 형식은 다음과 같습니다.
   쉬움: \\\\\\\\  
   1. Question  \\\\\\\\
