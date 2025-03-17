@@ -48,8 +48,7 @@ export const KoreanSimplePrompt = (data: Item) => {
   2. Question  \\\\\\\\
   3. Question  \\\\\\\\
    .......... \\\\\\\\
-  ${data.level.easy}. Question
-
+  ${data.level.easy}. Question  
 
 
   중간: \\\\\\\\
@@ -125,6 +124,8 @@ export const KoreanSimplePrompt = (data: Item) => {
   3. ... \\\\\\\\
   해설: \\\\\\\\
   .......... \\\\\\\\
+  ${data.level.easy}  \\\\\\\\
+  해설: ...
 
   중간: \\\\\\\\  
   1. ...  \\\\\\\\ 
@@ -134,6 +135,8 @@ export const KoreanSimplePrompt = (data: Item) => {
   3. ... \\\\\\\\
   해설: \\\\\\\\
   .......... \\\\\\\\
+  ${data.level.medium} 
+  해설:...
 
   어려움: \\\\\\\\  
   1. ...  \\\\\\\\ 
@@ -142,7 +145,8 @@ export const KoreanSimplePrompt = (data: Item) => {
   해설:  \\\\\\\\
   3. ... \\\\\\\\
   해설: \\\\\\\\
-  .......... \\\\\\\\
+  .......... \\\\\\\\  
+  ${data.level.difficult} 
   `;
   return prompt;
 };
@@ -192,6 +196,8 @@ export const EnglishSimplePrompt = (data: Item) => {
   3. answer \\\\\\\\
   Explanation \\\\\\\\
     .......... \\\\\\\\
+   ${data.level.easy}. answer \\\\\\\\
+   .......... \\\\\\\\
 
   Medium: \\\\\\\\  
   1. answer 
@@ -201,6 +207,8 @@ export const EnglishSimplePrompt = (data: Item) => {
   3. answer \\\\\\\\
   Explanation \\\\\\\\
     .......... \\\\\\\\
+  ${data.level.medium}. answer \\\\\\\\
+  .......... \\\\\\\\
 
   Difficult: \\\\\\\\  
   1. answer 
@@ -210,35 +218,67 @@ export const EnglishSimplePrompt = (data: Item) => {
   3. answer \\\\\\\\
   Explanation \\\\\\\\
     .......... \\\\\\\\
+  ${data.level.difficult}. answer \\\\\\\\
+  .......... \\\\\\\\
 
   The format for multiple-choice questions is as follows
     Easy: \\\\\\\\  
   1. Question  \\\\\\\\
    a) option \\\\\\\\
-  2. Question  \\\\\\\\
    b) option \\\\\\\\
+   c) option \\\\\\\\ 
+  2. Question  \\\\\\\\
+   a) option \\\\\\\\
+   b) option \\\\\\\\
+   c) option \\\\\\\\ 
   3. Question  \\\\\\\\
-   c) option \\\\\\\\
-
+   a) option \\\\\\\\
+   b) option \\\\\\\\
+   c) option \\\\\\\\   
    .......... \\\\\\\\
+  ${data.level.easy}. Question
+   a) option \\\\\\\\
+   b) option \\\\\\\\
+   c) option \\\\\\\\  
+
 
   Medium: \\\\\\\\
   1. Question \\\\\\\\
-   a) option \\\\\\\\
+    a) option \\\\\\\\
+    b) option \\\\\\\\
+    c) option \\\\\\\\  
   2. Question  \\\\\\\\
-   b) option \\\\\\\\
+    a) option \\\\\\\\
+    b) option \\\\\\\\
+    c) option \\\\\\\\  
   3. Question  \\\\\\\\
-   c) option \\\\\\\\    
+    a) option \\\\\\\\
+   b) option \\\\\\\\
+   c) option \\\\\\\\     
   .......... \\\\\\\\   
+ ${data.level.medium}. Question  
+   a) option \\\\\\\\
+   b) option \\\\\\\\
+   c) option \\\\\\\\  
 
   Difficult: \\\\\\\\
   1. Question \\\\\\\\
    a) option \\\\\\\\
-  2. Question \\\\\\\\
    b) option \\\\\\\\
+   c) option \\\\\\\\  
+  2. Question \\\\\\\\
+   a) option \\\\\\\\
+   b) option \\\\\\\\
+   c) option \\\\\\\\  
   3. Question \\\\\\\\ 
-  c) option \\\\\\\\    
-  .......... \\\\\\\\   
+    a) option \\\\\\\\
+   b) option \\\\\\\\
+   c) option \\\\\\\\     
+  .......... \\\\\\\\  
+ ${data.level.difficult}. Question  
+   a) option \\\\\\\\
+   b) option \\\\\\\\
+   c) option \\\\\\\\     
     
   Before the answers comes out, please insert *****answer***** just once."
   Please provide the answer along with the explanation.  
@@ -252,6 +292,7 @@ export const EnglishSimplePrompt = (data: Item) => {
   3. answer \\\\\\\\
   Explanation \\\\\\\\
     .......... \\\\\\\\
+  ${data.level.easy}. Question  
 
   Medium: \\\\\\\\  
   1. answer 
@@ -261,7 +302,7 @@ export const EnglishSimplePrompt = (data: Item) => {
   3. answer \\\\\\\\
   Explanation \\\\\\\\
     .......... \\\\\\\\
-
+  ${data.level.medium}. Question  
   Difficult: \\\\\\\\  
   1. answer 
   Explanation \\\\\\\\
@@ -270,7 +311,7 @@ export const EnglishSimplePrompt = (data: Item) => {
   3. answer \\\\\\\\
   Explanation \\\\\\\\
     .......... \\\\\\\\ 
-
+  ${data.level.difficult}. Question  
   `;
   return prompt;
 };
@@ -295,29 +336,40 @@ export const KoreanMixedPrompt = (data: Item) => {
   2. Question  \\\\\\\\
   3. Question  \\\\\\\\
    .......... \\\\\\\\
-
+  ${data.level.easy}. Question  
   중간: \\\\\\\\
   1. Question \\\\\\\\
   2. Question  \\\\\\\\
   3. Question  \\\\\\\\    
   .......... \\\\\\\\   
+  ${data.level.medium}. Question  
 
   어려움: \\\\\\\\
   1. Question \\\\\\\\
   2. Question \\\\\\\\
   3. Question \\\\\\\\    
   .......... \\\\\\\\
+  ${data.level.difficult}. Question  
 
-    객관식 문제의 형식은 다음과 같습니다.  
+ 객관식 문제의 형식은 다음과 같습니다.  
   쉬움: \\\\\\\\  
   1. Question  \\\\\\\\
    a) option \\\\\\\\
-  2. Question  \\\\\\\\
    b) option \\\\\\\\
+   c) option \\\\\\\\  
+  2. Question  \\\\\\\\
+   a) option \\\\\\\\
+   b) option \\\\\\\\
+   c) option \\\\\\\\  
   3. Question  \\\\\\\\
-   c) option \\\\\\\\
-
+   a) option \\\\\\\\
+   b) option \\\\\\\\
+   c) option \\\\\\\\    
    .......... \\\\\\\\
+  ${data.level.easy}. Question
+   a) option \\\\\\\\
+   b) option \\\\\\\\
+   c) option \\\\\\\\  
 
   중간: \\\\\\\\
   1. Question \\\\\\\\
@@ -327,6 +379,10 @@ export const KoreanMixedPrompt = (data: Item) => {
   3. Question  \\\\\\\\
    c) option \\\\\\\\    
   .......... \\\\\\\\   
+  ${data.level.medium}. Question  
+    a) option \\\\\\\\
+   b) option \\\\\\\\
+   c) option \\\\\\\\  
 
   어려움: \\\\\\\\
   1. Question \\\\\\\\
@@ -336,6 +392,10 @@ export const KoreanMixedPrompt = (data: Item) => {
   3. Question \\\\\\\\ 
   c) option \\\\\\\\    
   .......... \\\\\\\\   
+ ${data.level.difficult}. Question  
+    a) option \\\\\\\\
+   b) option \\\\\\\\
+   c) option \\\\\\\\  
     
 
   답이 나오기 전에 *****answer*****를 한 번만 삽입해주세요.
@@ -350,7 +410,8 @@ export const KoreanMixedPrompt = (data: Item) => {
   3. ... \\\\\\\\
   해설: \\\\\\\\
   .......... \\\\\\\\
-
+  ${data.level.easy}  \\\\\\\\
+  해설: ...
   중간: \\\\\\\\  
   1. ...  \\\\\\\\ 
   해설: \\\\\\\\
@@ -358,8 +419,8 @@ export const KoreanMixedPrompt = (data: Item) => {
   해설:  \\\\\\\\
   3. ... \\\\\\\\
   해설: \\\\\\\\
-  .......... \\\\\\\\
-
+  .......... \\\\\\\\  
+  ${data.level.medium} 
   어려움: \\\\\\\\  
   1. ...  \\\\\\\\ 
   해설: \\\\\\\\
@@ -367,7 +428,8 @@ export const KoreanMixedPrompt = (data: Item) => {
   해설:  \\\\\\\\
   3. ... \\\\\\\\
   해설: \\\\\\\\
-  .......... \\\\\\\\  
+  .......... \\\\\\\\ 
+  ${data.level.difficult} 
 
   `;
 
@@ -384,18 +446,20 @@ export const EnglishMixedPrompt = (data: Item) => {
   2. Question  \\\\\\\\
   3. Question  \\\\\\\\
    .......... \\\\\\\\
-
+ ${data.level.easy}. Question
   Medium: \\\\\\\\
   1. Question \\\\\\\\
   2. Question  \\\\\\\\
   3. Question  \\\\\\\\    
   .......... \\\\\\\\   
+  ${data.level.medium}. Question  
 
   Difficult: \\\\\\\\
   1. Question \\\\\\\\
   2. Question \\\\\\\\
   3. Question \\\\\\\\    
   .......... \\\\\\\\
+  ${data.level.difficult}. Question  
 
   Before the answers comes out, please insert *****answer***** just once."
   Please provide the answer along with the explanation.  
@@ -405,18 +469,23 @@ export const EnglishMixedPrompt = (data: Item) => {
   2. answer - Explanation \\\\\\\\
   3. answer - Explanation \\\\\\\\
     .......... \\\\\\\\
-
+   ${data.level.easy}. answer \\\\\\\\
+   .......... \\\\\\\\
   Medium: \\\\\\\\  
   1. answer - Explanation \\\\\\\\
   2. answer - Explanation \\\\\\\\
   3. answer - Explanation \\\\\\\\
     .......... \\\\\\\\
+  ${data.level.medium}. answer \\\\\\\\
+  .......... \\\\\\\\
 
   Difficult: \\\\\\\\  
   1. answer - Explanation \\\\\\\\
   2. answer - Explanation \\\\\\\\
   3. answer - Explanation \\\\\\\\
     .......... \\\\\\\\  
+  ${data.level.difficult}. answer \\\\\\\\
+  .......... \\\\\\\\
   `;
   return prompt;
 };
