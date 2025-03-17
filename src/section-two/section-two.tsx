@@ -42,9 +42,9 @@ function SectionTwo() {
   const [isLoading, setIsLoading] = useState(false);
   const [isProblemGenerate, setIsProblemGenerate] = useState(false);
 
-  const [isMultipleHandlerMoving, setIsMultipleHandlerMoving] = useState(false);
-  const [isShortAnswerHandlerMoving, setIsShortAnswerHandlerMoving] =
-    useState(false);
+  // const [isMultipleHandlerMoving, setIsMultipleHandlerMoving] = useState(false);
+  // const [isShortAnswerHandlerMoving, setIsShortAnswerHandlerMoving] =
+  //   useState(false);
 
   //  생성된 Prompt
   const [sentPrompt, setSentPrompt] = useState("");
@@ -140,19 +140,27 @@ function SectionTwo() {
       alert("총 문제보다 문제수가 커질 수가 없습니다");
       return;
     }
-    // 객관식 유형 true로
-    setIsMultipleHandlerMoving(true);
-    // 주관식 유형 false로
-    setIsShortAnswerHandlerMoving(false);
-    setProblemType((prev) => {
+    // // 객관식 유형 true로
+    // setIsMultipleHandlerMoving(true);
+    // // 주관식 유형 false로
+    // setIsShortAnswerHandlerMoving(false);
+    const calValue = problemCount - valueNumber;
+    setProblemType(() => {
       return {
-        ...prev,
         multipleChoice: e.target.value,
+        shortAnswer: String(calValue),
       };
     });
+    // setProblemType((prev) => {
+    //   return {
+    //     ...prev,
+    //     multipleChoice: e.target.value,
+    //   };
+    // });
   };
 
   // 주관식 유형 handler
+
   const handlerSubjectiveHandler = (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -163,13 +171,11 @@ function SectionTwo() {
       alert("총 문제보다 문제수가 커질 수가 없습니다");
       return;
     }
-    // 객관식 유형 false로
-    setIsMultipleHandlerMoving(false);
-    // 주관식 유형 true
-    setIsShortAnswerHandlerMoving(true);
-    setProblemType((prev) => {
+
+    const calValue = problemCount - valueNumber;
+    setProblemType(() => {
       return {
-        ...prev,
+        multipleChoice: String(calValue),
         shortAnswer: e.target.value,
       };
     });
@@ -211,36 +217,13 @@ function SectionTwo() {
     window.open(`${baseUrl}/pdf/${answerPdfFileName}.pdf`);
   };
 
-  useEffect(() => {
-    // 객관식이 움직였을때 주관식 유형을 자동으로 계산한다
-    if (isMultipleHandlerMoving) {
-      const calValue = problemCount - Number(problemType.multipleChoice);
-      setProblemType(() => {
-        return {
-          multipleChoice: String(problemType.multipleChoice),
-          shortAnswer: String(calValue),
-        };
-      });
-    }
-    // 주관식이 움직였을때 객관식 유형을 자동으로 계산한다.
-    if (isShortAnswerHandlerMoving) {
-      const calValue = problemCount - Number(problemType.shortAnswer);
-      setProblemType(() => {
-        return {
-          multipleChoice: String(calValue),
-          shortAnswer: String(problemType.shortAnswer),
-        };
-      });
-    }
-  }, [problemType.multipleChoice, problemType.shortAnswer]);
-
   // handle Prompt
   const handlePrompt = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setSentPrompt(e.target.value);
   };
 
   const handleAIRAWOutput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setSentPrompt(e.target.value);
+    setResult(e.target.value);
   };
 
   // 문제 생성
@@ -253,8 +236,6 @@ function SectionTwo() {
     setAIAnswerOutput(e.target.value);
   };
 
-  console.log("result", result);
-
   // 총갯수 합
   useEffect(() => {
     const result = handleLevelSum(level);
@@ -264,6 +245,7 @@ function SectionTwo() {
   // for prompt 렌더링
   useEffect(() => {
     let promptData;
+
     // 객관식과 주관식을 mix했을 때
     if (problemType.multipleChoice !== "0" && problemType.shortAnswer !== "0") {
       promptData = mixedFormatQuestion({
@@ -291,7 +273,18 @@ function SectionTwo() {
     if (typeof promptData === "string") {
       setSentPrompt(promptData);
     }
-  }, [language, target, subject, theme, level, problemType, problemCount]);
+  }, [
+    language,
+    target,
+    subject,
+    theme,
+    level.easy,
+    level.medium,
+    level.difficult,
+    problemType.multipleChoice,
+    problemType.shortAnswer,
+    problemCount,
+  ]);
 
   return (
     <div className="flex flex-col items-center h-full">
@@ -447,6 +440,7 @@ function SectionTwo() {
         <button
           className="border-2 bg-blue-800  text-sky-100 font-bold  p-4 cursor-pointer hover:bg-blue-500"
           onClick={() => {
+            // 이거유유
             handleChatGPTGenerateProblems();
             handlePdfReset();
           }}
