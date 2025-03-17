@@ -48,29 +48,43 @@ export const KoreanSimplePrompt = (data: Item) => {
   2. Question  \\\\\\\\
   3. Question  \\\\\\\\
    .......... \\\\\\\\
+  ${data.level.easy}. Question
+
+
 
   중간: \\\\\\\\
   1. Question \\\\\\\\
   2. Question  \\\\\\\\
   3. Question  \\\\\\\\    
-  .......... \\\\\\\\   
+  .......... \\\\\\\\ 
+  ${data.level.medium}. Question  
 
   어려움: \\\\\\\\
   1. Question \\\\\\\\
   2. Question \\\\\\\\
   3. Question \\\\\\\\    
   .......... \\\\\\\\     
+  ${data.level.difficult}. Question  
 
   객관식 문제의 형식은 다음과 같습니다.  
   쉬움: \\\\\\\\  
   1. Question  \\\\\\\\
    a) option \\\\\\\\
-  2. Question  \\\\\\\\
    b) option \\\\\\\\
+   c) option \\\\\\\\ 
+  2. Question  \\\\\\\\
+   a) option \\\\\\\\
+   b) option \\\\\\\\
+   c) option \\\\\\\\ 
   3. Question  \\\\\\\\
-   c) option \\\\\\\\
-
+   a) option \\\\\\\\
+   b) option \\\\\\\\
+   c) option \\\\\\\\  
    .......... \\\\\\\\
+  ${data.level.easy}. Question
+   a) option \\\\\\\\
+   b) option \\\\\\\\
+   c) option \\\\\\\\  
 
   중간: \\\\\\\\
   1. Question \\\\\\\\
@@ -79,7 +93,12 @@ export const KoreanSimplePrompt = (data: Item) => {
    b) option \\\\\\\\
   3. Question  \\\\\\\\
    c) option \\\\\\\\    
-  .......... \\\\\\\\   
+  .......... \\\\\\\\ 
+  ${data.level.medium}. Question  
+    a) option \\\\\\\\
+   b) option \\\\\\\\
+   c) option \\\\\\\\  
+
 
   어려움: \\\\\\\\
   1. Question \\\\\\\\
@@ -88,9 +107,13 @@ export const KoreanSimplePrompt = (data: Item) => {
    b) option \\\\\\\\
   3. Question \\\\\\\\ 
   c) option \\\\\\\\    
-  .......... \\\\\\\\   
+  .......... \\\\\\\\
+  ${data.level.difficult}. Question  
+    a) option \\\\\\\\
+   b) option \\\\\\\\
+   c) option \\\\\\\\     
 
-   답이 나오기 전에 *****answer*****를 한 번만 삽입해주세요.
+  답이 나오기 전에 *****answer*****를 한 번만 삽입해주세요.
  답과 함께 설명을 제공해주세요.
  정답은 다음 형식으로 보내주세요.
 
@@ -140,18 +163,21 @@ export const EnglishSimplePrompt = (data: Item) => {
   2. Question  \\\\\\\\
   3. Question  \\\\\\\\
    .......... \\\\\\\\
+  ${data.level.easy}. Question
 
   Medium: \\\\\\\\
   1. Question \\\\\\\\
   2. Question  \\\\\\\\
   3. Question  \\\\\\\\    
   .......... \\\\\\\\   
+  ${data.level.medium}. Question  
 
   Difficult: \\\\\\\\
   1. Question \\\\\\\\
   2. Question \\\\\\\\
   3. Question \\\\\\\\    
   .......... \\\\\\\\
+  ${data.level.difficult}. Question  
 
   
   Before the answers comes out, please insert *****answer***** just once."
