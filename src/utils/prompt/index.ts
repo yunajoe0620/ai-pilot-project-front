@@ -43,7 +43,7 @@ export const KoreanSimplePrompt = (data: Item) => {
   }개의 중간 난이도 문제, ${data.level.difficult}개의 어려운 문제를 보내세요. 
   수학 수식이 있을때 수식 앞뒤로 $표시를 넣어줘
   _ 기호에는 \ 표시를 넣어줘
-  주관식 문제의 형식은 다음과 같습니다.
+  서술형 문제의 형식은 다음과 같습니다.
   쉬움: \\\\\\\\  
   1. Question  \\\\\\\\
   2. Question  \\\\\\\\
@@ -324,14 +324,14 @@ export const KoreanMixedPrompt = (data: Item) => {
     data.problemType.multipleChoice
   }개의 객관식 질문과 ${
     data.problemType.shortAnswer
-  }개의 주관식 질문을 생성하세요.
+  }개의 서술형 질문을 생성하세요.
   그리고 ${data.level.easy}개의 쉬운 문제, ${
     data.level.medium
   }개의 중간 난이도 문제, ${data.level.difficult}개의 어려운 문제를 보내세요.
-  쉬운, 중간, 어려운 문제들 사이에 객관식과 주관식 질문을 고르게 섞어주세요.
+  쉬운, 중간, 어려운 문제들 사이에 객관식과 서술형 질문을 고르게 섞어주세요.
   수학 수식이 있을때 수식 앞뒤로 $표시를 넣어줘
 
-  주관식 문제의 형식은 다음과 같습니다.
+  서술형 문제의 형식은 다음과 같습니다.
   쉬움: \\\\\\\\  
   1. Question  \\\\\\\\
   2. Question  \\\\\\\\
