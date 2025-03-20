@@ -193,7 +193,6 @@ function SectionTwo() {
 
   // AI RAW output으로 결과  재생성하기
   const handleReGenerateRawOutput = async (rawOutput: string) => {
-    console.log("전달된 rawoutpu", rawOutput);
     try {
       const url = `${baseUrl}/problem/generate/output`;
       const response = await fetch(url, {
