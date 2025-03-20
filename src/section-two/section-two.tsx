@@ -42,10 +42,6 @@ function SectionTwo() {
   const [isLoading, setIsLoading] = useState(false);
   const [isProblemGenerate, setIsProblemGenerate] = useState(false);
 
-  // const [isMultipleHandlerMoving, setIsMultipleHandlerMoving] = useState(false);
-  // const [isShortAnswerHandlerMoving, setIsShortAnswerHandlerMoving] =
-  //   useState(false);
-
   //  생성된 Prompt
   const [sentPrompt, setSentPrompt] = useState("");
 
@@ -67,6 +63,8 @@ function SectionTwo() {
   const [pdfGenerateStatus, setPdfGenerateStatus] = useState(0);
   // pdf message
   const [pdfGenerateMessage, setPdfGenerateMessage] = useState("");
+
+  console.log("rawOutput", result);
 
   // restfunction
   const handlePdfReset = () => {
@@ -140,10 +138,7 @@ function SectionTwo() {
       alert("총 문제보다 문제수가 커질 수가 없습니다");
       return;
     }
-    // // 객관식 유형 true로
-    // setIsMultipleHandlerMoving(true);
-    // // 주관식 유형 false로
-    // setIsShortAnswerHandlerMoving(false);
+
     const calValue = problemCount - valueNumber;
     setProblemType(() => {
       return {
@@ -151,12 +146,6 @@ function SectionTwo() {
         shortAnswer: String(calValue),
       };
     });
-    // setProblemType((prev) => {
-    //   return {
-    //     ...prev,
-    //     multipleChoice: e.target.value,
-    //   };
-    // });
   };
 
   // 주관식 유형 handler
@@ -201,6 +190,50 @@ function SectionTwo() {
     model,
     sentPrompt
   );
+
+  // AI RAW output으로 결과  재생성하기
+  const handleReGenerateRawOutput = async (rawOutput: string) => {
+    console.log("전달된 rawoutpu", rawOutput);
+    try {
+      const url = `${baseUrl}/problem/generate/output`;
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ rawOutput }),
+      });
+
+      const jsonData = await response.json();
+
+      const { problemDocs, answerDocs, status, message, result } = jsonData;
+      if (status === 200) {
+        setIsLoading(false);
+        setIsProblemGenerate(true);
+        setAIProblemOutput(problemDocs);
+        setAIAnswerOutput(answerDocs);
+        setResult(result);
+        alert(message);
+        return;
+      }
+      if (status === 400) {
+        alert(message);
+        return;
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        return {
+          status: "error",
+          error: error.message,
+        };
+      }
+      return {
+        status: "error",
+        error: "알수 없는 에러가 발생하였습니다.",
+      };
+    }
+  };
 
   // pdf로 만들기
 
@@ -460,15 +493,26 @@ function SectionTwo() {
 
         {/* 완전 생 output */}
         {!isLoading && isProblemGenerate && (
-          <div className="flex flex-col mt-10 w-full">
-            <p className="text-2xl">AI RAW Problem output</p>
-            <textarea
-              value={result}
-              onChange={handleAIRAWOutput}
-              className="resize-none  w-full h-48 p-2 border border-gray-300 rounded-md bg-white"
-            />
-          </div>
+          <>
+            <div className="flex flex-col mt-10 w-full">
+              <p className="text-2xl">AI RAW Problem output</p>
+              <textarea
+                value={result}
+                onChange={handleAIRAWOutput}
+                className="resize-none  w-full h-48 p-2 border border-gray-300 rounded-md bg-white"
+              />
+            </div>
+            <button
+              className="border-2 bg-blue-800  text-sky-100 font-bold  p-4 cursor-pointer hover:bg-blue-500"
+              onClick={() => {
+                handleReGenerateRawOutput(result);
+              }}
+            >
+              AI RAW OUTPUT으로 결과 다시 재생성하기
+            </button>
+          </>
         )}
+
         {/* AI Problem 아웃풋 */}
         {!isLoading && isProblemGenerate && (
           <div className="flex flex-col mt-10 w-full">
