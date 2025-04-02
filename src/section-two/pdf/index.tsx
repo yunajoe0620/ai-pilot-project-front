@@ -19,7 +19,16 @@ function PdfQuizPage() {
           <StepIndicator>{currentStep}/4</StepIndicator>
         </ProgressedBar>
 
-        <Contents></Contents>
+        {/* step별로 바뀌는 부분이다  */}
+        <Contents>
+          <SchoolGradeContainer>
+            <p>학교와 학년을 선택해주세요</p>
+            <GradeDropdownContainer>
+              <button></button>
+            </GradeDropdownContainer>
+          </SchoolGradeContainer>
+          <div></div>
+        </Contents>
       </Container>
     </Layout>
   );
@@ -37,7 +46,10 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-const Contents = styled.div``;
+const Contents = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 const ProgressedBar = styled.div`
   display: flex;
@@ -70,3 +82,20 @@ const StepIndicator = styled.div`
   font-weight: 500;
   color: #c8cbd9;
 `;
+
+const SchoolGradeContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+
+  & p {
+    font-family: "NEXON Lv2 Gothic";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 135%;
+    letter-spacing: -0.24px;
+  }
+`;
+
+const GradeDropdownContainer = styled.div``;
