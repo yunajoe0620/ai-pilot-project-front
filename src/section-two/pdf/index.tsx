@@ -2,9 +2,35 @@ import { useState } from "react";
 import styled from "styled-components";
 import Dropdown from "../../components/dropdown";
 import PageAIQuizNavigation from "../../components/navigation/page-navigation";
+import { gradeMap } from "../../utils/dropdown";
 
 function PdfQuizPage() {
   const [currentStep, setCurrentStep] = useState(1);
+  // 학교
+  const [school, setSchool] = useState<string | null>("");
+  //  학년
+  const [grade, setGrade] = useState<string | null>("");
+  // 학년 선택 dropdown
+  const [isGradeDropDown, setIsGradeDropdown] = useState(false);
+  // 과목 선택 dropdown
+  const [isSubjectDropDown, setIsSubJectDropdown] = useState(false);
+
+  const handleSchool = (e: React.MouseEvent<HTMLDivElement>) => {
+    let value = e.target as HTMLElement;
+    if (value) {
+      setSchool(value.textContent);
+    }
+  };
+
+  const handleGrade = (e: React.MouseEvent<HTMLDivElement>) => {
+    let value = e.target as HTMLElement;
+    if (value) {
+      setGrade(value.textContent);
+    }
+  };
+
+  console.log("학년", grade);
+  console.log("학꾜오오오", school);
   return (
     <Layout>
       <Container>
@@ -28,16 +54,27 @@ function PdfQuizPage() {
           <SchoolGradeContainer>
             <Subtitle>학교와 학년을 선택해주세요</Subtitle>
             <GradeDropdownContainer>
-              <ButtonContainer>
+              <ButtonContainer onClick={handleSchool}>
                 <Button>초등학교</Button>
                 <Button>중학교</Button>
                 <Button>고등학교</Button>
               </ButtonContainer>
-              {/* 라인 */}
-              {/* dropdown */}
-              <Dropdown />
+              <img src="../../../src/assets/line.svg" />
+              <Dropdown
+                placeholder="학년 선택"
+                isDropdown={isGradeDropDown}
+                setIsDropdown={setIsGradeDropdown}
+                itemArray={gradeMap}
+                itemKey={school}
+                handleSelectValue={handleGrade}
+              />
             </GradeDropdownContainer>
           </SchoolGradeContainer>
+          <SubjectContainer>
+            <Subtitle>과목을 선택해 주세요.</Subtitle>
+            <Dropdown placeholder="과목을 선택해 주세요" size="lg" />
+          </SubjectContainer>
+          <MainButton>퀴즈 주제 선정하기</MainButton>
         </Contents>
       </Container>
     </Layout>
@@ -62,6 +99,8 @@ const Contents = styled.div`
   display: flex;
   flex-direction: column;
   width: 70%;
+  justify-content: center;
+  align-items: center;
 `;
 
 const ProgressedBar = styled.div`
@@ -128,6 +167,8 @@ const SchoolGradeContainer = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 20px;
+  margin-bottom: 60px;
+  width: 100%;
 `;
 
 const Subtitle = styled.p`
@@ -143,17 +184,19 @@ const Subtitle = styled.p`
 const GradeDropdownContainer = styled.div`
   display: flex;
   align-items: center;
-  background-color: green;
+  justify-content: space-between;
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
+  column-gap: 16px;
 `;
 
 const Button = styled.div`
   box-sizing: border-box;
   display: flex;
   padding: 16px;
+  height: 56px;
   width: 146px;
   justify-content: center;
   align-items: center;
@@ -162,4 +205,34 @@ const Button = styled.div`
   border: 2px solid #e0e6fa;
   background: #fff;
   cursor: pointer;
+  color: #8e8e96;
+`;
+
+// 과목
+
+const SubjectContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  width: 100%;
+  margin-bottom: 70px;
+`;
+const MainButton = styled.button`
+  display: inline-flex;
+  padding: 20px 52px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 999999px;
+  background: #f4f5fa;
+  border: none;
+  outline: none;
+  color: #b7b7c9;
+
+  text-align: center;
+  font-family: "Helvetica Neue";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 135%;
+  letter-spacing: -0.3px;
 `;

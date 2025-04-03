@@ -1,50 +1,80 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 interface DropDownProps {
-  itemArray?: string[];
+  placeholder: string;
   size?: "sm" | "md" | "lg";
+  isDropdown: boolean;
+  setIsDropdown: React.Dispatch<React.SetStateAction<boolean>>;
+  itemKey: string | null;
+  itemArray: any;
+  handleSelectValue: (e: any) => void;
 }
 
-function Dropdown({ itemArray, size = "sm" }: DropDownProps) {
-  const handleCountrySelect = () => {};
+function Dropdown({
+  placeholder,
+  isDropdown,
+  setIsDropdown,
+  itemKey,
+  itemArray,
+  handleSelectValue,
+  size = "sm",
+}: DropDownProps) {
+  const [itemList, setItemList] = useState<string[]>([]);
 
-  // 직접 입력할떄 handlers
-  const handleCountryDirect = () => {};
+  // dropdown Open하는거
+  const handleDropDown = () => {
+    setIsDropdown(!isDropdown);
+  };
+
+  useEffect(() => {
+    if (!itemKey) return;
+    const result = itemArray[itemKey];
+    setItemList(result);
+  }, [itemKey]);
+
+  // console.log("스쿠우울", itemKey);
+  // console.log("itemARray", itemArray);
 
   return (
-    <Contaniner size={size}>
-      {/* placeholder쪽 */}
-      <TypeDirectContainer onClick={handleCountryDirect}>
-        <div>과목을 선택해주세요</div>
-        <img src="../../../src/assets/arrow-down.svg" />
+    <Contaniner>
+      <TypeDirectContainer onClick={handleDropDown} size={size}>
+        <PlaceHolder>{placeholder}</PlaceHolder>
+        {!isDropdown ? (
+          <img src="../../../src/assets/arrow-down.svg" />
+        ) : (
+          <img src="../../../src/assets/arrow-up.svg" />
+        )}
       </TypeDirectContainer>
-
-      <CountryCodeArrayContainer>
-        {itemArray?.map((item, index) => {
-          return (
-            <ItemContainer key={index} onClick={() => {}}>
-              {/* <Code>{item.code}</Code>
-              <Country>{item.country}</Country> */}
-            </ItemContainer>
-          );
-        })}
-      </CountryCodeArrayContainer>
+      {isDropdown && itemList.length > 0 && (
+        <CountryCodeArrayContainer>
+          {itemList.map((item, index) => {
+            return (
+              <ItemContainer key={index} onClick={(e) => handleSelectValue(e)}>
+                {item}
+              </ItemContainer>
+            );
+          })}
+        </CountryCodeArrayContainer>
+      )}
     </Contaniner>
   );
 }
 
 export default Dropdown;
 
-const Contaniner = styled.div<{ size?: string }>`
+const Contaniner = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
+  cursor: pointer;
 `;
 
-const TypeDirectContainer = styled.div<{ size?: number }>`
+const TypeDirectContainer = styled.div<{ size?: string }>`
   box-sizing: border-box;
   display: flex;
-  width: 178px;
+
+  width: ${({ size }) => (size === "sm" ? "178px" : "100%")};
   padding: 16px 24px 16px 32px;
   justify-content: space-between;
   align-items: center;
@@ -54,7 +84,22 @@ const TypeDirectContainer = styled.div<{ size?: number }>`
   background: #fff;
 `;
 
-const CountryCodeArrayContainer = styled.div``;
+const CountryCodeArrayContainer = styled.div`
+  box-sizing: border-box;
+  width: 100%;
+  position: absolute;
+  top: 110%;
+  z-index: 1000;
+  border-radius: 20px;
+  border: 2px solid #e0e6fa;
+  background: #fff;
+  display: flex;
+  padding: 20px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  align-self: stretch;
+`;
 
 const ItemContainer = styled.div`
   display: flex;
@@ -67,25 +112,18 @@ const ItemContainer = styled.div`
   padding: 10px 4px;
   box-sizing: border-box;
   &:hover {
-    background: var(--Gray-Gary-10, #f5f5f8);
+    background: #f2f5ff;
   }
 `;
 
-const Code = styled.p`
-  overflow: hidden;
-  color: var(--Gray-Gray-30, #c8cbd9);
-  text-overflow: ellipsis;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 135%;
-  letter-spacing: -0.48px;
-`;
-const Country = styled.p`
-  overflow: hidden;
-  color: var(--Text-secondary-color, #5a5b63);
-  text-overflow: ellipsis;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 135%;
-  letter-spacing: -0.48px;
+const PlaceHolder = styled.div`
+  color: #aeaebf;
+  text-align: center;
+  font-family: "NEXON Lv2 Gothic";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 135%; /* 24.3px */
+  letter-spacing: -0.27px;
+  box-sizing: border-box;
 `;
