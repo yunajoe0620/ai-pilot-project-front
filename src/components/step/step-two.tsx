@@ -20,6 +20,7 @@ interface StepTwoProps {
   lowLevelProblem: string;
   setLowLevelProblem: React.Dispatch<React.SetStateAction<any>>;
   handleStepTwoGenerate: () => void;
+  setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
 }
 
 function StepTwo({
@@ -38,10 +39,12 @@ function StepTwo({
   lowLevelProblem,
   setLowLevelProblem,
   handleStepTwoGenerate,
+  setCurrentStep,
 }: StepTwoProps) {
   const handleQuizSubject = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuizbSubject(e.target.value);
   };
+
   return (
     <>
       <QuizSubjectContainer>
@@ -99,7 +102,7 @@ function StepTwo({
             size="sm"
             color="default"
             onClick={() => {
-              console.log("이전 설정으로 갑니다");
+              setCurrentStep(1);
             }}
             active={false}
           >
@@ -109,6 +112,7 @@ function StepTwo({
             size="md"
             color="primary"
             onClick={handleStepTwoGenerate}
+            // TODO: 이상하댜..
             active={!quizSubject ? false : true}
           >
             퀴즈 유형 정하기

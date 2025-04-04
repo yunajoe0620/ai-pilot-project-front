@@ -14,6 +14,7 @@ interface DropDownProps {
   itemArray: ItemArray;
   selectValue: string | null;
   setSelectedValue: React.Dispatch<React.SetStateAction<string | null>>;
+  handleDropdown?: any;
 }
 
 function Dropdown({
@@ -25,6 +26,7 @@ function Dropdown({
   itemArray,
   selectValue,
   setSelectedValue,
+  handleDropdown,
 }: DropDownProps) {
   const [itemList, setItemList] = useState<string[]>([]);
 
@@ -68,10 +70,7 @@ function Dropdown({
         <CountryCodeArrayContainer>
           {itemList.map((item, index) => {
             return (
-              <ItemContainer
-                key={index}
-                onClick={(e) => handleDropdownValue(e)}
-              >
+              <ItemContainer key={index} onClick={handleDropdown}>
                 {item}
               </ItemContainer>
             );

@@ -9,7 +9,7 @@ interface StepOneProps {
   school: string | null;
   grade: string | null;
   subject: string | null;
-  setGrade: React.Dispatch<React.SetStateAction<string | null>>;
+  // setGrade?: React.Dispatch<React.SetStateAction<string | null>>;
   setSubject: React.Dispatch<React.SetStateAction<string | null>>;
   isGradeDropDown: boolean;
   setIsGradeDropdown: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,13 +17,14 @@ interface StepOneProps {
   setIsSubJectDropdown: React.Dispatch<React.SetStateAction<boolean>>;
   handleSchool: (e: React.MouseEvent<HTMLDivElement>) => void;
   handleStepOneGenerate: any;
+  handleDropdown: any;
 }
 
 function StepOne({
   school,
   grade,
   subject,
-  setGrade,
+  // setGrade,
   setSubject,
   isGradeDropDown,
   setIsGradeDropdown,
@@ -31,6 +32,7 @@ function StepOne({
   setIsSubJectDropdown,
   handleSchool,
   handleStepOneGenerate,
+  handleDropdown,
 }: StepOneProps) {
   return (
     <>
@@ -54,7 +56,8 @@ function StepOne({
             itemArray={gradeObject}
             itemKey={school}
             selectValue={grade}
-            setSelectedValue={setGrade}
+            handleDropdown={handleDropdown}
+            // setSelectedValue={setGrade}
           />
         </GradeDropdownContainer>
       </SchoolGradeContainer>
@@ -73,6 +76,7 @@ function StepOne({
       </SubjectContainer>
       <GenerateButton
         size="md"
+        color="primary"
         onClick={handleStepOneGenerate}
         active={school && grade && subject ? true : false}
       >

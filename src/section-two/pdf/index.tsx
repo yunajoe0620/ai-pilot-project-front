@@ -3,12 +3,13 @@ import styled from "styled-components";
 import PageAIQuizNavigation from "../../components/navigation/page-navigation";
 import StepOne from "../../components/step/step-one";
 import StepTwo from "../../components/step/step-two";
+import { useStepOneStore } from "../../store";
 
 function PdfQuizPage() {
   const [currentStep, setCurrentStep] = useState(1);
   // level 1
-  const [school, setSchool] = useState<string | null>("");
-  const [grade, setGrade] = useState<string | null>("");
+  // const [school, setSchool] = useState<string | null>("");
+  // const [grade, setGrade] = useState<string | null>("");
   const [subject, setSubject] = useState<string | null>("");
   const [isGradeDropDown, setIsGradeDropdown] = useState(false);
   const [isSubjectDropDown, setIsSubJectDropdown] = useState(false);
@@ -22,12 +23,18 @@ function PdfQuizPage() {
   const [isLowLevelDropdown, setIsLowLevelDropdown] = useState(false);
   const [quizSubject, setQuizbSubject] = useState("");
 
-  const handleSchool = (e: React.MouseEvent<HTMLDivElement>) => {
-    let value = e.target as HTMLElement;
-    if (value) {
-      setSchool(value.textContent);
-    }
-  };
+  // const handleSchool = (e: React.MouseEvent<HTMLDivElement>) => {
+  //   let value = e.target as HTMLElement;
+  //   if (value) {
+  //     setSchool(value.textContent);
+  //   }
+  // };
+
+  const school = useStepOneStore((state) => state.school);
+  const handleSchool = useStepOneStore((state) => state.handleSchool);
+
+  const grade = useStepOneStore((state) => state.grade);
+  const handleGrade = useStepOneStore((state) => state.handleGrade);
 
   // step 1일때 버튼
   const handleStepOneGenerate = () => {
@@ -71,7 +78,8 @@ function PdfQuizPage() {
               school={school}
               grade={grade}
               subject={subject}
-              setGrade={setGrade}
+              handleGrade={handleGrade}
+              // setGrade={setGrade}
               setSubject={setSubject}
               isGradeDropDown={isGradeDropDown}
               setIsGradeDropdown={setIsGradeDropdown}
@@ -98,6 +106,7 @@ function PdfQuizPage() {
               lowLevelProblem={lowLevelProblem}
               setLowLevelProblem={setLowLevelProblem}
               handleStepTwoGenerate={handleStepTwoGenerate}
+              setCurrentStep={setCurrentStep}
             />
           )}
         </Contents>
