@@ -94,7 +94,6 @@ function StepTwo({
             />
           </QuizLevelDropdownContainer>
         </QuizLevelContainer>
-        {/* button container */}
         <ButtonContainer>
           <GenerateButton
             size="sm"

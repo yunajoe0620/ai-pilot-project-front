@@ -12,7 +12,7 @@ interface DropDownProps {
   setIsDropdown: React.Dispatch<React.SetStateAction<boolean>>;
   itemKey: string | null;
   itemArray: KeyItemArray;
-  selectValue: string | number | null;
+  selectValue: string | null;
   // TODO: type제대로 줘보기..?
   setSelectedValue: React.Dispatch<React.SetStateAction<any>>;
 }
