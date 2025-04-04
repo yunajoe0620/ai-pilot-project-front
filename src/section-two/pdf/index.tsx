@@ -1,5 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
+import SelectButton from "../../components/button";
+import GenerateButton from "../../components/button/generate-button";
 import Dropdown from "../../components/dropdown";
 import SingleDropdown from "../../components/dropdown/single-dropdown";
 import PageAIQuizNavigation from "../../components/navigation/page-navigation";
@@ -51,9 +53,15 @@ function PdfQuizPage() {
             <Subtitle>학교와 학년을 선택해주세요</Subtitle>
             <GradeDropdownContainer>
               <ButtonContainer onClick={handleSchool}>
-                <Button selected={school === "초등학교"}>초등학교</Button>
-                <Button selected={school === "중학교"}>중학교</Button>
-                <Button selected={school === "고등학교"}>고등학교</Button>
+                <SelectButton selected={school === "초등학교"}>
+                  초등학교
+                </SelectButton>
+                <SelectButton selected={school === "중학교"}>
+                  중학교
+                </SelectButton>
+                <SelectButton selected={school === "고등학교"}>
+                  고등학교
+                </SelectButton>
               </ButtonContainer>
               <img src="../../../src/assets/line.svg" />
               <Dropdown
@@ -80,7 +88,9 @@ function PdfQuizPage() {
               setSelectedValue={setSubject}
             />
           </SubjectContainer>
-          <MainButton>퀴즈 주제 선정하기</MainButton>
+          <GenerateButton active={school && grade && subject ? true : false}>
+            퀴즈 주제 선정하기
+          </GenerateButton>
         </Contents>
       </Container>
     </Layout>
@@ -198,29 +208,6 @@ const ButtonContainer = styled.div`
   column-gap: 16px;
 `;
 
-const Button = styled.button<{ selected?: boolean }>`
-  box-sizing: border-box;
-  display: flex;
-  padding: 16px;
-  height: 56px;
-  width: 146px;
-  justify-content: center;
-  align-items: center;
-  align-self: stretch;
-  border-radius: 999999px;
-  border: 2px solid #e0e6fa;
-  background: ${({ selected }) => (selected ? "#7789FF" : "#FFF")};
-  cursor: pointer;
-  color: #8e8e96;
-  color: ${({ selected }) => (selected ? "#FFF" : "#8E8E96")};
-  text-align: center;
-  font-family: "NEXON Lv2 Gothic";
-  font-size: 18px;
-  font-weight: 500;
-  line-height: 135%;
-  letter-spacing: -0.27px;
-`;
-
 // 과목
 
 const SubjectContainer = styled.div`
@@ -229,23 +216,4 @@ const SubjectContainer = styled.div`
   row-gap: 20px;
   width: 100%;
   margin-bottom: 70px;
-`;
-const MainButton = styled.button`
-  display: inline-flex;
-  padding: 20px 52px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 999999px;
-  background: #f4f5fa;
-  border: none;
-  outline: none;
-  color: #b7b7c9;
-
-  text-align: center;
-  font-family: "Helvetica Neue";
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 135%;
-  letter-spacing: -0.3px;
 `;
