@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-interface ItemArray {
+interface KeyItemArray {
   [key: string]: string[];
 }
 
@@ -11,12 +11,12 @@ interface DropDownProps {
   isDropdown: boolean;
   setIsDropdown: React.Dispatch<React.SetStateAction<boolean>>;
   itemKey: string | null;
-  itemArray: ItemArray;
+  itemArray: KeyItemArray;
   selectValue: string | null;
   setSelectedValue: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-function Dropdown({
+function SingleDropdown({
   placeholder,
   size = "sm",
   isDropdown,
@@ -31,7 +31,6 @@ function Dropdown({
   // dropdown Open하는거
   const handleDropDown = () => {
     if (!itemKey) {
-      alert("상위 카테고리르 먼저 선택해주세요");
       return;
     }
     setIsDropdown(!isDropdown);
@@ -82,7 +81,7 @@ function Dropdown({
   );
 }
 
-export default Dropdown;
+export default SingleDropdown;
 
 const Contaniner = styled.div`
   display: flex;

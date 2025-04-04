@@ -1,5 +1,9 @@
-export const gradeMap: { [key: string]: string[] } = {
+export const gradeObject: { [key: string]: string[] } = {
   초등학교: ["1학년", "2학년", "3학년", "4학년", "5학년", "6학년"],
   중학교: ["1학년", "2학년", "3학년"],
   고등학교: ["1학년", "2학년", "3학년"],
+};
+
+export const subjectArray: { [key: string]: string[] } = {
+  subject: ["수학", "국어", "영어", "과학", "사회과학"],
 };

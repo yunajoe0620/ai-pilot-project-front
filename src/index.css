@@ -1,7 +1,3 @@
-:root {
-  box-sizing: border-box;
-}
-
 html,
 body,
 div,
@@ -108,4 +104,9 @@ del {
 table {
   border-collapse: collapse;
   border-spacing: 0;
+}
+
+html,
+body {
+  box-sizing: border-box;
 }

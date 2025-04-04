@@ -1,8 +1,9 @@
 import { useState } from "react";
 import styled from "styled-components";
 import Dropdown from "../../components/dropdown";
+import SingleDropdown from "../../components/dropdown/single-dropdown";
 import PageAIQuizNavigation from "../../components/navigation/page-navigation";
-import { gradeMap } from "../../utils/dropdown";
+import { gradeObject, subjectArray } from "../../utils/dropdown";
 
 function PdfQuizPage() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -10,6 +11,10 @@ function PdfQuizPage() {
   const [school, setSchool] = useState<string | null>("");
   //  학년
   const [grade, setGrade] = useState<string | null>("");
+
+  // 과목
+  const [subject, setSubject] = useState<string | null>("");
+
   // 학년 선택 dropdown
   const [isGradeDropDown, setIsGradeDropdown] = useState(false);
   // 과목 선택 dropdown
@@ -22,15 +27,6 @@ function PdfQuizPage() {
     }
   };
 
-  const handleGrade = (e: React.MouseEvent<HTMLDivElement>) => {
-    let value = e.target as HTMLElement;
-    if (value) {
-      setGrade(value.textContent);
-    }
-  };
-
-  console.log("학년", grade);
-  console.log("학꾜오오오", school);
   return (
     <Layout>
       <Container>
@@ -55,24 +51,34 @@ function PdfQuizPage() {
             <Subtitle>학교와 학년을 선택해주세요</Subtitle>
             <GradeDropdownContainer>
               <ButtonContainer onClick={handleSchool}>
-                <Button>초등학교</Button>
-                <Button>중학교</Button>
-                <Button>고등학교</Button>
+                <Button selected={school === "초등학교"}>초등학교</Button>
+                <Button selected={school === "중학교"}>중학교</Button>
+                <Button selected={school === "고등학교"}>고등학교</Button>
               </ButtonContainer>
               <img src="../../../src/assets/line.svg" />
               <Dropdown
                 placeholder="학년 선택"
                 isDropdown={isGradeDropDown}
                 setIsDropdown={setIsGradeDropdown}
-                itemArray={gradeMap}
+                itemArray={gradeObject}
                 itemKey={school}
-                handleSelectValue={handleGrade}
+                selectValue={grade}
+                setSelectedValue={setGrade}
               />
             </GradeDropdownContainer>
           </SchoolGradeContainer>
           <SubjectContainer>
             <Subtitle>과목을 선택해 주세요.</Subtitle>
-            <Dropdown placeholder="과목을 선택해 주세요" size="lg" />
+            <SingleDropdown
+              placeholder="과목을 선택해 주세요"
+              size="lg"
+              isDropdown={isSubjectDropDown}
+              setIsDropdown={setIsSubJectDropdown}
+              itemArray={subjectArray}
+              itemKey="subject"
+              selectValue={subject}
+              setSelectedValue={setSubject}
+            />
           </SubjectContainer>
           <MainButton>퀴즈 주제 선정하기</MainButton>
         </Contents>
@@ -192,7 +198,7 @@ const ButtonContainer = styled.div`
   column-gap: 16px;
 `;
 
-const Button = styled.div`
+const Button = styled.button<{ selected?: boolean }>`
   box-sizing: border-box;
   display: flex;
   padding: 16px;
@@ -203,9 +209,16 @@ const Button = styled.div`
   align-self: stretch;
   border-radius: 999999px;
   border: 2px solid #e0e6fa;
-  background: #fff;
+  background: ${({ selected }) => (selected ? "#7789FF" : "#FFF")};
   cursor: pointer;
   color: #8e8e96;
+  color: ${({ selected }) => (selected ? "#FFF" : "#8E8E96")};
+  text-align: center;
+  font-family: "NEXON Lv2 Gothic";
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 135%;
+  letter-spacing: -0.27px;
 `;
 
 // 과목
