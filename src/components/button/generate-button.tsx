@@ -3,10 +3,15 @@ import styled from "styled-components";
 interface GenerateButtonProps {
   children: React.ReactNode;
   active: boolean;
+  onClick: () => void;
 }
 
-function GenerateButton({ active, children }: GenerateButtonProps) {
-  return <Button active={active}>{children}</Button>;
+function GenerateButton({ active, children, onClick }: GenerateButtonProps) {
+  return (
+    <Button active={active} onClick={onClick}>
+      {children}
+    </Button>
+  );
 }
 
 export default GenerateButton;

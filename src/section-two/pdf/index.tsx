@@ -1,11 +1,8 @@
 import { useState } from "react";
 import styled from "styled-components";
-import SelectButton from "../../components/button";
-import GenerateButton from "../../components/button/generate-button";
-import Dropdown from "../../components/dropdown";
-import SingleDropdown from "../../components/dropdown/single-dropdown";
 import PageAIQuizNavigation from "../../components/navigation/page-navigation";
-import { gradeObject, subjectArray } from "../../utils/dropdown";
+import StepOne from "../../components/step/step-one";
+import StepTwo from "../../components/step/step-two";
 
 function PdfQuizPage() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -29,6 +26,14 @@ function PdfQuizPage() {
     }
   };
 
+  const handleStepOneGenerate = () => {
+    if (!school || !grade || !subject) return;
+    console.log("퀴즈 주제 선정하기 버튼 클릭!");
+    setCurrentStep(2);
+  };
+
+  console.log("currenTStep", currentStep);
+
   return (
     <Layout>
       <Container>
@@ -49,48 +54,22 @@ function PdfQuizPage() {
 
         {/* step별로 바뀌는 부분이다  */}
         <Contents>
-          <SchoolGradeContainer>
-            <Subtitle>학교와 학년을 선택해주세요</Subtitle>
-            <GradeDropdownContainer>
-              <ButtonContainer onClick={handleSchool}>
-                <SelectButton selected={school === "초등학교"}>
-                  초등학교
-                </SelectButton>
-                <SelectButton selected={school === "중학교"}>
-                  중학교
-                </SelectButton>
-                <SelectButton selected={school === "고등학교"}>
-                  고등학교
-                </SelectButton>
-              </ButtonContainer>
-              <img src="../../../src/assets/line.svg" />
-              <Dropdown
-                placeholder="학년 선택"
-                isDropdown={isGradeDropDown}
-                setIsDropdown={setIsGradeDropdown}
-                itemArray={gradeObject}
-                itemKey={school}
-                selectValue={grade}
-                setSelectedValue={setGrade}
-              />
-            </GradeDropdownContainer>
-          </SchoolGradeContainer>
-          <SubjectContainer>
-            <Subtitle>과목을 선택해 주세요.</Subtitle>
-            <SingleDropdown
-              placeholder="과목을 선택해 주세요"
-              size="lg"
-              isDropdown={isSubjectDropDown}
-              setIsDropdown={setIsSubJectDropdown}
-              itemArray={subjectArray}
-              itemKey="subject"
-              selectValue={subject}
-              setSelectedValue={setSubject}
+          {currentStep === 1 && (
+            <StepOne
+              school={school}
+              grade={grade}
+              subject={subject}
+              setGrade={setGrade}
+              setSubject={setSubject}
+              isGradeDropDown={isGradeDropDown}
+              setIsGradeDropdown={setIsGradeDropdown}
+              isSubjectDropDown={isSubjectDropDown}
+              setIsSubJectDropdown={setIsSubJectDropdown}
+              handleSchool={handleSchool}
+              handleStepOneGenerate={handleStepOneGenerate}
             />
-          </SubjectContainer>
-          <GenerateButton active={school && grade && subject ? true : false}>
-            퀴즈 주제 선정하기
-          </GenerateButton>
+          )}
+          {currentStep === 2 && <StepTwo />}
         </Contents>
       </Container>
     </Layout>
