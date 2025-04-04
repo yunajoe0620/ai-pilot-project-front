@@ -72,6 +72,7 @@ function StepOne({
         />
       </SubjectContainer>
       <GenerateButton
+        size="md"
         onClick={handleStepOneGenerate}
         active={school && grade && subject ? true : false}
       >

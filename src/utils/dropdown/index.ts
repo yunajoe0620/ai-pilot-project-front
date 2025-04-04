@@ -7,3 +7,9 @@ export const gradeObject: { [key: string]: string[] } = {
 export const subjectArray: { [key: string]: string[] } = {
   subject: ["수학", "국어", "영어", "과학", "사회과학"],
 };
+
+export const problemsArray: { [key: string]: number[] } = {
+  high: [0, 5, 10, 15, 20],
+  medium: [0, 5, 10, 15, 20],
+  low: [0, 5, 10, 15, 20],
+};

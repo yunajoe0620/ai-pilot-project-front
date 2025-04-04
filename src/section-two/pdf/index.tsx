@@ -6,18 +6,21 @@ import StepTwo from "../../components/step/step-two";
 
 function PdfQuizPage() {
   const [currentStep, setCurrentStep] = useState(1);
-  // 학교
+  // level 1
   const [school, setSchool] = useState<string | null>("");
-  //  학년
   const [grade, setGrade] = useState<string | null>("");
-
-  // 과목
   const [subject, setSubject] = useState<string | null>("");
-
-  // 학년 선택 dropdown
   const [isGradeDropDown, setIsGradeDropdown] = useState(false);
-  // 과목 선택 dropdown
   const [isSubjectDropDown, setIsSubJectDropdown] = useState(false);
+
+  // level 2
+  const [highLevelProblem, setHighLevelProblem] = useState("0");
+  const [mediumLevelProblem, setMediumLevelProblem] = useState("0");
+  const [lowLevelProblem, setLowLevelProblem] = useState("0");
+  const [isHighLevelDropdown, setIsHighLevelDropdown] = useState(false);
+  const [isMediumLevelDropdown, setIsMediumLevelDropdown] = useState(false);
+  const [isLowLevelDropdown, setIsLowLevelDropdown] = useState(false);
+  const [quizSubject, setQuizbSubject] = useState("");
 
   const handleSchool = (e: React.MouseEvent<HTMLDivElement>) => {
     let value = e.target as HTMLElement;
@@ -26,13 +29,22 @@ function PdfQuizPage() {
     }
   };
 
+  // step 1일때 버튼
   const handleStepOneGenerate = () => {
     if (!school || !grade || !subject) return;
-    console.log("퀴즈 주제 선정하기 버튼 클릭!");
     setCurrentStep(2);
   };
 
-  console.log("currenTStep", currentStep);
+  const handleStepTwoGenerate = () => {
+    if (!quizSubject) return;
+    if (
+      highLevelProblem === "0" &&
+      mediumLevelProblem === "0" &&
+      lowLevelProblem === "0"
+    )
+      return;
+    setCurrentStep(3);
+  };
 
   return (
     <Layout>
@@ -69,7 +81,25 @@ function PdfQuizPage() {
               handleStepOneGenerate={handleStepOneGenerate}
             />
           )}
-          {currentStep === 2 && <StepTwo />}
+          {currentStep === 2 && (
+            <StepTwo
+              quizSubject={quizSubject}
+              setQuizbSubject={setQuizbSubject}
+              isHighLevelDropdown={isHighLevelDropdown}
+              setIsHighLevelDropdown={setIsHighLevelDropdown}
+              isMediumLevelDropdown={isMediumLevelDropdown}
+              setIsMediumLevelDropdown={setIsMediumLevelDropdown}
+              isLowLevelDropdown={isLowLevelDropdown}
+              setIsLowLevelDropdown={setIsLowLevelDropdown}
+              highLevelProblem={highLevelProblem}
+              setHighLevelProblem={setHighLevelProblem}
+              mediumLevelProblem={mediumLevelProblem}
+              setMediumLevelProblem={setMediumLevelProblem}
+              lowLevelProblem={lowLevelProblem}
+              setLowLevelProblem={setLowLevelProblem}
+              handleStepTwoGenerate={handleStepTwoGenerate}
+            />
+          )}
         </Contents>
       </Container>
     </Layout>

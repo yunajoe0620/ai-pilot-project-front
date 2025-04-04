@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 interface KeyItemArray {
-  [key: string]: string[];
+  [key: string]: any[];
 }
 
 interface DropDownProps {
@@ -12,8 +12,9 @@ interface DropDownProps {
   setIsDropdown: React.Dispatch<React.SetStateAction<boolean>>;
   itemKey: string | null;
   itemArray: KeyItemArray;
-  selectValue: string | null;
-  setSelectedValue: React.Dispatch<React.SetStateAction<string | null>>;
+  selectValue: string | number | null;
+  // TODO: type제대로 줘보기..?
+  setSelectedValue: React.Dispatch<React.SetStateAction<any>>;
 }
 
 function SingleDropdown({
@@ -28,7 +29,6 @@ function SingleDropdown({
 }: DropDownProps) {
   const [itemList, setItemList] = useState<string[]>([]);
 
-  // dropdown Open하는거
   const handleDropDown = () => {
     if (!itemKey) {
       return;
@@ -88,6 +88,8 @@ const Contaniner = styled.div`
   flex-direction: column;
   position: relative;
   cursor: pointer;
+  flex: 1;
+  box-sizing: border-box;
 `;
 
 const TypeDirectContainer = styled.div<{ size?: string }>`
