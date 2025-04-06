@@ -3,38 +3,32 @@ import styled from "styled-components";
 import PageAIQuizNavigation from "../../components/navigation/page-navigation";
 import StepOne from "../../components/step/step-one";
 import StepTwo from "../../components/step/step-two";
-import { useStepOneStore } from "../../store";
+import { useStepOneStore, useStepTwoStore } from "../../store";
 
 function PdfQuizPage() {
   const [currentStep, setCurrentStep] = useState(1);
   // level 1
-  // const [school, setSchool] = useState<string | null>("");
-  // const [grade, setGrade] = useState<string | null>("");
-  const [subject, setSubject] = useState<string | null>("");
   const [isGradeDropDown, setIsGradeDropdown] = useState(false);
   const [isSubjectDropDown, setIsSubJectDropdown] = useState(false);
 
   // level 2
-  const [highLevelProblem, setHighLevelProblem] = useState("0");
-  const [mediumLevelProblem, setMediumLevelProblem] = useState("0");
-  const [lowLevelProblem, setLowLevelProblem] = useState("0");
+  // const [highLevelProblem, setHighLevelProblem] = useState("0");
+  // const [mediumLevelProblem, setMediumLevelProblem] = useState("0");
+  // const [lowLevelProblem, setLowLevelProblem] = useState("0");
   const [isHighLevelDropdown, setIsHighLevelDropdown] = useState(false);
   const [isMediumLevelDropdown, setIsMediumLevelDropdown] = useState(false);
   const [isLowLevelDropdown, setIsLowLevelDropdown] = useState(false);
-  const [quizSubject, setQuizbSubject] = useState("");
-
-  // const handleSchool = (e: React.MouseEvent<HTMLDivElement>) => {
-  //   let value = e.target as HTMLElement;
-  //   if (value) {
-  //     setSchool(value.textContent);
-  //   }
-  // };
 
   const school = useStepOneStore((state) => state.school);
-  const handleSchool = useStepOneStore((state) => state.handleSchool);
-
   const grade = useStepOneStore((state) => state.grade);
-  const handleGrade = useStepOneStore((state) => state.handleGrade);
+  const subject = useStepOneStore((state) => state.subject);
+
+  const quizSubject = useStepTwoStore((state) => state.quizSubject);
+  const highLevelProblem = useStepTwoStore((state) => state.highLevelProblem);
+  const mediumLevelProblem = useStepTwoStore(
+    (state) => state.mediumLevelProblem
+  );
+  const lowLevelProblem = useStepTwoStore((state) => state.mediumLevelProblem);
 
   // step 1일때 버튼
   const handleStepOneGenerate = () => {
@@ -75,36 +69,21 @@ function PdfQuizPage() {
         <Contents>
           {currentStep === 1 && (
             <StepOne
-              school={school}
-              grade={grade}
-              subject={subject}
-              handleGrade={handleGrade}
-              // setGrade={setGrade}
-              setSubject={setSubject}
               isGradeDropDown={isGradeDropDown}
               setIsGradeDropdown={setIsGradeDropdown}
               isSubjectDropDown={isSubjectDropDown}
               setIsSubJectDropdown={setIsSubJectDropdown}
-              handleSchool={handleSchool}
               handleStepOneGenerate={handleStepOneGenerate}
             />
           )}
           {currentStep === 2 && (
             <StepTwo
-              quizSubject={quizSubject}
-              setQuizbSubject={setQuizbSubject}
               isHighLevelDropdown={isHighLevelDropdown}
               setIsHighLevelDropdown={setIsHighLevelDropdown}
               isMediumLevelDropdown={isMediumLevelDropdown}
               setIsMediumLevelDropdown={setIsMediumLevelDropdown}
               isLowLevelDropdown={isLowLevelDropdown}
               setIsLowLevelDropdown={setIsLowLevelDropdown}
-              highLevelProblem={highLevelProblem}
-              setHighLevelProblem={setHighLevelProblem}
-              mediumLevelProblem={mediumLevelProblem}
-              setMediumLevelProblem={setMediumLevelProblem}
-              lowLevelProblem={lowLevelProblem}
-              setLowLevelProblem={setLowLevelProblem}
               handleStepTwoGenerate={handleStepTwoGenerate}
               setCurrentStep={setCurrentStep}
             />

@@ -1,57 +1,65 @@
 import styled from "styled-components";
+import { useStepTwoStore } from "../../store";
 import { problemsArray } from "../../utils/dropdown";
 import SelectButton from "../button";
 import GenerateButton from "../button/generate-button";
 import SingleDropdown from "../dropdown/single-dropdown";
 
 interface StepTwoProps {
-  quizSubject: string;
-  setQuizbSubject: React.Dispatch<React.SetStateAction<string>>;
   isHighLevelDropdown: boolean;
   setIsHighLevelDropdown: React.Dispatch<React.SetStateAction<boolean>>;
   isMediumLevelDropdown: boolean;
   setIsMediumLevelDropdown: React.Dispatch<React.SetStateAction<boolean>>;
   isLowLevelDropdown: boolean;
   setIsLowLevelDropdown: React.Dispatch<React.SetStateAction<boolean>>;
-  highLevelProblem: string;
-  setHighLevelProblem: React.Dispatch<React.SetStateAction<any>>;
-  mediumLevelProblem: string;
-  setMediumLevelProblem: React.Dispatch<React.SetStateAction<any>>;
-  lowLevelProblem: string;
-  setLowLevelProblem: React.Dispatch<React.SetStateAction<any>>;
   handleStepTwoGenerate: () => void;
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
 }
 
 function StepTwo({
-  quizSubject,
-  setQuizbSubject,
   isHighLevelDropdown,
   setIsHighLevelDropdown,
   isMediumLevelDropdown,
   setIsMediumLevelDropdown,
   isLowLevelDropdown,
   setIsLowLevelDropdown,
-  highLevelProblem,
-  setHighLevelProblem,
-  mediumLevelProblem,
-  setMediumLevelProblem,
-  lowLevelProblem,
-  setLowLevelProblem,
+
   handleStepTwoGenerate,
   setCurrentStep,
 }: StepTwoProps) {
-  const handleQuizSubject = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuizbSubject(e.target.value);
-  };
+  const quizSubject = useStepTwoStore((state) => state.quizSubject);
+  const handleQuizSubject = useStepTwoStore((state) => state.handleQuizSubject);
 
+  const highLevelProblem = useStepTwoStore((state) => state.highLevelProblem);
+  const mediumLevelProblem = useStepTwoStore(
+    (state) => state.mediumLevelProblem
+  );
+  const lowLevelProblem = useStepTwoStore((state) => state.lowLevelProblem);
+  const handleHighLevelProblem = useStepTwoStore(
+    (state) => state.handleHighLevelProblem
+  );
+  const handleMediumLevelProblem = useStepTwoStore(
+    (state) => state.handleMediumLevelProblem
+  );
+  const handleLowLevelProblem = useStepTwoStore(
+    (state) => state.handleLowLevelProblem
+  );
+
+  console.log("quiz", quizSubject);
+
+  console.log("무운제", highLevelProblem, mediumLevelProblem, lowLevelProblem);
   return (
     <>
       <QuizSubjectContainer>
         <QuizThemetContainer>
           <Subtitle>퀴즈 주제를 작성해 주세요.</Subtitle>
           <QuizInputContainer>
-            <QuizInput value={quizSubject} onChange={handleQuizSubject} />
+            <QuizInput
+              value={quizSubject}
+              onChange={(e) => {
+                handleQuizSubject(e);
+              }}
+            />
             <SelectButton selected={true}>주제 추천받기</SelectButton>
           </QuizInputContainer>
         </QuizThemetContainer>
@@ -66,8 +74,8 @@ function StepTwo({
               setIsDropdown={setIsHighLevelDropdown}
               itemArray={problemsArray}
               itemKey="high"
-              selectValue={highLevelProblem}
-              setSelectedValue={setHighLevelProblem}
+              selectedValue={highLevelProblem}
+              handleDropdown={handleHighLevelProblem}
             />
           </QuizLevelDropdownContainer>
           <QuizLevelDropdownContainer>
@@ -79,8 +87,8 @@ function StepTwo({
               setIsDropdown={setIsMediumLevelDropdown}
               itemArray={problemsArray}
               itemKey="medium"
-              selectValue={mediumLevelProblem}
-              setSelectedValue={setMediumLevelProblem}
+              selectedValue={mediumLevelProblem}
+              handleDropdown={handleMediumLevelProblem}
             />
           </QuizLevelDropdownContainer>
           <QuizLevelDropdownContainer>
@@ -92,8 +100,8 @@ function StepTwo({
               setIsDropdown={setIsLowLevelDropdown}
               itemArray={problemsArray}
               itemKey="low"
-              selectValue={lowLevelProblem}
-              setSelectedValue={setLowLevelProblem}
+              selectedValue={lowLevelProblem}
+              handleDropdown={handleLowLevelProblem}
             />
           </QuizLevelDropdownContainer>
         </QuizLevelContainer>
@@ -112,8 +120,9 @@ function StepTwo({
             size="md"
             color="primary"
             onClick={handleStepTwoGenerate}
-            // TODO: 이상하댜..
-            active={!quizSubject ? false : true}
+            active={
+              quizSubject === "" && highLevelProblem === "" ? false : true
+            }
           >
             퀴즈 유형 정하기
           </GenerateButton>

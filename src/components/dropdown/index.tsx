@@ -12,8 +12,7 @@ interface DropDownProps {
   setIsDropdown: React.Dispatch<React.SetStateAction<boolean>>;
   itemKey: string | null;
   itemArray: ItemArray;
-  selectValue: string | null;
-  setSelectedValue: React.Dispatch<React.SetStateAction<string | null>>;
+  selectedValue: string;
   handleDropdown?: any;
 }
 
@@ -24,8 +23,7 @@ function Dropdown({
   setIsDropdown,
   itemKey,
   itemArray,
-  selectValue,
-  setSelectedValue,
+  selectedValue,
   handleDropdown,
 }: DropDownProps) {
   const [itemList, setItemList] = useState<string[]>([]);
@@ -39,26 +37,17 @@ function Dropdown({
     setIsDropdown(!isDropdown);
   };
 
-  const handleDropdownValue = (e: React.MouseEvent<HTMLDivElement>) => {
-    let value = e.target as HTMLElement;
-    if (value) {
-      setSelectedValue(value.textContent);
-      setIsDropdown(false);
-    }
-  };
-
   useEffect(() => {
     if (!itemKey) return;
     const result = itemArray[itemKey];
-    setSelectedValue(null);
     setItemList(result);
   }, [itemKey]);
 
   return (
     <Contaniner>
       <TypeDirectContainer onClick={handleDropDown} size={size}>
-        <PlaceHolder selectValue={selectValue}>
-          {selectValue ? selectValue : placeholder}
+        <PlaceHolder selectValue={selectedValue}>
+          {selectedValue ? selectedValue : placeholder}
         </PlaceHolder>
         {!isDropdown ? (
           <img src="../../../src/assets/arrow-down.svg" />
@@ -70,7 +59,13 @@ function Dropdown({
         <CountryCodeArrayContainer>
           {itemList.map((item, index) => {
             return (
-              <ItemContainer key={index} onClick={handleDropdown}>
+              <ItemContainer
+                key={index}
+                onClick={(e) => {
+                  handleDropdown(e);
+                  setIsDropdown(!isDropdown);
+                }}
+              >
                 {item}
               </ItemContainer>
             );

@@ -12,9 +12,8 @@ interface DropDownProps {
   setIsDropdown: React.Dispatch<React.SetStateAction<boolean>>;
   itemKey: string | null;
   itemArray: KeyItemArray;
-  selectValue: string | null;
-  // TODO: type제대로 줘보기..?
-  setSelectedValue: React.Dispatch<React.SetStateAction<any>>;
+  selectedValue: string;
+  handleDropdown: any;
 }
 
 function SingleDropdown({
@@ -24,8 +23,8 @@ function SingleDropdown({
   setIsDropdown,
   itemKey,
   itemArray,
-  selectValue,
-  setSelectedValue,
+  selectedValue,
+  handleDropdown,
 }: DropDownProps) {
   const [itemList, setItemList] = useState<string[]>([]);
 
@@ -36,26 +35,17 @@ function SingleDropdown({
     setIsDropdown(!isDropdown);
   };
 
-  const handleDropdownValue = (e: React.MouseEvent<HTMLDivElement>) => {
-    let value = e.target as HTMLElement;
-    if (value) {
-      setSelectedValue(value.textContent);
-      setIsDropdown(false);
-    }
-  };
-
   useEffect(() => {
     if (!itemKey) return;
     const result = itemArray[itemKey];
-    setSelectedValue(null);
     setItemList(result);
   }, [itemKey]);
 
   return (
     <Contaniner>
       <TypeDirectContainer onClick={handleDropDown} size={size}>
-        <PlaceHolder selectValue={selectValue}>
-          {selectValue ? selectValue : placeholder}
+        <PlaceHolder selectValue={selectedValue}>
+          {selectedValue ? selectedValue : placeholder}
         </PlaceHolder>
         {!isDropdown ? (
           <img src="../../../src/assets/arrow-down.svg" />
@@ -69,7 +59,10 @@ function SingleDropdown({
             return (
               <ItemContainer
                 key={index}
-                onClick={(e) => handleDropdownValue(e)}
+                onClick={(e) => {
+                  handleDropdown(e);
+                  setIsDropdown(!isDropdown);
+                }}
               >
                 {item}
               </ItemContainer>
