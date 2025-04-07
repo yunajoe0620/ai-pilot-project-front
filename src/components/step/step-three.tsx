@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 import { useStepThreeStore, useStepTwoStore } from "../../store";
 import { problemsArray } from "../../utils/dropdown";
@@ -22,20 +22,7 @@ function StepThree({
   handleStepThreeGenerate,
   setCurrentStep,
 }: StepThreeProps) {
-  const [totalProblems, setTotalProblems] = useState(0);
-  const highLevelProblem = useStepTwoStore((state) => state.highLevelProblem);
-  const mediumLevelProblem = useStepTwoStore(
-    (state) => state.mediumLevelProblem
-  );
-  const lowLevelProblem = useStepTwoStore((state) => state.lowLevelProblem);
-
-  console.log(
-    "문제유형들",
-    highLevelProblem,
-    mediumLevelProblem,
-    lowLevelProblem
-  );
-
+  const totalProblem = useStepTwoStore((state) => state.totalProblem);
   const multipleChoice = useStepThreeStore((state) => state.multipleChoice);
   const handleMultipleChoice = useStepThreeStore(
     (state) => state.handleMultipleChoice
@@ -46,31 +33,25 @@ function StepThree({
     (state) => state.handleShortAnswerProblem
   );
 
-  //
-  useEffect(() => {
-    const total =
-      Number(highLevelProblem) +
-      Number(mediumLevelProblem) +
-      Number(lowLevelProblem);
-    setTotalProblems(total);
-  }, [highLevelProblem, mediumLevelProblem, lowLevelProblem]);
-
   // 객관식 선택했을때 주관식 자동으로 하는 롸직
+
+  // >=0 이라고 하면은 무한루프에 걸린다 왜쥬?  >=0 이라고 하면은 무한루프에 걸린다 왜쥬? multipleCHoice와shortAnswer의 초기값은 === "" 이다.
   useEffect(() => {
-    if (totalProblems > 0 && Number(multipleChoice) > 0) {
-      let calSubjectProblems = totalProblems - Number(multipleChoice);
+    if (totalProblem > 0 && Number(multipleChoice) > 0) {
+      let calSubjectProblems = totalProblem - Number(multipleChoice);
       handleShortAnswerProblem(calSubjectProblems);
     }
-  }, [totalProblems, multipleChoice]);
+  }, [totalProblem, multipleChoice]);
 
   // 주관식을 선택했을때 객관식 자동으로 하는 롸직
+  // >=0 이라고 하면은 무한루프에 걸린다 왜쥬? multipleCHoice와shortAnswer의 초기값은 === "" 이다.
 
   useEffect(() => {
-    if (totalProblems > 0 && Number(shortAnswer) > 0) {
-      let calSubjectProblems = totalProblems - Number(shortAnswer);
+    if (totalProblem > 0 && Number(shortAnswer) > 0) {
+      let calSubjectProblems = totalProblem - Number(shortAnswer);
       handleMultipleChoice(calSubjectProblems);
     }
-  }, [totalProblems, shortAnswer]);
+  }, [totalProblem, shortAnswer]);
 
   return (
     <QuizTypeContainer>
@@ -91,7 +72,7 @@ function StepThree({
               // console.log("typeofe", e instanceof HTMLElement);
               let value = e.target as HTMLElement;
               let selectedMultipleChoice = value.textContent as string;
-              if (Number(selectedMultipleChoice) > totalProblems) {
+              if (Number(selectedMultipleChoice) > totalProblem) {
                 alert("총 문제보다 문제수가 클 수는 없습니다");
                 return;
               }
@@ -113,7 +94,7 @@ function StepThree({
             handleDropdown={(e: React.MouseEvent<HTMLDivElement>) => {
               let value = e.target as HTMLElement;
               let selectedShortAnswer = value.textContent as string;
-              if (Number(selectedShortAnswer) > totalProblems) {
+              if (Number(selectedShortAnswer) > totalProblem) {
                 alert("총 문제보다 문제수가 클 수는 없습니다");
                 return;
               }

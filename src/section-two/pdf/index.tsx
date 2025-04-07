@@ -1,6 +1,8 @@
 import { useState } from "react";
 import styled from "styled-components";
 import PageAIQuizNavigation from "../../components/navigation/page-navigation";
+import StepFour from "../../components/step/step-four";
+import StepFourPartTwo from "../../components/step/step-four-part-two";
 import StepOne from "../../components/step/step-one";
 import StepThree from "../../components/step/step-three";
 import StepTwo from "../../components/step/step-two";
@@ -48,7 +50,6 @@ function PdfQuizPage() {
 
   // step 2일떄 버튼
   const handleStepTwoGenerate = () => {
-    console.log("lowLeve", lowLevelProblem);
     if (!quizSubject) {
       alert("퀴즈 주제를 선택해주세요");
       return;
@@ -87,6 +88,8 @@ function PdfQuizPage() {
       alert("주관식 문제의 수를 선택해주세요");
       return;
     }
+
+    setCurrentStep(4);
   };
 
   return (
@@ -94,18 +97,20 @@ function PdfQuizPage() {
       <Container>
         {/* navigation */}
         <PageAIQuizNavigation />
-        {/* progressedar */}
-        <ProgressedBar>
-          <Quiztitle>PDF 형식 퀴즈 만들기</Quiztitle>
-          <ProgressBarContainer>
-            <ProgressBarFillerContainer>
-              <ProgressBarFiller
-                style={{ width: `${(currentStep / 4) * 100}%` }}
-              />
-            </ProgressBarFillerContainer>
-            <StepIndicator>{currentStep}/4</StepIndicator>
-          </ProgressBarContainer>
-        </ProgressedBar>
+        {/* progressedar  step 3까지만 보인다*/}
+        {currentStep <= 3 && (
+          <ProgressedBar>
+            <Quiztitle>PDF 형식 퀴즈 만들기</Quiztitle>
+            <ProgressBarContainer>
+              <ProgressBarFillerContainer>
+                <ProgressBarFiller
+                  style={{ width: `${(currentStep / 4) * 100}%` }}
+                />
+              </ProgressBarFillerContainer>
+              <StepIndicator>{currentStep}/4</StepIndicator>
+            </ProgressBarContainer>
+          </ProgressedBar>
+        )}
 
         {/* step별로 바뀌는 부분이다  */}
         <Contents>
@@ -138,6 +143,28 @@ function PdfQuizPage() {
               setIsShortAnswerDropdown={setIsShortAnswerDropdown}
               handleStepThreeGenerate={handleStepThreeGenerate}
               setCurrentStep={setCurrentStep}
+            />
+          )}
+          {currentStep === 4 && <StepFour />}
+        </Contents>
+        {currentStep === 4 && <Line />}
+        <Contents>
+          {currentStep === 4 && (
+            <StepFourPartTwo
+              isGradeDropDown={isGradeDropDown}
+              setIsGradeDropdown={setIsGradeDropdown}
+              isSubjectDropDown={isSubjectDropDown}
+              setIsSubJectDropdown={setIsSubJectDropdown}
+              isHighLevelDropdown={isHighLevelDropdown}
+              setIsHighLevelDropdown={setIsHighLevelDropdown}
+              isMediumLevelDropdown={isMediumLevelDropdown}
+              setIsMediumLevelDropdown={setIsMediumLevelDropdown}
+              isLowLevelDropdown={isLowLevelDropdown}
+              setIsLowLevelDropdown={setIsLowLevelDropdown}
+              isMultipleChoideDropdown={isMultipleChoideDropdown}
+              setIsMultipleChoiceDropdown={setIsMultipleChoiceDropdown}
+              isShortAnswerDropdown={isShortAnswerDropdown}
+              setIsShortAnswerDropdown={setIsShortAnswerDropdown}
             />
           )}
         </Contents>
@@ -228,41 +255,9 @@ const StepIndicator = styled.div`
   letter-spacing: -0.18px;
 `;
 
-const SchoolGradeContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  row-gap: 20px;
-  margin-bottom: 60px;
+const Line = styled.div`
   width: 100%;
-`;
-
-const Subtitle = styled.p`
-  color: #58576e;
-  font-family: "NEXON Lv2 Gothic";
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 135%; /* 21.6px */
-  letter-spacing: -0.24px;
-`;
-
-const GradeDropdownContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  column-gap: 16px;
-`;
-
-// 과목
-
-const SubjectContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  row-gap: 20px;
-  width: 100%;
-  margin-bottom: 70px;
+  height: 1px;
+  background: rgba(224, 230, 250, 0.7);
+  margin-bottom: 52px;
 `;

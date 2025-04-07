@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import styled from "styled-components";
 import { useStepTwoStore } from "../../store";
 import { problemsArray } from "../../utils/dropdown";
@@ -45,6 +46,21 @@ function StepTwo({
     (state) => state.handleLowLevelProblem
   );
 
+  // const totalProblem = useStepTwoStore((state) => state.totalProblem);
+  const handleTotalProblem = useStepTwoStore(
+    (state) => state.handleTotalProblem
+  );
+
+  useEffect(() => {
+    const total =
+      Number(highLevelProblem) +
+      Number(mediumLevelProblem) +
+      Number(lowLevelProblem);
+
+    if (total > 0) {
+      handleTotalProblem(total);
+    }
+  }, [highLevelProblem, mediumLevelProblem, lowLevelProblem]);
   return (
     <>
       <QuizSubjectContainer>
@@ -197,13 +213,12 @@ const QuizLevelDropdownContainer = styled.div`
 
 const QuizLevelText = styled.p`
   color: #58576e;
-
   text-align: center;
   font-family: "NEXON Lv2 Gothic";
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
-  line-height: 135%; /* 21.6px */
+  line-height: 135%;
   letter-spacing: -0.24px;
 `;
 

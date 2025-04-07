@@ -17,9 +17,9 @@ interface StepOneState {
   school: string;
   handleSchool: (e: React.MouseEvent<HTMLDivElement>) => void;
   grade: string;
-  handleGrade: (e: React.MouseEvent<HTMLDivElement>) => void;
+  handleGrade: (e: React.MouseEvent<HTMLDivElement> | null) => void;
   subject: string;
-  handleSubject: (e: React.MouseEvent<HTMLDivElement>) => void;
+  handleSubject: (e: React.MouseEvent<HTMLDivElement> | null) => void;
 }
 
 export const useStepOneStore = create<StepOneState>((set) => ({
@@ -84,6 +84,8 @@ interface StepTwoState {
   handleMediumLevelProblem: (e: React.MouseEvent<HTMLDivElement>) => void;
   lowLevelProblem: string;
   handleLowLevelProblem: (e: React.MouseEvent<HTMLDivElement>) => void;
+  totalProblem: number;
+  handleTotalProblem: (value: number) => void;
 }
 
 export const useStepTwoStore = create<StepTwoState>((set) => ({
@@ -130,6 +132,13 @@ export const useStepTwoStore = create<StepTwoState>((set) => ({
         lowLevelProblem: selectedLowLevel,
       }));
     }
+  },
+
+  totalProblem: 0,
+  handleTotalProblem: (value: number) => {
+    set(() => ({
+      totalProblem: value,
+    }));
   },
 }));
 
