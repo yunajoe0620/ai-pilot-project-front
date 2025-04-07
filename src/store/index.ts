@@ -184,3 +184,17 @@ export const useStepThreeStore = create<StepThreeState>((set) => ({
     }
   },
 }));
+
+// stepFour
+interface StepFortState {
+  extraRequest: string;
+  handleExtraRequest: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+export const useStepFourStore = create<StepFortState>((set) => ({
+  extraRequest: "",
+  handleExtraRequest: (e) => {
+    set(() => ({
+      extraRequest: e.target.value,
+    }));
+  },
+}));

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import {
+  useStepFourStore,
   useStepOneStore,
   useStepThreeStore,
   useStepTwoStore,
@@ -58,8 +59,13 @@ StepFourPartTwoProps) {
   const multipleChoice = useStepThreeStore((state) => state.multipleChoice);
   const shortAnswer = useStepThreeStore((state) => state.shortAnswer);
 
-  const handleGrade = useStepOneStore((state) => state.handleGrade);
-  const handleSchool = useStepOneStore((state) => state.handleSchool);
+  //   stepfour
+  const extraRequest = useStepFourStore((state) => state.extraRequest);
+  const handleExtraRequest = useStepFourStore(
+    (state) => state.handleExtraRequest
+  );
+  //   const handleGrade = useStepOneStore((state) => state.handleGrade);
+  //   const handleSchool = useStepOneStore((state) => state.handleSchool);
   //   const handleSubject = useStepOneStore((state) => state.handleSubject);
   //   const handleQuizSubject = useStepTwoStore((state) => state.handleQuizSubject);
   //   const handleHighLevelProblem = useStepTwoStore(
@@ -86,9 +92,10 @@ StepFourPartTwoProps) {
           결과가 맘에 들지 않나요? 추가 요청을 통해 문제를 다시 만들어봐요.
         </TextOne>
         <QuizInput
-          value=""
+          isEdit={true}
+          value={extraRequest}
           onChange={(e) => {
-            console.log("eee", e);
+            handleExtraRequest(e);
           }}
         />
       </RegenerateContainer>
