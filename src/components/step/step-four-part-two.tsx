@@ -28,28 +28,27 @@ interface StepFourPartTwoProps {
   setIsShortAnswerDropdown: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function StepFourPartTwo({
-  isGradeDropDown,
-  setIsGradeDropdown,
-  isSubjectDropDown,
-  setIsSubJectDropdown,
-  isHighLevelDropdown,
-  setIsHighLevelDropdown,
-  isMediumLevelDropdown,
-  setIsMediumLevelDropdown,
-  isLowLevelDropdown,
-  setIsLowLevelDropdown,
-  isMultipleChoideDropdown,
-  setIsMultipleChoiceDropdown,
-  isShortAnswerDropdown,
-  setIsShortAnswerDropdown,
-}: StepFourPartTwoProps) {
-  const [showSetting, setShowSetting] = useState(false);
+function StepFourPartTwo({}: //   isGradeDropDown,
+//   setIsGradeDropdown,
+//   isSubjectDropDown,
+//   setIsSubJectDropdown,
+//   isHighLevelDropdown,
+//   setIsHighLevelDropdown,
+//   isMediumLevelDropdown,
+//   setIsMediumLevelDropdown,
+//   isLowLevelDropdown,
+//   setIsLowLevelDropdown,
+//   isMultipleChoideDropdown,
+//   setIsMultipleChoiceDropdown,
+//   isShortAnswerDropdown,
+//   setIsShortAnswerDropdown,
+StepFourPartTwoProps) {
+  const [showSetting, setShowSetting] = useState(true);
   const school = useStepOneStore((state) => state.school);
   const grade = useStepOneStore((state) => state.grade);
   const subject = useStepOneStore((state) => state.subject);
   const quizSubject = useStepTwoStore((state) => state.quizSubject);
-  const totalProblem = useStepTwoStore((state) => state.totalProblem);
+  //   const totalProblem = useStepTwoStore((state) => state.totalProblem);
 
   const highLevelProblem = useStepTwoStore((state) => state.highLevelProblem);
   const mediumLevelProblem = useStepTwoStore(
@@ -61,24 +60,24 @@ function StepFourPartTwo({
 
   const handleGrade = useStepOneStore((state) => state.handleGrade);
   const handleSchool = useStepOneStore((state) => state.handleSchool);
-  const handleSubject = useStepOneStore((state) => state.handleSubject);
-  const handleQuizSubject = useStepTwoStore((state) => state.handleQuizSubject);
-  const handleHighLevelProblem = useStepTwoStore(
-    (state) => state.handleHighLevelProblem
-  );
-  const handleMediumLevelProblem = useStepTwoStore(
-    (state) => state.handleMediumLevelProblem
-  );
-  const handleLowLevelProblem = useStepTwoStore(
-    (state) => state.handleLowLevelProblem
-  );
+  //   const handleSubject = useStepOneStore((state) => state.handleSubject);
+  //   const handleQuizSubject = useStepTwoStore((state) => state.handleQuizSubject);
+  //   const handleHighLevelProblem = useStepTwoStore(
+  //     (state) => state.handleHighLevelProblem
+  //   );
+  //   const handleMediumLevelProblem = useStepTwoStore(
+  //     (state) => state.handleMediumLevelProblem
+  //   );
+  //   const handleLowLevelProblem = useStepTwoStore(
+  //     (state) => state.handleLowLevelProblem
+  //   );
 
-  const handleMultipleChoice = useStepThreeStore(
-    (state) => state.handleMultipleChoice
-  );
-  const handleShortAnswerProblem = useStepThreeStore(
-    (state) => state.handleShortAnswerProblem
-  );
+  //   const handleMultipleChoice = useStepThreeStore(
+  //     (state) => state.handleMultipleChoice
+  //   );
+  //   const handleShortAnswerProblem = useStepThreeStore(
+  //     (state) => state.handleShortAnswerProblem
+  //   );
 
   return (
     <Container>
@@ -117,15 +116,15 @@ function StepFourPartTwo({
             <Subtitle>학교와 학년을 선택해주세요</Subtitle>
             <GradeDropdownContainer>
               <ButtonContainer
-                onClick={(e) => {
-                  let value = e.target as HTMLElement;
-                  let newSchool = value.textContent as string;
-                  if (school !== newSchool) {
-                    handleGrade(null);
-                  }
+              // onClick={(e) => {
+              //   let value = e.target as HTMLElement;
+              //   let newSchool = value.textContent as string;
+              //   if (school !== newSchool) {
+              //     handleGrade(null);
+              //   }
 
-                  handleSchool(e);
-                }}
+              //   handleSchool(e);
+              // }}
               >
                 <SelectButton selected={school === "초등학교"}>
                   초등학교
@@ -141,12 +140,13 @@ function StepFourPartTwo({
               <Dropdown
                 size="sm"
                 placeholder="학년 선택"
-                isDropdown={isGradeDropDown}
-                setIsDropdown={setIsGradeDropdown}
+                isEdit={false}
+                // isDropdown={isGradeDropDown}
+                // setIsDropdown={setIsGradeDropdown}
                 itemArray={gradeObject}
                 itemKey={school}
                 selectedValue={grade}
-                handleDropdown={handleGrade}
+                // handleDropdown={handleGrade}
               />
             </GradeDropdownContainer>
           </SchoolGradeContainer>
@@ -156,12 +156,10 @@ function StepFourPartTwo({
             <SingleDropdown
               placeholder="과목을 선택해 주세요"
               size="lg"
-              isDropdown={isSubjectDropDown}
-              setIsDropdown={setIsSubJectDropdown}
               itemArray={subjectArray}
               itemKey="subject"
               selectedValue={subject}
-              handleDropdown={handleSubject}
+              isEdit={false}
             />
           </SubjectContainer>
 
@@ -170,10 +168,12 @@ function StepFourPartTwo({
             <Subtitle>퀴즈 주제를 작성해 주세요.</Subtitle>
             <QuizInputContainer>
               <QuizInput
+                isEdit={false}
+                readOnly
                 value={quizSubject}
-                onChange={(e) => {
-                  handleQuizSubject(e);
-                }}
+                // onChange={(e) => {
+                //   handleQuizSubject(e);
+                // }}
               />
               <SelectButton selected={true}>주제 추천받기</SelectButton>
             </QuizInputContainer>
@@ -187,12 +187,13 @@ function StepFourPartTwo({
               <SingleDropdown
                 placeholder="문항 수를 선택해 주세요."
                 size="lg"
-                isDropdown={isHighLevelDropdown}
-                setIsDropdown={setIsHighLevelDropdown}
+                // isDropdown={isHighLevelDropdown}
+                // setIsDropdown={setIsHighLevelDropdown}
                 itemArray={problemsArray}
                 itemKey="high"
                 selectedValue={highLevelProblem}
-                handleDropdown={handleHighLevelProblem}
+                isEdit={false}
+                // handleDropdown={handleHighLevelProblem}
               />
             </QuizLevelDropdownContainer>
             <QuizLevelDropdownContainer>
@@ -200,12 +201,13 @@ function StepFourPartTwo({
               <SingleDropdown
                 placeholder="문항 수를 선택해 주세요."
                 size="lg"
-                isDropdown={isMediumLevelDropdown}
-                setIsDropdown={setIsMediumLevelDropdown}
+                // isDropdown={isMediumLevelDropdown}
+                // setIsDropdown={setIsMediumLevelDropdown}
                 itemArray={problemsArray}
                 itemKey="medium"
                 selectedValue={mediumLevelProblem}
-                handleDropdown={handleMediumLevelProblem}
+                isEdit={false}
+                // handleDropdown={handleMediumLevelProblem}
               />
             </QuizLevelDropdownContainer>
             <QuizLevelDropdownContainer>
@@ -213,12 +215,13 @@ function StepFourPartTwo({
               <SingleDropdown
                 placeholder="문항 수를 선택해 주세요."
                 size="lg"
-                isDropdown={isLowLevelDropdown}
-                setIsDropdown={setIsLowLevelDropdown}
+                // isDropdown={isLowLevelDropdown}
+                // setIsDropdown={setIsLowLevelDropdown}
                 itemArray={problemsArray}
                 itemKey="low"
                 selectedValue={lowLevelProblem}
-                handleDropdown={handleLowLevelProblem}
+                // handleDropdown={handleLowLevelProblem}
+                isEdit={false}
               />
             </QuizLevelDropdownContainer>
           </QuizLevelContainer>
@@ -232,23 +235,24 @@ function StepFourPartTwo({
                 <SingleDropdown
                   placeholder="문항 수를 선택해 주세요."
                   size="lg"
-                  isDropdown={isMultipleChoideDropdown}
-                  setIsDropdown={setIsMultipleChoiceDropdown}
+                  //   isDropdown={isMultipleChoideDropdown}
+                  //   setIsDropdown={setIsMultipleChoiceDropdown}
                   itemArray={problemsArray}
                   itemKey="multlpleChoice"
                   selectedValue={multipleChoice}
-                  handleDropdown={(e: React.MouseEvent<HTMLDivElement>) => {
-                    //  왜 false일까유?
-                    // console.log("typeofe", e instanceof HTMLElement);
-                    let value = e.target as HTMLElement;
-                    let selectedMultipleChoice = value.textContent as string;
-                    if (Number(selectedMultipleChoice) > totalProblem) {
-                      alert("총 문제보다 문제수가 클 수는 없습니다");
-                      return;
-                    }
+                  //   handleDropdown={(e: React.MouseEvent<HTMLDivElement>) => {
+                  //     //  왜 false일까유?
+                  //     // console.log("typeofe", e instanceof HTMLElement);
+                  //     let value = e.target as HTMLElement;
+                  //     let selectedMultipleChoice = value.textContent as string;
+                  //     if (Number(selectedMultipleChoice) > totalProblem) {
+                  //       alert("총 문제보다 문제수가 클 수는 없습니다");
+                  //       return;
+                  //     }
 
-                    handleMultipleChoice(e);
-                  }}
+                  //     handleMultipleChoice(e);
+                  //   }}
+                  isEdit={false}
                 />
               </QuizTypeDropdownContainer>
               <QuizTypeDropdownContainer>
@@ -256,20 +260,21 @@ function StepFourPartTwo({
                 <SingleDropdown
                   placeholder="문항 수를 선택해 주세요."
                   size="lg"
-                  isDropdown={isShortAnswerDropdown}
-                  setIsDropdown={setIsShortAnswerDropdown}
+                  //   isDropdown={isShortAnswerDropdown}
+                  //   setIsDropdown={setIsShortAnswerDropdown}
                   itemArray={problemsArray}
                   itemKey="shortAnswer"
                   selectedValue={shortAnswer}
-                  handleDropdown={(e: React.MouseEvent<HTMLDivElement>) => {
-                    let value = e.target as HTMLElement;
-                    let selectedShortAnswer = value.textContent as string;
-                    if (Number(selectedShortAnswer) > totalProblem) {
-                      alert("총 문제보다 문제수가 클 수는 없습니다");
-                      return;
-                    }
-                    handleShortAnswerProblem(e);
-                  }}
+                  isEdit={false}
+                  //   handleDropdown={(e: React.MouseEvent<HTMLDivElement>) => {
+                  //     let value = e.target as HTMLElement;
+                  //     let selectedShortAnswer = value.textContent as string;
+                  //     if (Number(selectedShortAnswer) > totalProblem) {
+                  //       alert("총 문제보다 문제수가 클 수는 없습니다");
+                  //       return;
+                  //     }
+                  //     handleShortAnswerProblem(e);
+                  //   }}
                 />
               </QuizTypeDropdownContainer>
             </DropDownContainer>
@@ -316,7 +321,7 @@ const TextOne = styled.p`
   margin-bottom: 20px;
 `;
 
-const QuizInput = styled.input`
+const QuizInput = styled.input<{ isEdit?: boolean }>`
   box-sizing: border-box;
   border-radius: 999999px;
   border: 2px solid #e0e6fa;
@@ -327,6 +332,7 @@ const QuizInput = styled.input`
   align-items: center;
   width: 100%;
   flex: 1 0 0;
+  cursor: ${({ isEdit }) => (isEdit ? "pointer" : "not-allowed")};
 `;
 
 const SettingContainer = styled.div`

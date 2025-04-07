@@ -6,17 +6,19 @@ interface ItemArray {
 }
 
 interface DropDownProps {
+  isEdit?: boolean;
   placeholder: string;
   size?: "sm" | "md" | "lg";
-  isDropdown: boolean;
-  setIsDropdown: React.Dispatch<React.SetStateAction<boolean>>;
+  isDropdown?: boolean;
+  setIsDropdown?: React.Dispatch<React.SetStateAction<boolean>>;
   itemKey: string | null;
   itemArray: ItemArray;
   selectedValue: string;
-  handleDropdown?: any;
+  handleDropdown?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 function Dropdown({
+  isEdit = true,
   placeholder,
   size = "sm",
   isDropdown,
@@ -34,6 +36,7 @@ function Dropdown({
       alert("상위 카테고리르 먼저 선택해주세요");
       return;
     }
+    if (!setIsDropdown) return;
     setIsDropdown(!isDropdown);
   };
 
@@ -44,7 +47,7 @@ function Dropdown({
   }, [itemKey]);
 
   return (
-    <Contaniner>
+    <Contaniner isEdit={isEdit}>
       <TypeDirectContainer onClick={handleDropDown} size={size}>
         <PlaceHolder selectValue={selectedValue}>
           {selectedValue ? selectedValue : placeholder}
@@ -62,6 +65,8 @@ function Dropdown({
               <ItemContainer
                 key={index}
                 onClick={(e) => {
+                  if (!handleDropdown) return;
+                  if (!setIsDropdown) return;
                   handleDropdown(e);
                   setIsDropdown(!isDropdown);
                 }}
@@ -78,11 +83,11 @@ function Dropdown({
 
 export default Dropdown;
 
-const Contaniner = styled.div`
+const Contaniner = styled.div<{ isEdit: boolean }>`
   display: flex;
   flex-direction: column;
   position: relative;
-  cursor: pointer;
+  cursor: ${({ isEdit }) => (isEdit ? "pointer" : "not-allowed")};
 `;
 
 const TypeDirectContainer = styled.div<{ size?: string }>`

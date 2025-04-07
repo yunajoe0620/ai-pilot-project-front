@@ -4,15 +4,24 @@ interface ButtonProps {
   size?: "sm" | "md" | "lg";
   children: React.ReactNode;
   selected: boolean;
+  isClickable?: boolean;
 }
 
-function SelectButton({ selected, children }: ButtonProps) {
-  return <Button selected={selected}>{children}</Button>;
+function SelectButton({ selected, children, isClickable = true }: ButtonProps) {
+  return (
+    <Button selected={selected} isClickable={isClickable}>
+      {children}
+    </Button>
+  );
 }
 
 export default SelectButton;
 
-const Button = styled.button<{ selected?: boolean; size?: string }>`
+const Button = styled.button<{
+  selected?: boolean;
+  size?: string;
+  isClickable?: boolean;
+}>`
   box-sizing: border-box;
   display: flex;
   padding: 16px;
@@ -24,7 +33,7 @@ const Button = styled.button<{ selected?: boolean; size?: string }>`
   border-radius: 999999px;
   border: 2px solid #e0e6fa;
   background: ${({ selected }) => (selected ? "#7789FF" : "#FFF")};
-  cursor: pointer;
+  cursor: ${({ isClickable }) => (isClickable ? "pointer" : "not-allowed")};
   color: #8e8e96;
   color: ${({ selected }) => (selected ? "#FFF" : "#8E8E96")};
   text-align: center;
@@ -34,6 +43,7 @@ const Button = styled.button<{ selected?: boolean; size?: string }>`
   line-height: 135%;
   letter-spacing: -0.27px;
 
+  /* TODO:  isClickable 이 false일떄는 hover작동 안하게 하기 */
   &:hover {
     ${({ selected }) =>
       selected

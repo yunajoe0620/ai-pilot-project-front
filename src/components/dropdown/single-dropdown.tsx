@@ -6,17 +6,19 @@ interface KeyItemArray {
 }
 
 interface DropDownProps {
+  isEdit?: boolean;
   placeholder: string;
   size?: "sm" | "md" | "lg";
-  isDropdown: boolean;
-  setIsDropdown: React.Dispatch<React.SetStateAction<boolean>>;
+  isDropdown?: boolean;
+  setIsDropdown?: React.Dispatch<React.SetStateAction<boolean>>;
   itemKey: string | null;
   itemArray: KeyItemArray;
   selectedValue: string;
-  handleDropdown: any;
+  handleDropdown?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 function SingleDropdown({
+  isEdit = true,
   placeholder,
   size = "sm",
   isDropdown,
@@ -32,6 +34,8 @@ function SingleDropdown({
     if (!itemKey) {
       return;
     }
+    if (!setIsDropdown) return;
+
     setIsDropdown(!isDropdown);
   };
 
@@ -42,7 +46,7 @@ function SingleDropdown({
   }, [itemKey]);
 
   return (
-    <Contaniner>
+    <Contaniner isEdit={isEdit}>
       <TypeDirectContainer onClick={handleDropDown} size={size}>
         <PlaceHolder selectValue={selectedValue}>
           {selectedValue ? selectedValue : placeholder}
@@ -60,6 +64,8 @@ function SingleDropdown({
               <ItemContainer
                 key={index}
                 onClick={(e) => {
+                  if (!handleDropdown) return;
+                  if (!setIsDropdown) return;
                   handleDropdown(e);
                   setIsDropdown(!isDropdown);
                 }}
@@ -76,11 +82,11 @@ function SingleDropdown({
 
 export default SingleDropdown;
 
-const Contaniner = styled.div`
+const Contaniner = styled.div<{ isEdit: boolean }>`
   display: flex;
   flex-direction: column;
   position: relative;
-  cursor: pointer;
+  cursor: ${({ isEdit }) => (isEdit ? "pointer" : "not-allowed")};
   flex: 1;
   box-sizing: border-box;
 `;
