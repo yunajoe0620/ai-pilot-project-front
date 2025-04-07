@@ -12,4 +12,6 @@ export const problemsArray: { [key: string]: number[] } = {
   high: [0, 5, 10, 15, 20],
   medium: [0, 5, 10, 15, 20],
   low: [0, 5, 10, 15, 20],
+  multlpleChoice: [0, 5, 10, 15, 20, 25, 30],
+  shortAnswer: [0, 5, 10, 15, 20, 25, 30],
 };

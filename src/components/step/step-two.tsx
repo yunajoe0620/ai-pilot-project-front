@@ -45,9 +45,6 @@ function StepTwo({
     (state) => state.handleLowLevelProblem
   );
 
-  console.log("quiz", quizSubject);
-
-  console.log("무운제", highLevelProblem, mediumLevelProblem, lowLevelProblem);
   return (
     <>
       <QuizSubjectContainer>
@@ -121,7 +118,12 @@ function StepTwo({
             color="primary"
             onClick={handleStepTwoGenerate}
             active={
-              quizSubject === "" && highLevelProblem === "" ? false : true
+              !quizSubject ||
+              !highLevelProblem ||
+              !mediumLevelProblem ||
+              !lowLevelProblem
+                ? false
+                : true
             }
           >
             퀴즈 유형 정하기

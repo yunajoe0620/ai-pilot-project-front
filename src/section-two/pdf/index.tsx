@@ -2,8 +2,13 @@ import { useState } from "react";
 import styled from "styled-components";
 import PageAIQuizNavigation from "../../components/navigation/page-navigation";
 import StepOne from "../../components/step/step-one";
+import StepThree from "../../components/step/step-three";
 import StepTwo from "../../components/step/step-two";
-import { useStepOneStore, useStepTwoStore } from "../../store";
+import {
+  useStepOneStore,
+  useStepThreeStore,
+  useStepTwoStore,
+} from "../../store";
 
 function PdfQuizPage() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -12,12 +17,14 @@ function PdfQuizPage() {
   const [isSubjectDropDown, setIsSubJectDropdown] = useState(false);
 
   // level 2
-  // const [highLevelProblem, setHighLevelProblem] = useState("0");
-  // const [mediumLevelProblem, setMediumLevelProblem] = useState("0");
-  // const [lowLevelProblem, setLowLevelProblem] = useState("0");
   const [isHighLevelDropdown, setIsHighLevelDropdown] = useState(false);
   const [isMediumLevelDropdown, setIsMediumLevelDropdown] = useState(false);
   const [isLowLevelDropdown, setIsLowLevelDropdown] = useState(false);
+
+  // level 3
+  const [isMultipleChoideDropdown, setIsMultipleChoiceDropdown] =
+    useState(false);
+  const [isShortAnswerDropdown, setIsShortAnswerDropdown] = useState(false);
 
   const school = useStepOneStore((state) => state.school);
   const grade = useStepOneStore((state) => state.grade);
@@ -28,7 +35,10 @@ function PdfQuizPage() {
   const mediumLevelProblem = useStepTwoStore(
     (state) => state.mediumLevelProblem
   );
-  const lowLevelProblem = useStepTwoStore((state) => state.mediumLevelProblem);
+  const lowLevelProblem = useStepTwoStore((state) => state.lowLevelProblem);
+
+  const multipleChoice = useStepThreeStore((state) => state.multipleChoice);
+  const shortAnswer = useStepThreeStore((state) => state.shortAnswer);
 
   // step 1일때 버튼
   const handleStepOneGenerate = () => {
@@ -36,15 +46,47 @@ function PdfQuizPage() {
     setCurrentStep(2);
   };
 
+  // step 2일떄 버튼
   const handleStepTwoGenerate = () => {
-    if (!quizSubject) return;
+    console.log("lowLeve", lowLevelProblem);
+    if (!quizSubject) {
+      alert("퀴즈 주제를 선택해주세요");
+      return;
+    }
+    if (!highLevelProblem) {
+      alert("난이도 상의 문제를 선택해주세요");
+      return;
+    }
+    if (!mediumLevelProblem) {
+      alert("난이도 중의 문제를 선택해주세요");
+      return;
+    }
+    if (!lowLevelProblem) {
+      alert("난이도 하의 문제를 선택해주세요");
+      return;
+    }
     if (
       highLevelProblem === "0" &&
       mediumLevelProblem === "0" &&
       lowLevelProblem === "0"
-    )
+    ) {
+      alert("최소 5개 이상의 문제를 선택해주세요");
       return;
+    }
+
     setCurrentStep(3);
+  };
+
+  // step 3일떄 버튼튼
+  const handleStepThreeGenerate = () => {
+    if (!multipleChoice) {
+      alert("객관식 문제의 수를 선택해주세요");
+      return;
+    }
+    if (!shortAnswer) {
+      alert("주관식 문제의 수를 선택해주세요");
+      return;
+    }
   };
 
   return (
@@ -85,6 +127,16 @@ function PdfQuizPage() {
               isLowLevelDropdown={isLowLevelDropdown}
               setIsLowLevelDropdown={setIsLowLevelDropdown}
               handleStepTwoGenerate={handleStepTwoGenerate}
+              setCurrentStep={setCurrentStep}
+            />
+          )}
+          {currentStep === 3 && (
+            <StepThree
+              isMultipleChoideDropdown={isMultipleChoideDropdown}
+              setIsMultipleChoiceDropdown={setIsMultipleChoiceDropdown}
+              isShortAnswerDropdown={isShortAnswerDropdown}
+              setIsShortAnswerDropdown={setIsShortAnswerDropdown}
+              handleStepThreeGenerate={handleStepThreeGenerate}
               setCurrentStep={setCurrentStep}
             />
           )}

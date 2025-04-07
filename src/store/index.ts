@@ -132,3 +132,46 @@ export const useStepTwoStore = create<StepTwoState>((set) => ({
     }
   },
 }));
+
+// stepThree
+
+// TODO: type수정하기!
+interface StepThreeState {
+  multipleChoice: string;
+  handleMultipleChoice: (e: React.MouseEvent<HTMLDivElement> | any) => void;
+  shortAnswer: string;
+  handleShortAnswerProblem: (e: React.MouseEvent<HTMLDivElement> | any) => void;
+}
+export const useStepThreeStore = create<StepThreeState>((set) => ({
+  multipleChoice: "",
+  handleMultipleChoice: (e) => {
+    if (typeof e === "number") {
+      set(() => ({
+        multipleChoice: e.toString(),
+      }));
+    } else {
+      let value = e.target as HTMLElement;
+      let selectedMultipleChoice = value.textContent as string;
+      set(() => ({
+        multipleChoice: selectedMultipleChoice,
+      }));
+    }
+  },
+
+  shortAnswer: "",
+  handleShortAnswerProblem: (e) => {
+    if (typeof e === "number") {
+      set(() => ({
+        shortAnswer: e.toString(),
+      }));
+    } else {
+      let value = e.target as HTMLElement;
+      let selectedShortAnswer = value.textContent as string;
+      if (value) {
+        set(() => ({
+          shortAnswer: selectedShortAnswer,
+        }));
+      }
+    }
+  },
+}));
