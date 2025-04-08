@@ -1,5 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
+import ModalComponent from "../../components/modal/modal-component";
+import SubjectRecommendationModal from "../../components/modal/subject-recommendation-modal";
 import PageAIQuizNavigation from "../../components/navigation/page-navigation";
 import StepFour from "../../components/step/step-four";
 import StepFourPartTwo from "../../components/step/step-four-part-two";
@@ -100,7 +102,6 @@ function PdfQuizPage() {
   };
 
   // step4
-  // TODO: 얘도 인덱스 페이지에서 prop으로 넘겨줄까 생각듕..
   const handleExtraGenerate = () => {
     if (!extraRequest) {
       alert("추가 요청 사항을 써주세요");
@@ -169,12 +170,14 @@ function PdfQuizPage() {
           {currentStep === 4 && (
             <StepFourPartTwo
               isExtraRequest={isExtraRequest}
-              setIsExtraRequest={setIsExtraRequest}
               handleExtraGenerate={handleExtraGenerate}
             />
           )}
         </Contents>
       </Container>
+      <ModalComponent
+        component={<SubjectRecommendationModal />}
+      ></ModalComponent>
     </Layout>
   );
 }

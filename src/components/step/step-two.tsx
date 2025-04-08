@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useStepTwoStore } from "../../store";
 import { problemsArray } from "../../utils/dropdown";
@@ -24,10 +24,11 @@ function StepTwo({
   setIsMediumLevelDropdown,
   isLowLevelDropdown,
   setIsLowLevelDropdown,
-
   handleStepTwoGenerate,
   setCurrentStep,
 }: StepTwoProps) {
+  const [isSubjectRecommendation, setIsSubjectRecommentdation] =
+    useState(false);
   const quizSubject = useStepTwoStore((state) => state.quizSubject);
   const handleQuizSubject = useStepTwoStore((state) => state.handleQuizSubject);
 
@@ -50,6 +51,11 @@ function StepTwo({
     (state) => state.handleTotalProblem
   );
 
+  // modal 띄우는 handler
+  const handleSubjectRecommendation = () => {
+    setIsSubjectRecommentdation(true);
+  };
+
   useEffect(() => {
     const total =
       Number(highLevelProblem) +
@@ -61,7 +67,7 @@ function StepTwo({
     }
   }, [highLevelProblem, mediumLevelProblem, lowLevelProblem]);
   return (
-    <>
+    <div>
       <QuizSubjectContainer>
         <QuizThemetContainer>
           <Subtitle>퀴즈 주제를 작성해 주세요.</Subtitle>
@@ -72,7 +78,9 @@ function StepTwo({
                 handleQuizSubject(e);
               }}
             />
-            <SelectButton selected={true}>주제 추천받기</SelectButton>
+            <SelectButton selected={true} onClick={handleSubjectRecommendation}>
+              주제 추천받기
+            </SelectButton>
           </QuizInputContainer>
         </QuizThemetContainer>
         <QuizLevelContainer>
@@ -145,7 +153,7 @@ function StepTwo({
           </GenerateButton>
         </ButtonContainer>
       </QuizSubjectContainer>
-    </>
+    </div>
   );
 }
 
@@ -178,7 +186,7 @@ const Subtitle = styled.p`
 
 const QuizInputContainer = styled.div`
   display: flex;
-  row-gap: 8px;
+  column-gap: 8px;
   width: 100%;
 `;
 

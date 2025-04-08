@@ -5,11 +5,17 @@ interface ButtonProps {
   children: React.ReactNode;
   selected: boolean;
   isClickable?: boolean;
+  onClick?: () => void;
 }
 
-function SelectButton({ selected, children, isClickable = true }: ButtonProps) {
+function SelectButton({
+  selected,
+  children,
+  onClick,
+  isClickable = true,
+}: ButtonProps) {
   return (
-    <Button selected={selected} isClickable={isClickable}>
+    <Button onClick={onClick} selected={selected} isClickable={isClickable}>
       {children}
     </Button>
   );

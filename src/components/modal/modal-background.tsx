@@ -1,14 +1,33 @@
 import { ReactNode } from "react";
+import styled from "styled-components";
 
 interface ModalBackgroundProps {
   children: ReactNode;
 }
 function ModalBackground({ children }: ModalBackgroundProps) {
   return (
-    <div className="absolute flex justify-center top-0 left-0 w-full h-full bg-opacity-25">
-      <p className="w-4/5 relative top-20 h-[800px]">{children}</p>
-    </div>
+    <ModalWrapper>
+      <ModalContent>{children}</ModalContent>
+    </ModalWrapper>
   );
 }
 
 export default ModalBackground;
+
+const ModalWrapper = styled.div`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.25);
+`;
+
+const ModalContent = styled.p`
+  width: 80%;
+  position: relative;
+  top: 20px;
+  height: 800px;
+`;
