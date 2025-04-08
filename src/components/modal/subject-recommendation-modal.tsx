@@ -39,14 +39,23 @@ function SubjectRecommendationModal({
   );
 
   const subSubject = useStepTwoStore((state) => state.subSubject);
+
+  const isThemeGenerateButton = useStepTwoStore(
+    (state) => state.isThemeGenerateButton
+  );
   const handleSubSubject = useStepTwoStore((state) => state.handleSubSubject);
   const handleQuizSubject = useStepTwoStore((state) => state.handleQuizSubject);
+  const handleThemeGenerateButton = useStepTwoStore(
+    (state) => state.handleThemeGenerateButton
+  );
 
   const handleCloseModal = () => {
+    if (!isThemeGenerateButton) {
+      handleMajorSubject(null);
+      handleMediumSubject(null);
+      handleSubSubject(null);
+    }
     setIsModalOpen(false);
-    handleMajorSubject(null);
-    handleMediumSubject(null);
-    handleSubSubject(null);
   };
 
   const handleThemeGenerate = () => {
@@ -66,7 +75,10 @@ function SubjectRecommendationModal({
 
     handleQuizSubject(`${majorSubject} ${mediumSubject} ${subSubject}`);
     setIsModalOpen(false);
+    handleThemeGenerateButton();
   };
+
+  console.log("majorSubject", majorSubject, mediumSubject, subSubject);
 
   return (
     <Container>

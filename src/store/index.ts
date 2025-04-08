@@ -94,6 +94,8 @@ interface StepTwoState {
   handleMediumSubject: (e: React.MouseEvent<HTMLDivElement> | null) => void;
   subSubject: string;
   handleSubSubject: (e: React.MouseEvent<HTMLDivElement> | null) => void;
+  isThemeGenerateButton: boolean;
+  handleThemeGenerateButton: () => void;
 }
 
 export const useStepTwoStore = create<StepTwoState>((set) => ({
@@ -199,6 +201,13 @@ export const useStepTwoStore = create<StepTwoState>((set) => ({
     let selectedValue = value.textContent as string;
     set(() => ({
       subSubject: selectedValue,
+    }));
+  },
+
+  isThemeGenerateButton: false,
+  handleThemeGenerateButton: () => {
+    set(() => ({
+      isThemeGenerateButton: true,
     }));
   },
 }));
