@@ -27,6 +27,7 @@ function PdfQuizPage() {
   const [isLowLevelDropdown, setIsLowLevelDropdown] = useState(false);
 
   // subject modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMajorCurriculumDropdown, setIsMajorCurriculumDropdown] =
     useState(false);
 
@@ -59,11 +60,6 @@ function PdfQuizPage() {
   const shortAnswer = useStepThreeStore((state) => state.shortAnswer);
 
   const extraRequest = useStepFourStore((state) => state.extraRequest);
-
-  const majorSubject = useStepTwoStore((state) => state.majorSubject);
-  const handleMajorSubject = useStepTwoStore(
-    (state) => state.handleMajorSubject
-  );
 
   // step 1일때 버튼
   const handleStepOneGenerate = () => {
@@ -165,6 +161,7 @@ function PdfQuizPage() {
               setIsLowLevelDropdown={setIsLowLevelDropdown}
               handleStepTwoGenerate={handleStepTwoGenerate}
               setCurrentStep={setCurrentStep}
+              setIsModalOpen={setIsModalOpen}
             />
           )}
           {currentStep === 3 && (
@@ -189,18 +186,21 @@ function PdfQuizPage() {
           )}
         </Contents>
       </Container>
-      <ModalComponent
-        component={
-          <SubjectRecommendationModal
-            isMajorCurriculumDropdown={isMajorCurriculumDropdown}
-            setIsMajorCurriculumDropdown={setIsMajorCurriculumDropdown}
-            isMediumCurriculumDropdown={isMediumCurriculumDropdown}
-            setIsMediumCurriculumDropdown={setIsMediumCurriculumDropdown}
-            isSubCurriculumDropdown={isSubCurriculumDropdown}
-            setIsSubCurriculumDropdown={setIsSubCurriculumDropdown}
-          />
-        }
-      ></ModalComponent>
+      {isModalOpen && (
+        <ModalComponent
+          component={
+            <SubjectRecommendationModal
+              isMajorCurriculumDropdown={isMajorCurriculumDropdown}
+              setIsMajorCurriculumDropdown={setIsMajorCurriculumDropdown}
+              isMediumCurriculumDropdown={isMediumCurriculumDropdown}
+              setIsMediumCurriculumDropdown={setIsMediumCurriculumDropdown}
+              isSubCurriculumDropdown={isSubCurriculumDropdown}
+              setIsSubCurriculumDropdown={setIsSubCurriculumDropdown}
+              setIsModalOpen={setIsModalOpen}
+            />
+          }
+        ></ModalComponent>
+      )}
     </Layout>
   );
 }

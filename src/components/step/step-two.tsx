@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 import { useStepTwoStore } from "../../store";
 import { problemsArray } from "../../utils/dropdown";
@@ -15,6 +15,8 @@ interface StepTwoProps {
   setIsLowLevelDropdown: React.Dispatch<React.SetStateAction<boolean>>;
   handleStepTwoGenerate: () => void;
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
+
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function StepTwo({
@@ -26,9 +28,9 @@ function StepTwo({
   setIsLowLevelDropdown,
   handleStepTwoGenerate,
   setCurrentStep,
+
+  setIsModalOpen,
 }: StepTwoProps) {
-  const [isSubjectRecommendation, setIsSubjectRecommentdation] =
-    useState(false);
   const quizSubject = useStepTwoStore((state) => state.quizSubject);
   const handleQuizSubject = useStepTwoStore((state) => state.handleQuizSubject);
 
@@ -53,7 +55,7 @@ function StepTwo({
 
   // modal 띄우는 handler
   const handleSubjectRecommendation = () => {
-    setIsSubjectRecommentdation(true);
+    setIsModalOpen(true);
   };
 
   useEffect(() => {
@@ -67,93 +69,91 @@ function StepTwo({
     }
   }, [highLevelProblem, mediumLevelProblem, lowLevelProblem]);
   return (
-    <div>
-      <QuizSubjectContainer>
-        <QuizThemetContainer>
-          <Subtitle>퀴즈 주제를 작성해 주세요.</Subtitle>
-          <QuizInputContainer>
-            <QuizInput
-              value={quizSubject}
-              onChange={(e) => {
-                handleQuizSubject(e);
-              }}
-            />
-            <SelectButton selected={true} onClick={handleSubjectRecommendation}>
-              주제 추천받기
-            </SelectButton>
-          </QuizInputContainer>
-        </QuizThemetContainer>
-        <QuizLevelContainer>
-          <Subtitle>퀴즈의 난이도를 정해주세요.</Subtitle>
-          <QuizLevelDropdownContainer>
-            <QuizLevelText>난이도 상</QuizLevelText>
-            <SingleDropdown
-              placeholder="문항 수를 선택해 주세요."
-              size="lg"
-              isDropdown={isHighLevelDropdown}
-              setIsDropdown={setIsHighLevelDropdown}
-              itemArray={problemsArray}
-              itemKey="high"
-              selectedValue={highLevelProblem}
-              handleDropdown={handleHighLevelProblem}
-            />
-          </QuizLevelDropdownContainer>
-          <QuizLevelDropdownContainer>
-            <QuizLevelText>난이도 중</QuizLevelText>
-            <SingleDropdown
-              placeholder="문항 수를 선택해 주세요."
-              size="lg"
-              isDropdown={isMediumLevelDropdown}
-              setIsDropdown={setIsMediumLevelDropdown}
-              itemArray={problemsArray}
-              itemKey="medium"
-              selectedValue={mediumLevelProblem}
-              handleDropdown={handleMediumLevelProblem}
-            />
-          </QuizLevelDropdownContainer>
-          <QuizLevelDropdownContainer>
-            <QuizLevelText>난이도 하</QuizLevelText>
-            <SingleDropdown
-              placeholder="문항 수를 선택해 주세요."
-              size="lg"
-              isDropdown={isLowLevelDropdown}
-              setIsDropdown={setIsLowLevelDropdown}
-              itemArray={problemsArray}
-              itemKey="low"
-              selectedValue={lowLevelProblem}
-              handleDropdown={handleLowLevelProblem}
-            />
-          </QuizLevelDropdownContainer>
-        </QuizLevelContainer>
-        <ButtonContainer>
-          <GenerateButton
-            size="sm"
-            color="default"
-            onClick={() => {
-              setCurrentStep(1);
+    <QuizSubjectContainer>
+      <QuizThemetContainer>
+        <Subtitle>퀴즈 주제를 작성해 주세요.</Subtitle>
+        <QuizInputContainer>
+          <QuizInput
+            value={quizSubject}
+            onChange={(e) => {
+              handleQuizSubject(e);
             }}
-            active={false}
-          >
-            이전 설정보기
-          </GenerateButton>
-          <GenerateButton
-            size="md"
-            color="primary"
-            onClick={handleStepTwoGenerate}
-            active={
-              !quizSubject ||
-              !highLevelProblem ||
-              !mediumLevelProblem ||
-              !lowLevelProblem
-                ? false
-                : true
-            }
-          >
-            퀴즈 유형 정하기
-          </GenerateButton>
-        </ButtonContainer>
-      </QuizSubjectContainer>
-    </div>
+          />
+          <SelectButton selected={true} onClick={handleSubjectRecommendation}>
+            주제 추천받기
+          </SelectButton>
+        </QuizInputContainer>
+      </QuizThemetContainer>
+      <QuizLevelContainer>
+        <Subtitle>퀴즈의 난이도를 정해주세요.</Subtitle>
+        <QuizLevelDropdownContainer>
+          <QuizLevelText>난이도 상</QuizLevelText>
+          <SingleDropdown
+            placeholder="문항 수를 선택해 주세요."
+            size="lg"
+            isDropdown={isHighLevelDropdown}
+            setIsDropdown={setIsHighLevelDropdown}
+            itemArray={problemsArray}
+            itemKey="high"
+            selectedValue={highLevelProblem}
+            handleDropdown={handleHighLevelProblem}
+          />
+        </QuizLevelDropdownContainer>
+        <QuizLevelDropdownContainer>
+          <QuizLevelText>난이도 중</QuizLevelText>
+          <SingleDropdown
+            placeholder="문항 수를 선택해 주세요."
+            size="lg"
+            isDropdown={isMediumLevelDropdown}
+            setIsDropdown={setIsMediumLevelDropdown}
+            itemArray={problemsArray}
+            itemKey="medium"
+            selectedValue={mediumLevelProblem}
+            handleDropdown={handleMediumLevelProblem}
+          />
+        </QuizLevelDropdownContainer>
+        <QuizLevelDropdownContainer>
+          <QuizLevelText>난이도 하</QuizLevelText>
+          <SingleDropdown
+            placeholder="문항 수를 선택해 주세요."
+            size="lg"
+            isDropdown={isLowLevelDropdown}
+            setIsDropdown={setIsLowLevelDropdown}
+            itemArray={problemsArray}
+            itemKey="low"
+            selectedValue={lowLevelProblem}
+            handleDropdown={handleLowLevelProblem}
+          />
+        </QuizLevelDropdownContainer>
+      </QuizLevelContainer>
+      <ButtonContainer>
+        <GenerateButton
+          size="sm"
+          color="default"
+          onClick={() => {
+            setCurrentStep(1);
+          }}
+          active={false}
+        >
+          이전 설정보기
+        </GenerateButton>
+        <GenerateButton
+          size="md"
+          color="primary"
+          onClick={handleStepTwoGenerate}
+          active={
+            !quizSubject ||
+            !highLevelProblem ||
+            !mediumLevelProblem ||
+            !lowLevelProblem
+              ? false
+              : true
+          }
+        >
+          퀴즈 유형 정하기
+        </GenerateButton>
+      </ButtonContainer>
+    </QuizSubjectContainer>
   );
 }
 

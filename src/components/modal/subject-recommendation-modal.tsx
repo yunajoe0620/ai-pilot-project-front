@@ -15,6 +15,7 @@ interface SubjectRecommendationModalProps {
   setIsMediumCurriculumDropdown: React.Dispatch<React.SetStateAction<boolean>>;
   isSubCurriculumDropdown: boolean;
   setIsSubCurriculumDropdown: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function SubjectRecommendationModal({
@@ -24,6 +25,8 @@ function SubjectRecommendationModal({
   setIsMediumCurriculumDropdown,
   isSubCurriculumDropdown,
   setIsSubCurriculumDropdown,
+
+  setIsModalOpen,
 }: SubjectRecommendationModalProps) {
   const majorSubject = useStepTwoStore((state) => state.majorSubject);
   const handleMajorSubject = useStepTwoStore(
@@ -37,6 +40,30 @@ function SubjectRecommendationModal({
 
   const subSubject = useStepTwoStore((state) => state.subSubject);
   const handleSubSubject = useStepTwoStore((state) => state.handleSubSubject);
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    handleMajorSubject(null);
+    handleMediumSubject(null);
+    handleSubSubject(null);
+  };
+
+  const handleThemeGenerate = () => {
+    if (!majorSubject) {
+      alert("주제를 선택해주세요");
+      return;
+    }
+
+    if (!mediumSubject) {
+      alert("상세 영역을 선택해주세요");
+      return;
+    }
+    if (!subSubject) {
+      alert("하위 영역을 선택해주세요");
+      return;
+    }
+    setIsModalOpen(false);
+  };
 
   return (
     <Container>
@@ -65,6 +92,7 @@ function SubjectRecommendationModal({
           handleDropdown={(e) => {
             handleMediumSubject(e);
           }}
+          alertMessage="주제를 먼저 선택해주세요"
         ></SingleDropdown>
         <SingleDropdown
           placeholder="하위 영역을 선택해 주세요."
@@ -77,13 +105,14 @@ function SubjectRecommendationModal({
           handleDropdown={(e) => {
             handleSubSubject(e);
           }}
-        ></SingleDropdown>
+          alertMessage="상세 영역을 선택해 주세요."
+        />
       </ThemeContainer>
       <ButtonContainer>
         <GenerateButton
           size="sm"
           color="default"
-          onClick={() => {}}
+          onClick={handleCloseModal}
           active={false}
         >
           닫기
@@ -91,8 +120,8 @@ function SubjectRecommendationModal({
         <GenerateButton
           size="md"
           color="primary"
-          onClick={() => {}}
-          active={false}
+          onClick={handleThemeGenerate}
+          active={majorSubject && mediumSubject && subSubject ? true : false}
         >
           주제 적용하기
         </GenerateButton>

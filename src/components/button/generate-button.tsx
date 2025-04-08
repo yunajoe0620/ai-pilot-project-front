@@ -7,6 +7,7 @@ interface GenerateButtonProps {
   onClick: (() => void) | ((e: any) => void);
   size?: "sm" | "md" | "lg";
   color: "primary" | "default";
+  disabled?: boolean;
 }
 
 function GenerateButton({
@@ -15,9 +16,16 @@ function GenerateButton({
   onClick,
   color = "primary",
   size = "md",
+  disabled = false,
 }: GenerateButtonProps) {
   return (
-    <Button active={active} onClick={onClick} size={size} color={color}>
+    <Button
+      aria-disabled={disabled}
+      active={active}
+      onClick={onClick}
+      size={size}
+      color={color}
+    >
       {children}
     </Button>
   );
@@ -55,6 +63,7 @@ const Button = styled.button<{
   line-height: 135%;
   letter-spacing: -0.3px;
   cursor: pointer;
+
   width: ${({ size }) =>
     size === "sm" ? "200px" : size === "md" ? "260px" : "100%"};
 

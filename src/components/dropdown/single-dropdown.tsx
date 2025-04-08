@@ -15,6 +15,7 @@ interface DropDownProps {
   itemArray: KeyItemArray;
   selectedValue: string;
   handleDropdown?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  alertMessage?: string;
 }
 
 function SingleDropdown({
@@ -27,11 +28,14 @@ function SingleDropdown({
   itemArray,
   selectedValue,
   handleDropdown,
+  alertMessage,
 }: DropDownProps) {
   const [itemList, setItemList] = useState<string[]>([]);
 
   const handleDropDown = () => {
     if (!itemKey) {
+      console.log("itemKey", itemKey);
+      alert(alertMessage);
       return;
     }
     if (!setIsDropdown) return;
