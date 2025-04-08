@@ -15,7 +15,6 @@ interface StepTwoProps {
   setIsLowLevelDropdown: React.Dispatch<React.SetStateAction<boolean>>;
   handleStepTwoGenerate: () => void;
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
-
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -53,7 +52,6 @@ function StepTwo({
     (state) => state.handleTotalProblem
   );
 
-  // modal 띄우는 handler
   const handleSubjectRecommendation = () => {
     setIsModalOpen(true);
   };

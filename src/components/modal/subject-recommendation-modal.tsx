@@ -40,6 +40,7 @@ function SubjectRecommendationModal({
 
   const subSubject = useStepTwoStore((state) => state.subSubject);
   const handleSubSubject = useStepTwoStore((state) => state.handleSubSubject);
+  const handleQuizSubject = useStepTwoStore((state) => state.handleQuizSubject);
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
@@ -62,6 +63,8 @@ function SubjectRecommendationModal({
       alert("하위 영역을 선택해주세요");
       return;
     }
+
+    handleQuizSubject(`${majorSubject}${mediumSubject}${subSubject}`);
     setIsModalOpen(false);
   };
 

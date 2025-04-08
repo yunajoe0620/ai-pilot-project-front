@@ -77,7 +77,7 @@ export const useStepOneStore = create<StepOneState>((set) => ({
 // step one
 interface StepTwoState {
   quizSubject: string;
-  handleQuizSubject: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleQuizSubject: (e: React.ChangeEvent<HTMLInputElement> | string) => void;
   highLevelProblem: string;
   handleHighLevelProblem: (e: React.MouseEvent<HTMLDivElement>) => void;
   mediumLevelProblem: string;
@@ -100,6 +100,12 @@ export const useStepTwoStore = create<StepTwoState>((set) => ({
   // 주제
   quizSubject: "",
   handleQuizSubject: (e) => {
+    if (typeof e === "string") {
+      set(() => ({
+        quizSubject: e,
+      }));
+      return;
+    }
     set(() => ({
       quizSubject: e.target.value,
     }));
