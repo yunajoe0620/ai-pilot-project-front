@@ -86,6 +86,14 @@ interface StepTwoState {
   handleLowLevelProblem: (e: React.MouseEvent<HTMLDivElement>) => void;
   totalProblem: number;
   handleTotalProblem: (value: number) => void;
+
+  // 모달분류
+  majorSubject: string;
+  handleMajorSubject: (e: React.MouseEvent<HTMLDivElement>) => void;
+  mediumSubject: string;
+  handleMediumSubject: (e: React.MouseEvent<HTMLDivElement>) => void;
+  subSubject: string;
+  handleSubSubject: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 export const useStepTwoStore = create<StepTwoState>((set) => ({
@@ -138,6 +146,34 @@ export const useStepTwoStore = create<StepTwoState>((set) => ({
   handleTotalProblem: (value: number) => {
     set(() => ({
       totalProblem: value,
+    }));
+  },
+
+  // quizSubject
+  majorSubject: "",
+  handleMajorSubject: (e) => {
+    let value = e.target as HTMLElement;
+    let selectedValue = value.textContent as string;
+    set(() => ({
+      majorSubject: selectedValue,
+    }));
+  },
+
+  mediumSubject: "",
+  handleMediumSubject: (e) => {
+    let value = e.target as HTMLElement;
+    let selectedValue = value.textContent as string;
+    set(() => ({
+      mediumSubject: selectedValue,
+    }));
+  },
+
+  subSubject: "",
+  handleSubSubject: (e) => {
+    let value = e.target as HTMLElement;
+    let selectedValue = value.textContent as string;
+    set(() => ({
+      subSubject: selectedValue,
     }));
   },
 }));

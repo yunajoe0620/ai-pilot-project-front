@@ -26,6 +26,15 @@ function PdfQuizPage() {
   const [isMediumLevelDropdown, setIsMediumLevelDropdown] = useState(false);
   const [isLowLevelDropdown, setIsLowLevelDropdown] = useState(false);
 
+  // subject modal
+  const [isMajorCurriculumDropdown, setIsMajorCurriculumDropdown] =
+    useState(false);
+
+  const [isMediumCurriculumDropdown, setIsMediumCurriculumDropdown] =
+    useState(false);
+
+  const [isSubCurriculumDropdown, setIsSubCurriculumDropdown] = useState(false);
+
   // level 3
   const [isMultipleChoideDropdown, setIsMultipleChoiceDropdown] =
     useState(false);
@@ -50,6 +59,11 @@ function PdfQuizPage() {
   const shortAnswer = useStepThreeStore((state) => state.shortAnswer);
 
   const extraRequest = useStepFourStore((state) => state.extraRequest);
+
+  const majorSubject = useStepTwoStore((state) => state.majorSubject);
+  const handleMajorSubject = useStepTwoStore(
+    (state) => state.handleMajorSubject
+  );
 
   // step 1일때 버튼
   const handleStepOneGenerate = () => {
@@ -176,7 +190,16 @@ function PdfQuizPage() {
         </Contents>
       </Container>
       <ModalComponent
-        component={<SubjectRecommendationModal />}
+        component={
+          <SubjectRecommendationModal
+            isMajorCurriculumDropdown={isMajorCurriculumDropdown}
+            setIsMajorCurriculumDropdown={setIsMajorCurriculumDropdown}
+            isMediumCurriculumDropdown={isMediumCurriculumDropdown}
+            setIsMediumCurriculumDropdown={setIsMediumCurriculumDropdown}
+            isSubCurriculumDropdown={isSubCurriculumDropdown}
+            setIsSubCurriculumDropdown={setIsSubCurriculumDropdown}
+          />
+        }
       ></ModalComponent>
     </Layout>
   );

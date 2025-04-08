@@ -25,7 +25,7 @@ const ModalWrapper = styled.div`
   background-color: rgba(0, 0, 0, 0.25);
 `;
 
-const ModalContent = styled.p`
+const ModalContent = styled.div`
   width: 80%;
   position: relative;
   top: 20px;

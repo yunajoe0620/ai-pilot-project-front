@@ -1,9 +1,43 @@
 import styled from "styled-components";
-import { subjectArray } from "../../utils/dropdown";
+import { useStepTwoStore } from "../../store";
+import {
+  majorCurriculumArray,
+  mediumCurriculumArray,
+  subCurriculumArray,
+} from "../../utils/dropdown";
 import GenerateButton from "../button/generate-button";
 import SingleDropdown from "../dropdown/single-dropdown";
 
-function SubjectRecommendationModal() {
+interface SubjectRecommendationModalProps {
+  isMajorCurriculumDropdown: boolean;
+  setIsMajorCurriculumDropdown: React.Dispatch<React.SetStateAction<boolean>>;
+  isMediumCurriculumDropdown: boolean;
+  setIsMediumCurriculumDropdown: React.Dispatch<React.SetStateAction<boolean>>;
+  isSubCurriculumDropdown: boolean;
+  setIsSubCurriculumDropdown: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function SubjectRecommendationModal({
+  isMajorCurriculumDropdown,
+  setIsMajorCurriculumDropdown,
+  isMediumCurriculumDropdown,
+  setIsMediumCurriculumDropdown,
+  isSubCurriculumDropdown,
+  setIsSubCurriculumDropdown,
+}: SubjectRecommendationModalProps) {
+  const majorSubject = useStepTwoStore((state) => state.majorSubject);
+  const handleMajorSubject = useStepTwoStore(
+    (state) => state.handleMajorSubject
+  );
+
+  const mediumSubject = useStepTwoStore((state) => state.mediumSubject);
+  const handleMediumSubject = useStepTwoStore(
+    (state) => state.handleMediumSubject
+  );
+
+  const subSubject = useStepTwoStore((state) => state.subSubject);
+  const handleSubSubject = useStepTwoStore((state) => state.handleSubSubject);
+
   return (
     <Container>
       <ThemeContainer>
@@ -11,26 +45,38 @@ function SubjectRecommendationModal() {
         <SingleDropdown
           placeholder="큰 주제를 선택해 주세요."
           size="lg"
-          itemArray={subjectArray}
-          itemKey="subject"
-          selectedValue=""
-          handleDropdown={() => {}}
+          isDropdown={isMajorCurriculumDropdown}
+          setIsDropdown={setIsMajorCurriculumDropdown}
+          itemArray={majorCurriculumArray}
+          itemKey="math"
+          selectedValue={majorSubject}
+          handleDropdown={(e) => {
+            handleMajorSubject(e);
+          }}
         ></SingleDropdown>
         <SingleDropdown
           placeholder="상세 영역을 선택해 주세요."
           size="lg"
-          itemArray={subjectArray}
-          itemKey="subject"
-          selectedValue=""
-          handleDropdown={() => {}}
+          isDropdown={isMediumCurriculumDropdown}
+          setIsDropdown={setIsMediumCurriculumDropdown}
+          itemArray={mediumCurriculumArray}
+          itemKey={majorSubject}
+          selectedValue={mediumSubject}
+          handleDropdown={(e) => {
+            handleMediumSubject(e);
+          }}
         ></SingleDropdown>
         <SingleDropdown
           placeholder="하위 영역을 선택해 주세요."
           size="lg"
-          itemArray={subjectArray}
-          itemKey="subject"
-          selectedValue=""
-          handleDropdown={() => {}}
+          isDropdown={isSubCurriculumDropdown}
+          setIsDropdown={setIsSubCurriculumDropdown}
+          itemArray={subCurriculumArray}
+          itemKey={mediumSubject}
+          selectedValue={subSubject}
+          handleDropdown={(e) => {
+            handleSubSubject(e);
+          }}
         ></SingleDropdown>
       </ThemeContainer>
       <ButtonContainer>

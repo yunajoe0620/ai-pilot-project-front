@@ -42,6 +42,7 @@ function SingleDropdown({
   useEffect(() => {
     if (!itemKey) return;
     const result = itemArray[itemKey];
+
     setItemList(result);
   }, [itemKey]);
 
