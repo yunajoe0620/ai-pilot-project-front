@@ -7,6 +7,7 @@ import StepOne from "../../components/step/step-one";
 import StepThree from "../../components/step/step-three";
 import StepTwo from "../../components/step/step-two";
 import {
+  useStepFourStore,
   useStepOneStore,
   useStepThreeStore,
   useStepTwoStore,
@@ -28,6 +29,10 @@ function PdfQuizPage() {
     useState(false);
   const [isShortAnswerDropdown, setIsShortAnswerDropdown] = useState(false);
 
+  // level4
+
+  const [isExtraRequest, setIsExtraRequest] = useState(false);
+
   const school = useStepOneStore((state) => state.school);
   const grade = useStepOneStore((state) => state.grade);
   const subject = useStepOneStore((state) => state.subject);
@@ -41,6 +46,8 @@ function PdfQuizPage() {
 
   const multipleChoice = useStepThreeStore((state) => state.multipleChoice);
   const shortAnswer = useStepThreeStore((state) => state.shortAnswer);
+
+  const extraRequest = useStepFourStore((state) => state.extraRequest);
 
   // step 1일때 버튼
   const handleStepOneGenerate = () => {
@@ -91,6 +98,16 @@ function PdfQuizPage() {
 
     setCurrentStep(4);
   };
+
+  // step4
+  // TODO: 얘도 인덱스 페이지에서 prop으로 넘겨줄까 생각듕..
+  // const handleExtraRequestGenerate = () => {
+  //   if (!extraRequest) {
+  //     alert("추가 요청 사항을 써주세요");
+  //     return;
+  //   }
+  //   setIsExtraRequest(true);
+  // };
 
   return (
     <Layout>
@@ -145,26 +162,14 @@ function PdfQuizPage() {
               setCurrentStep={setCurrentStep}
             />
           )}
-          {currentStep === 4 && <StepFour />}
+          {currentStep === 4 && <StepFour isExtraRequest={isExtraRequest} />}
         </Contents>
         {currentStep === 4 && <Line />}
         <Contents>
           {currentStep === 4 && (
             <StepFourPartTwo
-              isGradeDropDown={isGradeDropDown}
-              setIsGradeDropdown={setIsGradeDropdown}
-              isSubjectDropDown={isSubjectDropDown}
-              setIsSubJectDropdown={setIsSubJectDropdown}
-              isHighLevelDropdown={isHighLevelDropdown}
-              setIsHighLevelDropdown={setIsHighLevelDropdown}
-              isMediumLevelDropdown={isMediumLevelDropdown}
-              setIsMediumLevelDropdown={setIsMediumLevelDropdown}
-              isLowLevelDropdown={isLowLevelDropdown}
-              setIsLowLevelDropdown={setIsLowLevelDropdown}
-              isMultipleChoideDropdown={isMultipleChoideDropdown}
-              setIsMultipleChoiceDropdown={setIsMultipleChoiceDropdown}
-              isShortAnswerDropdown={isShortAnswerDropdown}
-              setIsShortAnswerDropdown={setIsShortAnswerDropdown}
+              isExtraRequest={isExtraRequest}
+              setIsExtraRequest={setIsExtraRequest}
             />
           )}
         </Contents>

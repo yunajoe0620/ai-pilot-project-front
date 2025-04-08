@@ -34,7 +34,6 @@ const Button = styled.button<{
   border: 2px solid #e0e6fa;
   background: ${({ selected }) => (selected ? "#7789FF" : "#FFF")};
   cursor: ${({ isClickable }) => (isClickable ? "pointer" : "not-allowed")};
-  color: #8e8e96;
   color: ${({ selected }) => (selected ? "#FFF" : "#8E8E96")};
   text-align: center;
   font-family: "NEXON Lv2 Gothic";
@@ -45,8 +44,8 @@ const Button = styled.button<{
 
   /* TODO:  isClickable 이 false일떄는 hover작동 안하게 하기 */
   &:hover {
-    ${({ selected }) =>
-      selected
+    ${({ selected, isClickable }) =>
+      selected || !isClickable
         ? null
         : `color: #fff;
     background: #98a6ff;

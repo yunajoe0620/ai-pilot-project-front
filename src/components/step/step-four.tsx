@@ -1,23 +1,33 @@
 import styled from "styled-components";
 import GenerateButton from "../button/generate-button";
 
-function StepFour() {
+interface StepFourProps {
+  isExtraRequest: boolean;
+}
+
+function StepFour({ isExtraRequest }: StepFourProps) {
   return (
     <Container>
       <StepFourTopContainer>
         <Character>마스코트</Character>
         <PdfDownLoadContainer>
-          <TextOne>AI 퀴즈가 완성 되었어요!</TextOne>
+          <TextOne>
+            {isExtraRequest
+              ? "AI 퀴즈가 다시 완성되었어요!"
+              : "AI 퀴즈가 완성되었어요!"}
+          </TextOne>
           <TextTwo>다운로드 버튼을 통해 PDF로 다운 받을 수 있습니다.</TextTwo>
           <GenerateButton
             size="lg"
             color="primary"
             onClick={() => {
-              console.log("제너레이트");
+              console.log("PDF제너레이트");
             }}
             active={true}
           >
-            AI 퀴즈 PDF 다운로드하기
+            {isExtraRequest
+              ? "(2차) AI 퀴즈 PDF 다운로드하기"
+              : "AI 퀴즈 PDF 다운로드하기"}
           </GenerateButton>
         </PdfDownLoadContainer>
       </StepFourTopContainer>

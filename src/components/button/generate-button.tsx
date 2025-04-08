@@ -4,7 +4,7 @@ import { ButtonColor } from "../../utils/button";
 interface GenerateButtonProps {
   children: React.ReactNode;
   active: boolean;
-  onClick: () => void;
+  onClick: (() => void) | ((e: any) => void);
   size?: "sm" | "md" | "lg";
   color: "primary" | "default";
 }

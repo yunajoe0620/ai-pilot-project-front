@@ -46,7 +46,6 @@ function StepTwo({
     (state) => state.handleLowLevelProblem
   );
 
-  // const totalProblem = useStepTwoStore((state) => state.totalProblem);
   const handleTotalProblem = useStepTwoStore(
     (state) => state.handleTotalProblem
   );
