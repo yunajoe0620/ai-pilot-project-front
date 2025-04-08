@@ -33,23 +33,22 @@ function StepThree({
     (state) => state.handleShortAnswerProblem
   );
 
-  // 객관식 선택했을때 주관식 자동으로 하는 롸직
-
-  // >=0 이라고 하면은 무한루프에 걸린다 왜쥬?  >=0 이라고 하면은 무한루프에 걸린다 왜쥬? multipleCHoice와shortAnswer의 초기값은 === "" 이다.
+  // 빈문자열을 Number("") typecasing하면은 0 이 된다.
   useEffect(() => {
-    if (totalProblem > 0 && Number(multipleChoice) > 0) {
-      let calSubjectProblems = totalProblem - Number(multipleChoice);
-      handleShortAnswerProblem(calSubjectProblems);
+    if (multipleChoice !== "") {
+      if (totalProblem > 0 && Number(multipleChoice) >= 0) {
+        let calSubjectProblems = totalProblem - Number(multipleChoice);
+        handleShortAnswerProblem(calSubjectProblems);
+      }
     }
   }, [totalProblem, multipleChoice]);
 
-  // 주관식을 선택했을때 객관식 자동으로 하는 롸직
-  // >=0 이라고 하면은 무한루프에 걸린다 왜쥬? multipleCHoice와shortAnswer의 초기값은 === "" 이다.
-
   useEffect(() => {
-    if (totalProblem > 0 && Number(shortAnswer) > 0) {
-      let calSubjectProblems = totalProblem - Number(shortAnswer);
-      handleMultipleChoice(calSubjectProblems);
+    if (shortAnswer !== "") {
+      if (totalProblem > 0 && Number(shortAnswer) >= 0) {
+        let calSubjectProblems = totalProblem - Number(shortAnswer);
+        handleMultipleChoice(calSubjectProblems);
+      }
     }
   }, [totalProblem, shortAnswer]);
 

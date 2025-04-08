@@ -15,11 +15,13 @@ import SingleDropdown from "../dropdown/single-dropdown";
 interface StepFourPartTwoProps {
   isExtraRequest: boolean;
   setIsExtraRequest: React.Dispatch<React.SetStateAction<boolean>>;
+  handleExtraGenerate: () => void;
 }
 
 function StepFourPartTwo({
   isExtraRequest,
   setIsExtraRequest,
+  handleExtraGenerate,
 }: StepFourPartTwoProps) {
   const [showSetting, setShowSetting] = useState(true);
   const school = useStepOneStore((state) => state.school);
@@ -40,13 +42,13 @@ function StepFourPartTwo({
   const handleExtraRequest = useStepFourStore(
     (state) => state.handleExtraRequest
   );
-  const handleExtraRequestGenerate = () => {
-    if (!extraRequest) {
-      alert("추가 요청 사항을 써주세요");
-      return;
-    }
-    setIsExtraRequest(true);
-  };
+  // const handleExtraRequestGenerate = () => {
+  //   if (!extraRequest) {
+  //     alert("추가 요청 사항을 써주세요");
+  //     return;
+  //   }
+  //   setIsExtraRequest(true);
+  // };
 
   return (
     <Container>
@@ -227,7 +229,7 @@ function StepFourPartTwo({
         <GenerateButton
           size="md"
           color="primary"
-          onClick={handleExtraRequestGenerate}
+          onClick={handleExtraGenerate}
           active={extraRequest.length > 0}
         >
           AI 퀴즈 생성하기

@@ -101,13 +101,13 @@ function PdfQuizPage() {
 
   // step4
   // TODO: 얘도 인덱스 페이지에서 prop으로 넘겨줄까 생각듕..
-  // const handleExtraRequestGenerate = () => {
-  //   if (!extraRequest) {
-  //     alert("추가 요청 사항을 써주세요");
-  //     return;
-  //   }
-  //   setIsExtraRequest(true);
-  // };
+  const handleExtraGenerate = () => {
+    if (!extraRequest) {
+      alert("추가 요청 사항을 써주세요");
+      return;
+    }
+    setIsExtraRequest(true);
+  };
 
   return (
     <Layout>
@@ -170,6 +170,7 @@ function PdfQuizPage() {
             <StepFourPartTwo
               isExtraRequest={isExtraRequest}
               setIsExtraRequest={setIsExtraRequest}
+              handleExtraGenerate={handleExtraGenerate}
             />
           )}
         </Contents>
