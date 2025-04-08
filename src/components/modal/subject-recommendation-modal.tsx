@@ -64,7 +64,7 @@ function SubjectRecommendationModal({
       return;
     }
 
-    handleQuizSubject(`${majorSubject}${mediumSubject}${subSubject}`);
+    handleQuizSubject(`${majorSubject} ${mediumSubject} ${subSubject}`);
     setIsModalOpen(false);
   };
 
@@ -81,6 +81,12 @@ function SubjectRecommendationModal({
           itemKey="math"
           selectedValue={majorSubject}
           handleDropdown={(e) => {
+            let value = e.target as HTMLElement;
+            let selectedValue = value.textContent as string;
+            if (majorSubject !== selectedValue) {
+              handleMediumSubject(null);
+              handleSubSubject(null);
+            }
             handleMajorSubject(e);
           }}
         ></SingleDropdown>
@@ -93,6 +99,11 @@ function SubjectRecommendationModal({
           itemKey={majorSubject}
           selectedValue={mediumSubject}
           handleDropdown={(e) => {
+            let value = e.target as HTMLElement;
+            let selectedValue = value.textContent as string;
+            if (mediumSubject !== selectedValue) {
+              handleSubSubject(null);
+            }
             handleMediumSubject(e);
           }}
           alertMessage="주제를 먼저 선택해주세요"

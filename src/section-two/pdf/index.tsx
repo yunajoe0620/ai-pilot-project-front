@@ -63,7 +63,6 @@ function PdfQuizPage() {
 
   // step 1일때 버튼
   const handleStepOneGenerate = () => {
-    if (!school || !grade || !subject) return;
     if (!school) {
       alert("학교를 선택해주세요");
       return;

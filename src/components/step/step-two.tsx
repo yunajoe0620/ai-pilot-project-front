@@ -27,7 +27,6 @@ function StepTwo({
   setIsLowLevelDropdown,
   handleStepTwoGenerate,
   setCurrentStep,
-
   setIsModalOpen,
 }: StepTwoProps) {
   const quizSubject = useStepTwoStore((state) => state.quizSubject);
