@@ -49,6 +49,8 @@ function SubjectRecommendationModal({
     (state) => state.handleThemeGenerateButton
   );
 
+  // TODO: handleClose가 문제이구나~~~~
+  //
   const handleCloseModal = () => {
     if (!isThemeGenerateButton) {
       handleMajorSubject(null);
