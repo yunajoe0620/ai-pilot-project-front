@@ -10,7 +10,7 @@ import {
   mixedFormatQuestion,
 } from "../utils/section-two";
 
-function SectionTwo() {
+function TestPage() {
   // AI 모델
   const [model, setModel] = useState("");
 
@@ -575,4 +575,4 @@ function SectionTwo() {
   );
 }
 
-export default SectionTwo;
+export default TestPage;

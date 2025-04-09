@@ -10,6 +10,9 @@ function IndexPage() {
       <Button href="/section-two" variant="outlined">
         AI 맞춤형 학습 진행
       </Button>
+      <Button href="/test" variant="outlined">
+        AI 맞춤형 PROMPT TEST페이지
+      </Button>
     </div>
   );
 }

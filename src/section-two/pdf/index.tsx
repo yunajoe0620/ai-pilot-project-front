@@ -109,7 +109,9 @@ function PdfQuizPage() {
     setCurrentStep(3);
   };
 
-  // step 3일떄 버튼튼
+  // step 3일떄 버튼
+  // API 부르기
+  //
   const handleStepThreeGenerate = () => {
     if (!multipleChoice) {
       alert("객관식 문제의 수를 선택해주세요");
@@ -132,6 +134,8 @@ function PdfQuizPage() {
     setIsExtraRequest(true);
     setShowSetting(true);
   };
+
+  // 학교와 학년
 
   return (
     <Layout>
