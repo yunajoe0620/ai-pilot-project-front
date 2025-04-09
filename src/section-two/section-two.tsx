@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import AIQuizNavigation from "../components/navigation";
 
 function SectionTwo() {
   const navigate = useNavigate();
+  const [selectedButton, setSelectedButton] = useState("");
   return (
     <Layout>
       <Container>
@@ -13,24 +15,33 @@ function SectionTwo() {
           <QuizTypeContainer>
             <QuizType>
               <img src="src/assets/flash-card.svg" />
-              <Button>플래쉬 카드 퀴즈</Button>
+              <Button selected={selectedButton === "플래쉬 카드 퀴즈"}>
+                플래쉬 카드 퀴즈
+              </Button>
             </QuizType>
             <QuizType>
               <img src="src/assets/ppt.svg" />
-              <Button>PPT형식 퀴즈</Button>
+              <Button selected={selectedButton === "PPT형식 퀴즈"}>
+                PPT형식 퀴즈
+              </Button>
             </QuizType>
             <QuizType
               role="button"
               onClick={() => {
+                setSelectedButton("PDF 형식 퀴즈");
                 navigate("/section-two/pdf");
               }}
             >
               <img src="src/assets/pdf.svg" />
-              <Button>PDF 형식 퀴즈</Button>
+              <Button selected={selectedButton === "PDF 형식 퀴즈"}>
+                PDF 형식 퀴즈
+              </Button>
             </QuizType>
             <QuizType>
               <img src="src/assets/teacher.svg" />
-              <Button>선생님용 퀴즈</Button>
+              <Button selected={selectedButton === "선생님용 퀴즈"}>
+                선생님용 퀴즈
+              </Button>
             </QuizType>
           </QuizTypeContainer>
           <img src="src/assets/ai-quiz-letter-two.svg" />
@@ -73,7 +84,7 @@ const QuizType = styled.div`
   cursor: pointer;
 `;
 
-const Button = styled.div`
+const Button = styled.button<{ selected: boolean }>`
   display: flex;
   padding: 8px 16px;
   justify-content: center;
@@ -82,4 +93,7 @@ const Button = styled.div`
   border-radius: 999999px;
   border: 2px solid #e0e6fa;
   background: #fff;
+  background: ${({ selected }) => (selected ? "#7789ff" : "#fff")};
+  color: ${({ selected }) => (selected ? "#fff" : " #8e8e96")};
+  cursor: pointer;
 `;
