@@ -41,11 +41,7 @@ function StepFour({
           </GenerateButton>
         </PdfDownLoadContainer>
       </StepFourTopContainer>
-      {isExtraGenerateButton && (
-        <p style={{ fontSize: "20px", fontWeight: "600" }}>
-          2차 pdf 문제 생성중...
-        </p>
-      )}
+      {isExtraGenerateButton && <p>2차 AI 퀴즈를 생성중입니다...</p>}
     </Container>
   );
 }
