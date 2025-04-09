@@ -18,7 +18,7 @@ function StepFour({
   return (
     <Container>
       <StepFourTopContainer>
-        <Character>마스코트</Character>
+        <Character></Character>
         <PdfDownLoadContainer>
           <TextOne>
             {isExtraRequest && !isExtraGenerateButton
