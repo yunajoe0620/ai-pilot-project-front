@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { useStepTwoStore } from "../../store";
 import {
@@ -54,29 +54,17 @@ function SubjectRecommendationModal({
     (state) => state.handleThemeGenerateButton
   );
 
+  // 문제
+  // 한번 적용하기를 누른 다음에 handler만 사용해도 그게 적용하기 했던 값으로 저장이 된다.
+  // 원래 하려고 했던 것은? => 처음에 버튼을 눌렀을때 적용했떤 그 값이 나와야한다.
+  //
+
   const handleCloseModal = () => {
-    if (!tempMajorSubject && !tempMediumSubject && !tempSubSubject) {
-      if (!isThemeGenerateButton) {
-        handleMajorSubject(null);
-        handleMediumSubject(null);
-        handleSubSubject(null);
-      }
+    if (!isThemeGenerateButton) {
+      handleMajorSubject(null);
+      handleMediumSubject(null);
+      handleSubSubject(null);
     }
-
-    if (tempMajorSubject && tempMediumSubject && tempSubSubject) {
-      if (
-        !isThemeGenerateButton &&
-        tempMajorSubject !== majorSubject &&
-        tempMediumSubject !== mediumSubject &&
-        tempSubSubject !== subSubject
-      ) {
-        // console.log("이야야야야아ㅏ", tempMajorSubject, majorSubject);
-        handleMajorSubject(tempMajorSubject);
-        handleMediumSubject(tempMediumSubject);
-        handleSubSubject(tempSubSubject);
-      }
-    }
-
     setIsModalOpen(false);
   };
 
@@ -97,15 +85,15 @@ function SubjectRecommendationModal({
 
     handleQuizSubject(`${majorSubject} ${mediumSubject} ${subSubject}`);
     setIsModalOpen(false);
-    handleThemeGenerateButton(true);
+    handleThemeGenerateButton();
   };
-
-  useEffect(() => {
-    setTempMajorSubject(majorSubject);
-    setTempMediumSubject(mediumSubject);
-    setTempSubSubject(subSubject);
-    handleThemeGenerateButton(false);
-  }, []);
+  // console.log("isGenerateButton입니다아아", isThemeGenerateButton);
+  console.log(
+    "tempMajorSubject",
+    tempMajorSubject,
+    tempMediumSubject,
+    tempSubSubject
+  );
 
   return (
     <Container>
@@ -122,12 +110,12 @@ function SubjectRecommendationModal({
           handleDropdown={(e) => {
             let value = e.target as HTMLElement;
             let selectedValue = value.textContent as string;
-            // setTempMajorSubject(selectedValue);
-            if (majorSubject !== selectedValue) {
-              handleMediumSubject(null);
-              handleSubSubject(null);
-            }
-            handleMajorSubject(e);
+            setTempMajorSubject(selectedValue);
+            // if (majorSubject !== selectedValue) {
+            //   handleMediumSubject(null);
+            //   handleSubSubject(null);
+            // }
+            // handleMajorSubject(e);
           }}
         ></SingleDropdown>
         <SingleDropdown
@@ -141,11 +129,11 @@ function SubjectRecommendationModal({
           handleDropdown={(e) => {
             let value = e.target as HTMLElement;
             let selectedValue = value.textContent as string;
-            // setTempMediumSubject(selectedValue);
-            if (mediumSubject !== selectedValue) {
-              handleSubSubject(null);
-            }
-            handleMediumSubject(e);
+            setTempMediumSubject(selectedValue);
+            // if (mediumSubject !== selectedValue) {
+            //   handleSubSubject(null);
+            // }
+            // handleMediumSubject(e);
           }}
           alertMessage="주제를 먼저 선택해주세요"
         ></SingleDropdown>
@@ -160,8 +148,8 @@ function SubjectRecommendationModal({
           handleDropdown={(e) => {
             let value = e.target as HTMLElement;
             let selectedValue = value.textContent as string;
-            // setTempSubSubject(selectedValue);
-            handleSubSubject(e);
+            setTempSubSubject(selectedValue);
+            // handleSubSubject(e);
           }}
           alertMessage="상세 영역을 선택해 주세요."
         />

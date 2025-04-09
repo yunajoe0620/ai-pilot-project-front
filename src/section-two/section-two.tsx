@@ -9,9 +9,7 @@ function SectionTwo() {
       <Container>
         <AIQuizNavigation />
 
-        {/* body부분 */}
         <Contents>
-          {/* quiz type 클릭하는 부분 */}
           <QuizTypeContainer>
             <QuizType>
               <img src="src/assets/flash-card.svg" />
@@ -21,15 +19,14 @@ function SectionTwo() {
               <img src="src/assets/ppt.svg" />
               <Button>PPT형식 퀴즈</Button>
             </QuizType>
-            <QuizType>
+            <QuizType
+              role="button"
+              onClick={() => {
+                navigate("/section-two/pdf");
+              }}
+            >
               <img src="src/assets/pdf.svg" />
-              <Button
-                onClick={() => {
-                  navigate("/section-two/pdf");
-                }}
-              >
-                PDF 형식 퀴즈
-              </Button>
+              <Button>PDF 형식 퀴즈</Button>
             </QuizType>
             <QuizType>
               <img src="src/assets/teacher.svg" />
@@ -73,6 +70,7 @@ const QuizType = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 16px;
+  cursor: pointer;
 `;
 
 const Button = styled.div`
@@ -84,5 +82,4 @@ const Button = styled.div`
   border-radius: 999999px;
   border: 2px solid #e0e6fa;
   background: #fff;
-  cursor: pointer;
 `;

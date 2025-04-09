@@ -89,13 +89,19 @@ interface StepTwoState {
 
   // 모달분류
   majorSubject: string;
-  handleMajorSubject: (e: React.MouseEvent<HTMLDivElement> | null) => void;
+  handleMajorSubject: (
+    e: React.MouseEvent<HTMLDivElement> | null | string
+  ) => void;
   mediumSubject: string;
-  handleMediumSubject: (e: React.MouseEvent<HTMLDivElement> | null) => void;
+  handleMediumSubject: (
+    e: React.MouseEvent<HTMLDivElement> | null | string
+  ) => void;
   subSubject: string;
-  handleSubSubject: (e: React.MouseEvent<HTMLDivElement> | null) => void;
+  handleSubSubject: (
+    e: React.MouseEvent<HTMLDivElement> | null | string
+  ) => void;
   isThemeGenerateButton: boolean;
-  handleThemeGenerateButton: () => void;
+  handleThemeGenerateButton: (value: boolean) => void;
 }
 
 export const useStepTwoStore = create<StepTwoState>((set) => ({
@@ -165,6 +171,12 @@ export const useStepTwoStore = create<StepTwoState>((set) => ({
       }));
       return;
     }
+    if (typeof e === "string") {
+      set(() => ({
+        majorSubject: e,
+      }));
+      return;
+    }
     let value = e.target as HTMLElement;
     let selectedValue = value.textContent as string;
     if (value) {
@@ -179,6 +191,12 @@ export const useStepTwoStore = create<StepTwoState>((set) => ({
     if (!e) {
       set(() => ({
         mediumSubject: "",
+      }));
+      return;
+    }
+    if (typeof e === "string") {
+      set(() => ({
+        mediumSubject: e,
       }));
       return;
     }
@@ -197,6 +215,12 @@ export const useStepTwoStore = create<StepTwoState>((set) => ({
       }));
       return;
     }
+    if (typeof e === "string") {
+      set(() => ({
+        subSubject: e,
+      }));
+      return;
+    }
     let value = e.target as HTMLElement;
     let selectedValue = value.textContent as string;
     set(() => ({
@@ -205,9 +229,9 @@ export const useStepTwoStore = create<StepTwoState>((set) => ({
   },
 
   isThemeGenerateButton: false,
-  handleThemeGenerateButton: () => {
+  handleThemeGenerateButton: (value: boolean) => {
     set(() => ({
-      isThemeGenerateButton: true,
+      isThemeGenerateButton: value,
     }));
   },
 }));
