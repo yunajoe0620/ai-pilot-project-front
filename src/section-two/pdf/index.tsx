@@ -44,6 +44,7 @@ function PdfQuizPage() {
   // level4
 
   const [isExtraRequest, setIsExtraRequest] = useState(false);
+  const [showSetting, setShowSetting] = useState(true);
 
   const school = useStepOneStore((state) => state.school);
   const grade = useStepOneStore((state) => state.grade);
@@ -129,6 +130,7 @@ function PdfQuizPage() {
       return;
     }
     setIsExtraRequest(true);
+    setShowSetting(true);
   };
 
   return (
@@ -193,6 +195,8 @@ function PdfQuizPage() {
             <StepFourPartTwo
               isExtraRequest={isExtraRequest}
               handleExtraGenerate={handleExtraGenerate}
+              showSetting={showSetting}
+              setShowSetting={setShowSetting}
             />
           )}
         </Contents>

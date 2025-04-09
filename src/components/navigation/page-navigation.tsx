@@ -1,9 +1,19 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 function PageAIQuizNavigation() {
+  const navigate = useNavigate();
+
   return (
     <Navigation>
-      <img src="../src/assets/ai-quiz-letter.svg" />
+      <div
+        style={{ cursor: "pointer" }}
+        onClick={() => {
+          navigate("/section-two");
+        }}
+      >
+        <img src="../src/assets/ai-quiz-letter.svg" />
+      </div>
       <NavigationMenuContainer>
         <MenuListContainer>
           <MenuItem>퀴즈 만들기</MenuItem>

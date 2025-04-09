@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styled from "styled-components";
 import {
   useStepFourStore,
@@ -15,13 +14,16 @@ import SingleDropdown from "../dropdown/single-dropdown";
 interface StepFourPartTwoProps {
   isExtraRequest: boolean;
   handleExtraGenerate: () => void;
+  showSetting: boolean;
+  setShowSetting: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function StepFourPartTwo({
   isExtraRequest,
   handleExtraGenerate,
+  showSetting,
+  setShowSetting,
 }: StepFourPartTwoProps) {
-  const [showSetting, setShowSetting] = useState(true);
   const school = useStepOneStore((state) => state.school);
   const grade = useStepOneStore((state) => state.grade);
   const subject = useStepOneStore((state) => state.subject);
