@@ -14,13 +14,13 @@ function SectionTwo() {
         <Contents>
           <QuizTypeContainer>
             <QuizType>
-              <img src="src/assets/flash-card.svg" />
+              <img src="src/assets/flash-card.svg" width="146" height="146" />
               <Button selected={selectedButton === "플래쉬 카드 퀴즈"}>
                 플래쉬 카드 퀴즈
               </Button>
             </QuizType>
             <QuizType>
-              <img src="src/assets/ppt.svg" />
+              <img src="src/assets/ppt.svg" width="146" height="146" />
               <Button selected={selectedButton === "PPT형식 퀴즈"}>
                 PPT형식 퀴즈
               </Button>
@@ -32,13 +32,13 @@ function SectionTwo() {
                 navigate("/section-two/pdf");
               }}
             >
-              <img src="src/assets/pdf.svg" />
+              <img src="src/assets/pdf.svg" width="146" height="146" />
               <Button selected={selectedButton === "PDF 형식 퀴즈"}>
                 PDF 형식 퀴즈
               </Button>
             </QuizType>
             <QuizType>
-              <img src="src/assets/teacher.svg" />
+              <img src="src/assets/teacher.svg" width="146" height="146" />
               <Button selected={selectedButton === "선생님용 퀴즈"}>
                 선생님용 퀴즈
               </Button>
