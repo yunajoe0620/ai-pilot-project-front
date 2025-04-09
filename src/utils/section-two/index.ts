@@ -5,7 +5,36 @@ import {
   EnglishSimplePrompt,
   KoreanMixedPrompt,
   KoreanSimplePrompt,
+  NewPrompt,
 } from "../prompt";
+
+//
+export const newFormatQuestion = (
+  school: string,
+  grade: string,
+  subject: string,
+  quizSubject: string,
+  highLevelProblem: string,
+  mediumLevelProblem: string,
+  lowLevelProblem: string,
+  multipleChoice: string,
+  shortAnswer: string,
+  extraRequest?: string
+) => {
+  const prompt = NewPrompt(
+    school,
+    grade,
+    subject,
+    quizSubject,
+    highLevelProblem,
+    mediumLevelProblem,
+    lowLevelProblem,
+    multipleChoice,
+    shortAnswer,
+    extraRequest
+  );
+  return prompt;
+};
 
 // 객관식 또는 주관식이 하나만 설정하였을 때
 export const formatQuestion = (data: Item) => {

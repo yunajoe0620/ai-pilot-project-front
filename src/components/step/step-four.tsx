@@ -1,18 +1,27 @@
 import styled from "styled-components";
+import { baseUrl } from "../../api";
 import GenerateButton from "../button/generate-button";
 
 interface StepFourProps {
   isExtraRequest: boolean;
+  pdfProblemFileName: string;
+  pdfAnswerFileName: string;
+  isExtraGenerateButton: boolean;
 }
 
-function StepFour({ isExtraRequest }: StepFourProps) {
+function StepFour({
+  isExtraRequest,
+  pdfProblemFileName,
+  pdfAnswerFileName,
+  isExtraGenerateButton,
+}: StepFourProps) {
   return (
     <Container>
       <StepFourTopContainer>
         <Character>마스코트</Character>
         <PdfDownLoadContainer>
           <TextOne>
-            {isExtraRequest
+            {isExtraRequest && !isExtraGenerateButton
               ? "AI 퀴즈가 다시 완성되었어요!"
               : "AI 퀴즈가 완성되었어요!"}
           </TextOne>
@@ -21,16 +30,22 @@ function StepFour({ isExtraRequest }: StepFourProps) {
             size="lg"
             color="primary"
             onClick={() => {
-              console.log("PDF제너레이트");
+              window.open(`${baseUrl}/pdf/${pdfProblemFileName}.pdf`);
+              window.open(`${baseUrl}/pdf/${pdfAnswerFileName}.pdf`);
             }}
             active={true}
           >
-            {isExtraRequest
+            {isExtraRequest && !isExtraGenerateButton
               ? "(2차) AI 퀴즈 PDF 다운로드하기"
               : "AI 퀴즈 PDF 다운로드하기"}
           </GenerateButton>
         </PdfDownLoadContainer>
       </StepFourTopContainer>
+      {isExtraGenerateButton && (
+        <p style={{ fontSize: "20px", fontWeight: "600" }}>
+          2차 pdf 문제 생성중...
+        </p>
+      )}
     </Container>
   );
 }
@@ -39,6 +54,9 @@ export default StepFour;
 
 const Container = styled.div`
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Character = styled.div`

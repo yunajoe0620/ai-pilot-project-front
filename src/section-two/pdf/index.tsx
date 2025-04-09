@@ -1,5 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { createPdf } from "../../actions/get-pdf";
+import { createQuestion } from "../../actions/get-problems";
 import ModalComponent from "../../components/modal/modal-component";
 import SubjectRecommendationModal from "../../components/modal/subject-recommendation-modal";
 import PageAIQuizNavigation from "../../components/navigation/page-navigation";
@@ -14,6 +16,7 @@ import {
   useStepThreeStore,
   useStepTwoStore,
 } from "../../store";
+import { newFormatQuestion } from "../../utils/section-two";
 
 function PdfQuizPage() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -40,11 +43,15 @@ function PdfQuizPage() {
   const [isMultipleChoideDropdown, setIsMultipleChoiceDropdown] =
     useState(false);
   const [isShortAnswerDropdown, setIsShortAnswerDropdown] = useState(false);
+  const [isGenerateButton, setIsGenerateButton] = useState(false);
 
   // level4
 
   const [isExtraRequest, setIsExtraRequest] = useState(false);
-  const [showSetting, setShowSetting] = useState(true);
+  const [showSetting, setShowSetting] = useState(false);
+  const [pdfProblemFileName, setPdfProblemFileName] = useState("");
+  const [pdfAnswerFileName, setPdfAnswerFileName] = useState("");
+  const [isExtraGenerateButton, setIsExtraGenerateButton] = useState(false);
 
   const school = useStepOneStore((state) => state.school);
   const grade = useStepOneStore((state) => state.grade);
@@ -111,8 +118,9 @@ function PdfQuizPage() {
 
   // step 3일떄 버튼
   // API 부르기
-  //
-  const handleStepThreeGenerate = () => {
+
+  const handleStepThreeGenerate = async () => {
+    setIsGenerateButton(true);
     if (!multipleChoice) {
       alert("객관식 문제의 수를 선택해주세요");
       return;
@@ -122,17 +130,77 @@ function PdfQuizPage() {
       return;
     }
 
-    setCurrentStep(4);
+    const prompt = newFormatQuestion(
+      school,
+      grade,
+      subject,
+      quizSubject,
+      highLevelProblem,
+      mediumLevelProblem,
+      lowLevelProblem,
+      multipleChoice,
+      shortAnswer
+    );
+
+    try {
+      const response = await createQuestion(prompt, "gpt40");
+      const { result, problemDocs, answerDocs, status, message } = response;
+      console.log("결과입니다", problemDocs, answerDocs);
+      if (status === 200) {
+        const result1 = await createPdf(problemDocs, answerDocs);
+        const { status, problemPdfresult, answerPdfresult } = result1;
+        if (status === 200) {
+          setPdfProblemFileName(problemPdfresult.filename);
+          setPdfAnswerFileName(answerPdfresult.filename);
+          setCurrentStep(4);
+        }
+      }
+    } catch (error) {
+      throw error;
+    }
+
+    setIsGenerateButton(false);
   };
 
   // step4
-  const handleExtraGenerate = () => {
+  const handleExtraGenerate = async () => {
+    setIsExtraGenerateButton(true);
     if (!extraRequest) {
       alert("추가 요청 사항을 써주세요");
       return;
     }
     setIsExtraRequest(true);
     setShowSetting(true);
+
+    const prompt = newFormatQuestion(
+      school,
+      grade,
+      subject,
+      quizSubject,
+      highLevelProblem,
+      mediumLevelProblem,
+      lowLevelProblem,
+      multipleChoice,
+      shortAnswer,
+      extraRequest
+    );
+
+    try {
+      const response = await createQuestion(prompt, "gpt40");
+      const { result, problemDocs, answerDocs, status, message } = response;
+      console.log("결과입니다22222", problemDocs, answerDocs);
+      if (status === 200) {
+        const result1 = await createPdf(problemDocs, answerDocs);
+        const { status, problemPdfresult, answerPdfresult } = result1;
+        if (status === 200) {
+          setPdfProblemFileName(problemPdfresult.filename);
+          setPdfAnswerFileName(answerPdfresult.filename);
+          setIsExtraGenerateButton(false);
+        }
+      }
+    } catch (error) {
+      throw error;
+    }
   };
 
   // 학교와 학년
@@ -189,9 +257,17 @@ function PdfQuizPage() {
               setIsShortAnswerDropdown={setIsShortAnswerDropdown}
               handleStepThreeGenerate={handleStepThreeGenerate}
               setCurrentStep={setCurrentStep}
+              isGenerateButton={isGenerateButton}
             />
           )}
-          {currentStep === 4 && <StepFour isExtraRequest={isExtraRequest} />}
+          {currentStep === 4 && (
+            <StepFour
+              isExtraRequest={isExtraRequest}
+              pdfProblemFileName={pdfProblemFileName}
+              pdfAnswerFileName={pdfAnswerFileName}
+              isExtraGenerateButton={isExtraGenerateButton}
+            />
+          )}
         </Contents>
         {currentStep === 4 && <Line />}
         <Contents>

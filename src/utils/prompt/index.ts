@@ -26,6 +26,130 @@ const KoreanProblemType: Record<string, string> = {
   shortAnswer: "주관식",
 };
 
+export const NewPrompt = (
+  school: string,
+  grade: string,
+  subject: string,
+  quizSubject: string,
+  highLevelProblem: string,
+  mediumLevelProblem: string,
+  lowLevelProblem: string,
+  multipleChoice: string,
+  shortAnswer: string,
+  extraRequest?: string
+) => {
+  let prompt = `다음 조건들에 맞는 문제를 만들어줘. 
+  문제 수준: ${school}${grade}
+  과목: ${subject}
+  주제: ${quizSubject}
+  퀴즈 난이도: 상:${highLevelProblem}개, 중:${mediumLevelProblem}개, 하: ${lowLevelProblem}개
+  객관식: ${multipleChoice}개 
+  주관식: ${shortAnswer}개 
+  추가요청: ${extraRequest}
+   
+  퀴즈 난이도 기준으로 문제를 내줘.
+
+수학 수식이 있을때 수식 앞뒤로 $표시를 넣어줘
+_ 기호에는 \ 표시를 넣어줘
+서술형 문제의 형식은 다음과 같습니다.
+쉬움: \\\\\\\\  
+1. Question  \\\\\\\\
+2. Question  \\\\\\\\
+3. Question  \\\\\\\\
+ .......... \\\\\\\\   
+
+중간: \\\\\\\\
+1. Question \\\\\\\\
+2. Question  \\\\\\\\
+3. Question  \\\\\\\\    
+.......... \\\\\\\\ 
+
+어려움: \\\\\\\\
+1. Question \\\\\\\\
+2. Question \\\\\\\\
+3. Question \\\\\\\\    
+.......... \\\\\\\\     
+
+객관식 문제의 형식은 다음과 같습니다.  
+쉬움: \\\\\\\\  
+1. Question  \\\\\\\\
+ a) option \\\\\\\\
+ b) option \\\\\\\\
+ c) option \\\\\\\\ 
+2. Question  \\\\\\\\
+ a) option \\\\\\\\
+ b) option \\\\\\\\
+ c) option \\\\\\\\ 
+3. Question  \\\\\\\\
+ a) option \\\\\\\\
+ b) option \\\\\\\\
+ c) option \\\\\\\\  
+ .......... \\\\\\\\
+ a) option \\\\\\\\
+ b) option \\\\\\\\
+ c) option \\\\\\\\  
+
+중간: \\\\\\\\
+1. Question \\\\\\\\
+ a) option \\\\\\\\
+2. Question  \\\\\\\\
+ b) option \\\\\\\\
+3. Question  \\\\\\\\
+ c) option \\\\\\\\    
+.......... \\\\\\\\ 
+  a) option \\\\\\\\
+ b) option \\\\\\\\
+ c) option \\\\\\\\  
+
+
+어려움: \\\\\\\\
+1. Question \\\\\\\\
+ a) option \\\\\\\\
+2. Question \\\\\\\\
+ b) option \\\\\\\\
+3. Question \\\\\\\\ 
+c) option \\\\\\\\    
+.......... \\\\\\\\
+  a) option \\\\\\\\
+ b) option \\\\\\\\
+ c) option \\\\\\\\     
+
+답이 나오기 전에 *****answer*****를 한 번만 삽입해주세요.
+답과 함께 설명을 제공해주세요.
+정답은 다음 형식으로 보내주세요.
+
+쉬움: \\\\\\\\ 
+1. ...  \\\\\\\\ 
+해설: \\\\\\\\
+2. ...\\\\\\\\ 
+해설:  \\\\\\\\
+3. ... \\\\\\\\
+해설: \\\\\\\\
+.......... \\\\\\\\
+해설: ...
+
+중간: \\\\\\\\  
+1. ...  \\\\\\\\ 
+해설: \\\\\\\\
+2. ...\\\\\\\\ 
+해설:  \\\\\\\\
+3. ... \\\\\\\\
+해설: \\\\\\\\
+.......... \\\\\\\\
+해설:...
+
+어려움: \\\\\\\\  
+1. ...  \\\\\\\\ 
+해설: \\\\\\\\
+2. ...\\\\\\\\ 
+해설:  \\\\\\\\
+3. ... \\\\\\\\
+해설: \\\\\\\\
+.......... \\\\\\\\  
+`;
+  return prompt;
+};
+
 export const KoreanSimplePrompt = (data: Item) => {
   let problemType =
     data.problemType.multipleChoice !== "0" ? "multipleChoice" : "shortAnswer";

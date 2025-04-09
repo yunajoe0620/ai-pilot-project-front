@@ -11,6 +11,7 @@ interface StepThreeProps {
   setIsShortAnswerDropdown: React.Dispatch<React.SetStateAction<boolean>>;
   handleStepThreeGenerate: () => void;
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
+  isGenerateButton: boolean;
 }
 
 // max 60 문항
@@ -21,6 +22,7 @@ function StepThree({
   setIsShortAnswerDropdown,
   handleStepThreeGenerate,
   setCurrentStep,
+  isGenerateButton,
 }: StepThreeProps) {
   const totalProblem = useStepTwoStore((state) => state.totalProblem);
   const multipleChoice = useStepThreeStore((state) => state.multipleChoice);
@@ -122,6 +124,7 @@ function StepThree({
           AI 퀴즈 생성하기
         </GenerateButton>
       </ButtonContainer>
+      {isGenerateButton && <p>AI 퀴즈를 생성 중입니다....</p>}
     </QuizTypeContainer>
   );
 }
@@ -175,4 +178,5 @@ const QuizTypeText = styled.div`
 const ButtonContainer = styled.div`
   display: flex;
   column-gap: 20px;
+  margin-bottom: 60px;
 `;
