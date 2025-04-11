@@ -15,6 +15,8 @@ export default defineConfig({
       "8674-1-220-74-162.ngrok-free.app",
       "e158-1-220-74-162.ngrok-free.app",
       "e1b0-1-220-74-162.ngrok-free.app",
+      "09bd-1-220-74-162.ngrok-free.app",
+      "273c-1-220-74-162.ngrok-free.app",
     ],
     headers: {
       "Cross-Origin-Opener-Policy": "same-origin",

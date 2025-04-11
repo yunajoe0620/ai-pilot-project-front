@@ -10,7 +10,7 @@ interface DropDownProps {
   placeholder: string;
   size?: "sm" | "md" | "lg";
   isDropdown?: boolean;
-  setIsDropdown?: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsDropdown?: React.Dispatch<React.SetStateAction<boolean>> | null;
   itemKey: string | null;
   itemArray: KeyItemArray;
   selectedValue: string;
@@ -34,7 +34,6 @@ function SingleDropdown({
 
   const handleDropDown = () => {
     if (!itemKey) {
-      console.log("itemKey", itemKey);
       alert(alertMessage);
       return;
     }

@@ -65,6 +65,7 @@ function StepTwo({
       handleTotalProblem(total);
     }
   }, [highLevelProblem, mediumLevelProblem, lowLevelProblem]);
+
   return (
     <QuizSubjectContainer>
       <QuizThemetContainer>
@@ -89,11 +90,17 @@ function StepTwo({
             placeholder="문항 수를 선택해 주세요."
             size="lg"
             isDropdown={isHighLevelDropdown}
-            setIsDropdown={setIsHighLevelDropdown}
+            setIsDropdown={
+              isMediumLevelDropdown || isLowLevelDropdown
+                ? null
+                : setIsHighLevelDropdown
+            }
             itemArray={problemsArray}
             itemKey="high"
             selectedValue={highLevelProblem}
-            handleDropdown={handleHighLevelProblem}
+            handleDropdown={(e) => {
+              handleHighLevelProblem(e);
+            }}
           />
         </QuizLevelDropdownContainer>
         <QuizLevelDropdownContainer>
@@ -102,7 +109,11 @@ function StepTwo({
             placeholder="문항 수를 선택해 주세요."
             size="lg"
             isDropdown={isMediumLevelDropdown}
-            setIsDropdown={setIsMediumLevelDropdown}
+            setIsDropdown={
+              isHighLevelDropdown || isLowLevelDropdown
+                ? null
+                : setIsMediumLevelDropdown
+            }
             itemArray={problemsArray}
             itemKey="medium"
             selectedValue={mediumLevelProblem}
@@ -115,7 +126,11 @@ function StepTwo({
             placeholder="문항 수를 선택해 주세요."
             size="lg"
             isDropdown={isLowLevelDropdown}
-            setIsDropdown={setIsLowLevelDropdown}
+            setIsDropdown={
+              isHighLevelDropdown || isMediumLevelDropdown
+                ? null
+                : setIsLowLevelDropdown
+            }
             itemArray={problemsArray}
             itemKey="low"
             selectedValue={lowLevelProblem}
