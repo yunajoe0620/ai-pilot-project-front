@@ -29,13 +29,6 @@ function PdfQuizPage() {
   const [isMediumLevelDropdown, setIsMediumLevelDropdown] = useState(false);
   const [isLowLevelDropdown, setIsLowLevelDropdown] = useState(false);
 
-  console.log(
-    "나는야 메인페이지",
-    isHighLevelDropdown,
-    isMediumLevelDropdown,
-    isLowLevelDropdown
-  );
-
   // subject modal
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMajorCurriculumDropdown, setIsMajorCurriculumDropdown] =

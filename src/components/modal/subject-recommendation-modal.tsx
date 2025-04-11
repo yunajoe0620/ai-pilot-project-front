@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useStepTwoStore } from "../../store";
+import { useStepOneStore, useStepTwoStore } from "../../store";
 import {
   majorCurriculumArray,
   mediumCurriculumArray,
@@ -32,6 +32,10 @@ function SubjectRecommendationModal({
   const [tempMajorSubject, setTempMajorSubject] = useState("");
   const [tempMediumSubject, setTempMediumSubject] = useState("");
   const [tempSubSubject, setTempSubSubject] = useState("");
+
+  const school = useStepOneStore((state) => state.school);
+  const grade = useStepOneStore((state) => state.grade);
+  const subject = useStepOneStore((state) => state.subject);
 
   const majorSubject = useStepTwoStore((state) => state.majorSubject);
   const handleMajorSubject = useStepTwoStore(
@@ -70,7 +74,6 @@ function SubjectRecommendationModal({
         tempMediumSubject !== mediumSubject &&
         tempSubSubject !== subSubject
       ) {
-        // console.log("이야야야야아ㅏ", tempMajorSubject, majorSubject);
         handleMajorSubject(tempMajorSubject);
         handleMediumSubject(tempMediumSubject);
         handleSubSubject(tempSubSubject);
@@ -107,6 +110,8 @@ function SubjectRecommendationModal({
     handleThemeGenerateButton(false);
   }, []);
 
+  console.log("array의 itemKey", school, grade, subject, majorSubject);
+
   return (
     <Container>
       <ThemeContainer>
@@ -117,7 +122,7 @@ function SubjectRecommendationModal({
           isDropdown={isMajorCurriculumDropdown}
           setIsDropdown={setIsMajorCurriculumDropdown}
           itemArray={majorCurriculumArray}
-          itemKey="math"
+          itemKey={`${school}-${grade}-${subject}`}
           selectedValue={majorSubject}
           handleDropdown={(e) => {
             let value = e.target as HTMLElement;
@@ -136,7 +141,7 @@ function SubjectRecommendationModal({
           isDropdown={isMediumCurriculumDropdown}
           setIsDropdown={setIsMediumCurriculumDropdown}
           itemArray={mediumCurriculumArray}
-          itemKey={majorSubject}
+          itemKey={`${school}-${grade}-${subject}-${majorSubject}`}
           selectedValue={mediumSubject}
           handleDropdown={(e) => {
             let value = e.target as HTMLElement;
@@ -155,11 +160,11 @@ function SubjectRecommendationModal({
           isDropdown={isSubCurriculumDropdown}
           setIsDropdown={setIsSubCurriculumDropdown}
           itemArray={subCurriculumArray}
-          itemKey={mediumSubject}
+          itemKey={`${school}-${grade}-${subject}-${majorSubject}-${mediumSubject}`}
           selectedValue={subSubject}
           handleDropdown={(e) => {
-            let value = e.target as HTMLElement;
-            let selectedValue = value.textContent as string;
+            // let value = e.target as HTMLElement;
+            // let selectedValue = value.textContent as string;
             // setTempSubSubject(selectedValue);
             handleSubSubject(e);
           }}
