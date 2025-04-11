@@ -17,6 +17,8 @@ interface SubjectRecommendationModalProps {
   isSubCurriculumDropdown: boolean;
   setIsSubCurriculumDropdown: React.Dispatch<React.SetStateAction<boolean>>;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  cnt: number;
+  setCnt: React.Dispatch<React.SetStateAction<number>>;
 }
 
 function SubjectRecommendationModal({
@@ -26,8 +28,9 @@ function SubjectRecommendationModal({
   setIsMediumCurriculumDropdown,
   isSubCurriculumDropdown,
   setIsSubCurriculumDropdown,
-
   setIsModalOpen,
+  cnt,
+  setCnt,
 }: SubjectRecommendationModalProps) {
   const [tempMajorSubject, setTempMajorSubject] = useState("");
   const [tempMediumSubject, setTempMediumSubject] = useState("");
@@ -83,6 +86,7 @@ function SubjectRecommendationModal({
     setIsModalOpen(false);
   };
 
+  console.log("주제", majorSubject, mediumSubject, subSubject);
   const handleThemeGenerate = () => {
     if (!majorSubject) {
       alert("주제를 선택해주세요");
@@ -110,6 +114,23 @@ function SubjectRecommendationModal({
     handleThemeGenerateButton(false);
   }, []);
 
+  // useEffect(() => {
+  //   if (majorSubject && !mediumSubject && !subSubject) {
+  //     setCnt(1);
+  //     return;
+  //   }
+  //   if (majorSubject && mediumSubject && !subSubject) {
+  //     setCnt(2);
+  //     return;
+  //   }
+  //   if (majorSubject && mediumSubject && subSubject) {
+  //     setCnt(3);
+  //     return;
+  //   }
+  // });
+
+  console.log("cnt이다아", cnt);
+
   return (
     <Container>
       <ThemeContainer>
@@ -125,7 +146,6 @@ function SubjectRecommendationModal({
           handleDropdown={(e) => {
             let value = e.target as HTMLElement;
             let selectedValue = value.textContent as string;
-            // setTempMajorSubject(selectedValue);
             if (majorSubject !== selectedValue) {
               handleMediumSubject(null);
               handleSubSubject(null);

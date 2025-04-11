@@ -53,6 +53,7 @@ function PdfQuizPage() {
   const [pdfProblemFileName, setPdfProblemFileName] = useState("");
   const [pdfAnswerFileName, setPdfAnswerFileName] = useState("");
   const [isExtraGenerateButton, setIsExtraGenerateButton] = useState(false);
+  const [cnt, setCnt] = useState(0);
 
   const school = useStepOneStore((state) => state.school);
   const grade = useStepOneStore((state) => state.grade);
@@ -308,6 +309,9 @@ function PdfQuizPage() {
               isSubCurriculumDropdown={isSubCurriculumDropdown}
               setIsSubCurriculumDropdown={setIsSubCurriculumDropdown}
               setIsModalOpen={setIsModalOpen}
+              // 단계별 확인
+              cnt={cnt}
+              setCnt={setCnt}
             />
           }
         ></ModalComponent>
