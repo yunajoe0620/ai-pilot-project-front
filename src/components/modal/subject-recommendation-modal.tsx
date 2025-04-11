@@ -33,9 +33,6 @@ function SubjectRecommendationModal({
   const [tempMediumSubject, setTempMediumSubject] = useState("");
   const [tempSubSubject, setTempSubSubject] = useState("");
 
-  // 하위 영역 드랍다운
-  // const [isDropdownShow, setIsDropdownShow] = useState(true);
-
   const school = useStepOneStore((state) => state.school);
   const grade = useStepOneStore((state) => state.grade);
   const subject = useStepOneStore((state) => state.subject);
@@ -113,8 +110,6 @@ function SubjectRecommendationModal({
     handleThemeGenerateButton(false);
   }, []);
 
-  // TODO: dropdown 할떄 2단계 인것은
-
   return (
     <Container>
       <ThemeContainer>
@@ -149,7 +144,6 @@ function SubjectRecommendationModal({
           handleDropdown={(e) => {
             let value = e.target as HTMLElement;
             let selectedValue = value.textContent as string;
-            // setTempMediumSubject(selectedValue);
             if (mediumSubject !== selectedValue) {
               handleSubSubject(null);
             }
@@ -166,9 +160,6 @@ function SubjectRecommendationModal({
           itemKey={`${school}-${grade}-${subject}-${majorSubject}-${mediumSubject}`}
           selectedValue={subSubject}
           handleDropdown={(e) => {
-            // let value = e.target as HTMLElement;
-            // let selectedValue = value.textContent as string;
-            // setTempSubSubject(selectedValue);
             handleSubSubject(e);
           }}
           alertMessage="상세 영역을 선택해 주세요."

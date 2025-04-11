@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { createPdf } from "../../actions/get-pdf";
 import { createQuestion } from "../../actions/get-problems";
@@ -10,6 +10,7 @@ import StepFourPartTwo from "../../components/step/step-four-part-two";
 import StepOne from "../../components/step/step-one";
 import StepThree from "../../components/step/step-three";
 import StepTwo from "../../components/step/step-two";
+import useDropDownClose from "../../hooks/use-dropdown-close";
 import {
   useStepFourStore,
   useStepOneStore,
@@ -68,6 +69,24 @@ function PdfQuizPage() {
   const shortAnswer = useStepThreeStore((state) => state.shortAnswer);
 
   const extraRequest = useStepFourStore((state) => state.extraRequest);
+
+  useDropDownClose({
+    isDropdownOne: isHighLevelDropdown,
+    setIsDropdownOne: setIsHighLevelDropdown,
+    isDropdownTwo: isMediumLevelDropdown,
+    setIsDropdownTwo: setIsMediumLevelDropdown,
+    isDropdownThree: isLowLevelDropdown,
+    setIsDropdownThree: setIsLowLevelDropdown,
+  });
+
+  useDropDownClose({
+    isDropdownOne: isMajorCurriculumDropdown,
+    setIsDropdownOne: setIsMajorCurriculumDropdown,
+    isDropdownTwo: isMediumCurriculumDropdown,
+    setIsDropdownTwo: setIsMediumCurriculumDropdown,
+    isDropdownThree: isSubCurriculumDropdown,
+    setIsDropdownThree: setIsSubCurriculumDropdown,
+  });
 
   // step 1일때 버튼
   const handleStepOneGenerate = () => {
@@ -201,24 +220,6 @@ function PdfQuizPage() {
       throw error;
     }
   };
-
-  useEffect(() => {
-    if (isHighLevelDropdown) {
-      setIsMediumLevelDropdown(false);
-      setIsLowLevelDropdown(false);
-      return;
-    }
-    if (isMediumLevelDropdown) {
-      setIsHighLevelDropdown(false);
-      setIsLowLevelDropdown(false);
-      return;
-    }
-    if (isLowLevelDropdown) {
-      setIsHighLevelDropdown(false);
-      setIsMediumLevelDropdown(false);
-      return;
-    }
-  }, [isHighLevelDropdown, isMediumLevelDropdown, isLowLevelDropdown]);
 
   return (
     <Layout>
