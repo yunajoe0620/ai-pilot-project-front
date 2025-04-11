@@ -90,11 +90,12 @@ function StepTwo({
             placeholder="문항 수를 선택해 주세요."
             size="lg"
             isDropdown={isHighLevelDropdown}
-            setIsDropdown={
-              isMediumLevelDropdown || isLowLevelDropdown
-                ? null
-                : setIsHighLevelDropdown
-            }
+            // setIsDropdown={
+            //   isMediumLevelDropdown || isLowLevelDropdown
+            //     ? null
+            //     : setIsHighLevelDropdown
+            // }
+            setIsDropdown={setIsHighLevelDropdown}
             itemArray={problemsArray}
             itemKey="high"
             selectedValue={highLevelProblem}
@@ -109,11 +110,12 @@ function StepTwo({
             placeholder="문항 수를 선택해 주세요."
             size="lg"
             isDropdown={isMediumLevelDropdown}
-            setIsDropdown={
-              isHighLevelDropdown || isLowLevelDropdown
-                ? null
-                : setIsMediumLevelDropdown
-            }
+            // setIsDropdown={
+            //   isHighLevelDropdown || isLowLevelDropdown
+            //     ? null
+            //     : setIsMediumLevelDropdown
+            // }
+            setIsDropdown={setIsMediumLevelDropdown}
             itemArray={problemsArray}
             itemKey="medium"
             selectedValue={mediumLevelProblem}
@@ -126,11 +128,7 @@ function StepTwo({
             placeholder="문항 수를 선택해 주세요."
             size="lg"
             isDropdown={isLowLevelDropdown}
-            setIsDropdown={
-              isHighLevelDropdown || isMediumLevelDropdown
-                ? null
-                : setIsLowLevelDropdown
-            }
+            setIsDropdown={setIsLowLevelDropdown}
             itemArray={problemsArray}
             itemKey="low"
             selectedValue={lowLevelProblem}

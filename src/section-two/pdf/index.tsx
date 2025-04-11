@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { createPdf } from "../../actions/get-pdf";
 import { createQuestion } from "../../actions/get-problems";
@@ -202,7 +202,23 @@ function PdfQuizPage() {
     }
   };
 
-  // 학교와 학년
+  useEffect(() => {
+    if (isHighLevelDropdown) {
+      setIsMediumLevelDropdown(false);
+      setIsLowLevelDropdown(false);
+      return;
+    }
+    if (isMediumLevelDropdown) {
+      setIsHighLevelDropdown(false);
+      setIsLowLevelDropdown(false);
+      return;
+    }
+    if (isLowLevelDropdown) {
+      setIsHighLevelDropdown(false);
+      setIsMediumLevelDropdown(false);
+      return;
+    }
+  }, [isHighLevelDropdown, isMediumLevelDropdown, isLowLevelDropdown]);
 
   return (
     <Layout>

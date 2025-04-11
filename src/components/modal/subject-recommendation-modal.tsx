@@ -187,7 +187,7 @@ function SubjectRecommendationModal({
           size="md"
           color="primary"
           onClick={handleThemeGenerate}
-          active={majorSubject && mediumSubject && subSubject ? true : false}
+          active={majorSubject && mediumSubject ? true : false}
         >
           주제 적용하기
         </GenerateButton>
