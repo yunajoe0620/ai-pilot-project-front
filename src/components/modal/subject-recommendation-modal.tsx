@@ -33,6 +33,9 @@ function SubjectRecommendationModal({
   const [tempMediumSubject, setTempMediumSubject] = useState("");
   const [tempSubSubject, setTempSubSubject] = useState("");
 
+  // 하위 영역 드랍다운
+  // const [isDropdownShow, setIsDropdownShow] = useState(true);
+
   const school = useStepOneStore((state) => state.school);
   const grade = useStepOneStore((state) => state.grade);
   const subject = useStepOneStore((state) => state.subject);
@@ -110,7 +113,7 @@ function SubjectRecommendationModal({
     handleThemeGenerateButton(false);
   }, []);
 
-  console.log("array의 itemKey", school, grade, subject, majorSubject);
+  // TODO: dropdown 할떄 2단계 인것은
 
   return (
     <Container>

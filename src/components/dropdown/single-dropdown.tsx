@@ -32,6 +32,7 @@ function SingleDropdown({
 }: DropDownProps) {
   const [itemList, setItemList] = useState<string[]>([]);
 
+  // console.log("itemKey", itemKey, itemList);
   const handleDropDown = () => {
     if (!itemKey) {
       alert(alertMessage);
@@ -46,41 +47,50 @@ function SingleDropdown({
     if (!itemKey) return;
     const result = itemArray[itemKey];
 
-    setItemList(result);
+    // itemKey에 해당하는 list값이 없을때
+    if (!result) {
+      setItemList([]);
+    } else {
+      setItemList(result);
+    }
   }, [itemKey]);
 
   return (
-    <Contaniner isEdit={isEdit}>
-      <TypeDirectContainer onClick={handleDropDown} size={size}>
-        <PlaceHolder selectValue={selectedValue}>
-          {selectedValue ? selectedValue : placeholder}
-        </PlaceHolder>
-        {!isDropdown ? (
-          <img src="../../../src/assets/arrow-down.svg" />
-        ) : (
-          <img src="../../../src/assets/arrow-up.svg" />
-        )}
-      </TypeDirectContainer>
-      {isDropdown && itemList.length > 0 && (
-        <CountryCodeArrayContainer>
-          {itemList.map((item, index) => {
-            return (
-              <ItemContainer
-                key={index}
-                onClick={(e) => {
-                  if (!handleDropdown) return;
-                  if (!setIsDropdown) return;
-                  handleDropdown(e);
-                  setIsDropdown(!isDropdown);
-                }}
-              >
-                {item}
-              </ItemContainer>
-            );
-          })}
-        </CountryCodeArrayContainer>
+    <>
+      {itemList.length > 0 && (
+        <Contaniner isEdit={isEdit}>
+          <TypeDirectContainer onClick={handleDropDown} size={size}>
+            <PlaceHolder selectValue={selectedValue}>
+              {selectedValue ? selectedValue : placeholder}
+            </PlaceHolder>
+            {!isDropdown ? (
+              <img src="../../../src/assets/arrow-down.svg" />
+            ) : (
+              <img src="../../../src/assets/arrow-up.svg" />
+            )}
+          </TypeDirectContainer>
+          {isDropdown && itemList.length > 0 && (
+            <CountryCodeArrayContainer>
+              {itemList.map((item, index) => {
+                return (
+                  <ItemContainer
+                    key={index}
+                    onClick={(e) => {
+                      if (!handleDropdown) return;
+                      if (!setIsDropdown) return;
+                      handleDropdown(e);
+                      setIsDropdown(!isDropdown);
+                    }}
+                  >
+                    {item}
+                  </ItemContainer>
+                );
+              })}
+            </CountryCodeArrayContainer>
+          )}
+        </Contaniner>
       )}
-    </Contaniner>
+    </>
   );
 }
 
