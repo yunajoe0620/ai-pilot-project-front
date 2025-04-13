@@ -33,6 +33,7 @@ function SingleDropdown({
   const [itemList, setItemList] = useState<string[]>([]);
   // console.log("itemKeyArra", itemKey, itemArray);
   // console.log("itemKey", itemKey, "itemList", itemList);
+  console.log("ItemList 22", itemList);
 
   const handleDropDown = () => {
     if (!itemKey) {
@@ -55,9 +56,6 @@ function SingleDropdown({
       setItemList(result);
     }
   }, [itemKey]);
-
-  // key값이
-  useEffect(() => {}, []);
 
   return (
     <>

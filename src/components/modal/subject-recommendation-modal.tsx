@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { useStepOneStore, useStepTwoStore } from "../../store";
 import {
@@ -17,8 +17,6 @@ interface SubjectRecommendationModalProps {
   isSubCurriculumDropdown: boolean;
   setIsSubCurriculumDropdown: React.Dispatch<React.SetStateAction<boolean>>;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  cnt: number;
-  setCnt: React.Dispatch<React.SetStateAction<number>>;
 }
 
 function SubjectRecommendationModal({
@@ -29,8 +27,6 @@ function SubjectRecommendationModal({
   isSubCurriculumDropdown,
   setIsSubCurriculumDropdown,
   setIsModalOpen,
-  cnt,
-  setCnt,
 }: SubjectRecommendationModalProps) {
   const [tempMajorSubject, setTempMajorSubject] = useState("");
   const [tempMediumSubject, setTempMediumSubject] = useState("");
@@ -114,22 +110,20 @@ function SubjectRecommendationModal({
     handleThemeGenerateButton(false);
   }, []);
 
-  // useEffect(() => {
-  //   if (majorSubject && !mediumSubject && !subSubject) {
-  //     setCnt(1);
-  //     return;
-  //   }
-  //   if (majorSubject && mediumSubject && !subSubject) {
-  //     setCnt(2);
-  //     return;
-  //   }
-  //   if (majorSubject && mediumSubject && subSubject) {
-  //     setCnt(3);
-  //     return;
-  //   }
-  // });
+  const isActive = useMemo(() => {
+    // const majorItemKey = `${school}-${grade}-${subject}`;
+    const mediumItemKey = `${school}-${grade}-${subject}-${majorSubject}`;
+    const subItemKey = `${school}-${grade}-${subject}-${majorSubject}-${mediumSubject}`;
 
-  console.log("cnt이다아", cnt);
+    if (subCurriculumArray[subItemKey]) {
+      return Boolean(subSubject);
+    }
+    if (mediumCurriculumArray[mediumItemKey]) {
+      return Boolean(mediumSubject);
+    }
+
+    return false;
+  }, [majorSubject, mediumSubject, subSubject]);
 
   return (
     <Container>
@@ -198,7 +192,7 @@ function SubjectRecommendationModal({
           size="md"
           color="primary"
           onClick={handleThemeGenerate}
-          active={majorSubject && mediumSubject ? true : false}
+          active={isActive}
         >
           주제 적용하기
         </GenerateButton>

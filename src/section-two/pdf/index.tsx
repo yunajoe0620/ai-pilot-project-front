@@ -53,7 +53,7 @@ function PdfQuizPage() {
   const [pdfProblemFileName, setPdfProblemFileName] = useState("");
   const [pdfAnswerFileName, setPdfAnswerFileName] = useState("");
   const [isExtraGenerateButton, setIsExtraGenerateButton] = useState(false);
-  const [cnt, setCnt] = useState(0);
+  // const [cnt, setCnt] = useState(0);
 
   const school = useStepOneStore((state) => state.school);
   const grade = useStepOneStore((state) => state.grade);
@@ -207,7 +207,6 @@ function PdfQuizPage() {
     try {
       const response = await createQuestion(prompt, "gpt40");
       const { result, problemDocs, answerDocs, status, message } = response;
-      console.log("결과입니다22222", problemDocs, answerDocs);
       if (status === 200) {
         const result1 = await createPdf(problemDocs, answerDocs);
         const { status, problemPdfresult, answerPdfresult } = result1;
@@ -309,9 +308,6 @@ function PdfQuizPage() {
               isSubCurriculumDropdown={isSubCurriculumDropdown}
               setIsSubCurriculumDropdown={setIsSubCurriculumDropdown}
               setIsModalOpen={setIsModalOpen}
-              // 단계별 확인
-              cnt={cnt}
-              setCnt={setCnt}
             />
           }
         ></ModalComponent>

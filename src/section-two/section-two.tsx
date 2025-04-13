@@ -10,7 +10,6 @@ function SectionTwo() {
     <Layout>
       <Container>
         <AIQuizNavigation />
-
         <Contents>
           <QuizTypeContainer>
             <QuizType>

@@ -33,7 +33,7 @@ function Dropdown({
   // dropdown Open하는거
   const handleDropDown = () => {
     if (!itemKey) {
-      alert("상위 카테고리르 먼저 선택해주세요");
+      alert("상위 카테고리를 먼저 선택해주세요");
       return;
     }
     if (!setIsDropdown) return;
