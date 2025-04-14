@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { createPdf } from "../../actions/get-pdf";
 import { createQuestion } from "../../actions/get-problems";
+import { baseUrl } from "../../api";
 import ModalComponent from "../../components/modal/modal-component";
 import SubjectRecommendationModal from "../../components/modal/subject-recommendation-modal";
 import PageAIQuizNavigation from "../../components/navigation/page-navigation";
@@ -149,23 +150,20 @@ function PdfQuizPage() {
       alert("주관식 문제의 수를 선택해주세요");
       return;
     }
-
-    const prompt = newFormatQuestion(
-      school,
-      grade,
-      subject,
-      quizSubject,
-      highLevelProblem,
-      mediumLevelProblem,
-      lowLevelProblem,
-      multipleChoice,
-      shortAnswer
-    );
-
+    // api test
     try {
-      const response = await createQuestion(prompt, "gpt40");
-      const { result, problemDocs, answerDocs, status, message } = response;
-      console.log("result", result);
+      const url = `${baseUrl}/middleSchool/math/ThePowersOfNaturalNumbers`;
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ multipleChoice, shortAnswer }),
+      });
+      const jsonData = await response.json();
+
+      const { status, problemDocs, answerDocs } = jsonData;
       if (status === 200) {
         const result1 = await createPdf(problemDocs, answerDocs);
         const { status, problemPdfresult, answerPdfresult } = result1;
@@ -176,10 +174,29 @@ function PdfQuizPage() {
         }
       }
     } catch (error) {
-      throw error;
+      if (error instanceof Error) {
+        return {
+          status: "error",
+          error: error.message,
+        };
+      }
+      return {
+        status: "error",
+        error: "알수 없는 에러가 발생하였습니다.",
+      };
     }
-
     setIsGenerateButton(false);
+    // const prompt = newFormatQuestion(
+    //   school,
+    //   grade,
+    //   subject,
+    //   quizSubject,
+    //   highLevelProblem,
+    //   mediumLevelProblem,
+    //   lowLevelProblem,
+    //   multipleChoice,
+    //   shortAnswer
+    // );
   };
 
   // step4
