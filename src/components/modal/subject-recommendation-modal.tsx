@@ -82,19 +82,32 @@ function SubjectRecommendationModal({
     setIsModalOpen(false);
   };
 
-  console.log("주제", majorSubject, mediumSubject, subSubject);
+  // console.log("주제", majorSubject, mediumSubject, subSubject);
+  // console.log("mediumArray", mediumCurriculumArray);
   const handleThemeGenerate = () => {
-    if (!majorSubject) {
-      alert("주제를 선택해주세요");
-      return;
+    const mediumItemKey = `${school}-${grade}-${subject}-${majorSubject}`;
+    const subItemKey = `${school}-${grade}-${subject}-${majorSubject}-${mediumSubject}`;
+
+    // 하위 영역
+    if (subCurriculumArray[subItemKey]) {
+      const result = Boolean(subSubject);
+      if (!result) {
+        alert("하위영역을 선택해주세요");
+        return;
+      }
     }
 
-    if (!mediumSubject) {
-      alert("상세 영역을 선택해주세요");
-      return;
+    // 상세영역
+    if (mediumCurriculumArray[mediumItemKey]) {
+      const result = Boolean(mediumSubject);
+      if (!result) {
+        alert("상세영역을 선택해주세요");
+        return;
+      }
     }
-    if (!subSubject) {
-      alert("하위 영역을 선택해주세요");
+
+    if (!majorSubject) {
+      alert("주제를 선택해주세요");
       return;
     }
 
