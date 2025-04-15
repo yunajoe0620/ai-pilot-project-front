@@ -2,7 +2,6 @@ import { useState } from "react";
 import styled from "styled-components";
 import { createPdf } from "../../actions/get-pdf";
 import { createQuestion } from "../../actions/get-problems";
-import { baseUrl } from "../../api";
 import ModalComponent from "../../components/modal/modal-component";
 import SubjectRecommendationModal from "../../components/modal/subject-recommendation-modal";
 import PageAIQuizNavigation from "../../components/navigation/page-navigation";
@@ -46,7 +45,6 @@ function PdfQuizPage() {
     useState(false);
   const [isShortAnswerDropdown, setIsShortAnswerDropdown] = useState(false);
   const [isGenerateButton, setIsGenerateButton] = useState(false);
-  const [isAIGeneratorError, setIsAIGeneratorError] = useState(false);
 
   // level4
 
@@ -152,54 +150,29 @@ function PdfQuizPage() {
       return;
     }
 
-    // const prompt = newFormatQuestion(
-    //   school,
-    //   grade,
-    //   subject,
-    //   quizSubject,
-    //   highLevelProblem,
-    //   mediumLevelProblem,
-    //   lowLevelProblem,
-    //   multipleChoice,
-    //   shortAnswer
-    // );
+    const prompt = newFormatQuestion(
+      school,
+      grade,
+      subject,
+      quizSubject,
+      highLevelProblem,
+      mediumLevelProblem,
+      lowLevelProblem,
+      multipleChoice,
+      shortAnswer
+    );
+
     try {
-      const url = `${baseUrl}/problem/test`;
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          school,
-          grade,
-          subject,
-          quizSubject,
-          multipleChoice,
-          shortAnswer,
-        }),
-      });
-      const jsonData = await response.json();
-
-      const { status, problemDocs, answerDocs } = jsonData;
-      console.log("status11111", status);
-
+      const response = await createQuestion(prompt, "gpt40");
+      const { result, problemDocs, answerDocs, status, message } = response;
       if (status === 200) {
         const result1 = await createPdf(problemDocs, answerDocs);
         const { status, problemPdfresult, answerPdfresult } = result1;
-        console.log("status222", status);
         if (status === 200) {
           setPdfProblemFileName(problemPdfresult.filename);
           setPdfAnswerFileName(answerPdfresult.filename);
           setCurrentStep(4);
-        } else {
-          setIsAIGeneratorError(true);
-          setIsGenerateButton(false);
         }
-      } else {
-        setIsAIGeneratorError(true);
-        setIsGenerateButton(false);
       }
     } catch (error) {
       throw error;
@@ -301,8 +274,6 @@ function PdfQuizPage() {
               handleStepThreeGenerate={handleStepThreeGenerate}
               setCurrentStep={setCurrentStep}
               isGenerateButton={isGenerateButton}
-              isAIGeneratorError={isAIGeneratorError}
-              setIsAIGeneratorError={setIsAIGeneratorError}
             />
           )}
           {currentStep === 4 && (

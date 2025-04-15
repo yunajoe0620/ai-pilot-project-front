@@ -12,6 +12,8 @@ interface StepThreeProps {
   handleStepThreeGenerate: () => void;
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
   isGenerateButton: boolean;
+  isAIGeneratorError: boolean;
+  setIsAIGeneratorError: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 // max 60 문항
@@ -23,6 +25,8 @@ function StepThree({
   handleStepThreeGenerate,
   setCurrentStep,
   isGenerateButton,
+  isAIGeneratorError,
+  setIsAIGeneratorError,
 }: StepThreeProps) {
   const totalProblem = useStepTwoStore((state) => state.totalProblem);
   const multipleChoice = useStepThreeStore((state) => state.multipleChoice);
@@ -34,6 +38,8 @@ function StepThree({
   const handleShortAnswerProblem = useStepThreeStore(
     (state) => state.handleShortAnswerProblem
   );
+
+  console.log("isAIGenerator", isAIGeneratorError);
 
   // 빈문자열을 Number("") typecasing하면은 0 이 된다.
   useEffect(() => {
@@ -125,6 +131,7 @@ function StepThree({
         </GenerateButton>
       </ButtonContainer>
       {isGenerateButton && <p>AI 퀴즈를 생성 중입니다....</p>}
+      {isAIGeneratorError && <p>AI문제생성에 실패하였습니다</p>}
     </QuizTypeContainer>
   );
 }
