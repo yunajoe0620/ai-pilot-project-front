@@ -200,7 +200,6 @@ function SubjectRecommendationModal({
     }
   }, []);
 
-  console.log("sub", subject);
   return (
     <Container>
       <ThemeContainer>
