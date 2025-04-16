@@ -32,8 +32,6 @@ function SubjectRecommendationModal({
   isReset,
   setIsReset,
 }: SubjectRecommendationModalProps) {
-  console.log("isReset", isReset);
-
   const [tempMajorSubject, setTempMajorSubject] = useState("");
   const [tempMediumSubject, setTempMediumSubject] = useState("");
   const [tempSubSubject, setTempSubSubject] = useState("");
@@ -167,7 +165,6 @@ function SubjectRecommendationModal({
   // for handleClose 펑션을 위하여
 
   useEffect(() => {
-    console.log("처음렌더링한것", majorSubject, mediumSubject, subSubject);
     setTempMajorSubject(majorSubject);
     setTempMediumSubject(mediumSubject);
     setTempSubSubject(subSubject);
