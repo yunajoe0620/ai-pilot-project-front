@@ -80,8 +80,6 @@ function PdfQuizPage() {
 
   const handleSubject = useStepOneStore((state) => state.handleSubject);
 
-  console.log("isReset", isReset);
-
   useDropDownClose({
     isDropdownOne: isHighLevelDropdown,
     setIsDropdownOne: setIsHighLevelDropdown,
