@@ -25,13 +25,16 @@ function PdfQuizPage() {
   // level 1
   const [isGradeDropDown, setIsGradeDropdown] = useState(false);
   const [isSubjectDropDown, setIsSubJectDropdown] = useState(false);
+  const [tempSchool, setTempSchool] = useState("");
+  const [tempGrade, setTempGrade] = useState("");
+  const [tempSubject, setTempSubject] = useState("");
+  const [isReset, setIsReset] = useState(false);
 
   // level 2
   const [isHighLevelDropdown, setIsHighLevelDropdown] = useState(false);
   const [isMediumLevelDropdown, setIsMediumLevelDropdown] = useState(false);
   const [isLowLevelDropdown, setIsLowLevelDropdown] = useState(false);
 
-  // subject modal
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMajorCurriculumDropdown, setIsMajorCurriculumDropdown] =
     useState(false);
@@ -55,7 +58,6 @@ function PdfQuizPage() {
   const [pdfProblemFileName, setPdfProblemFileName] = useState("");
   const [pdfAnswerFileName, setPdfAnswerFileName] = useState("");
   const [isExtraGenerateButton, setIsExtraGenerateButton] = useState(false);
-  // const [cnt, setCnt] = useState(0);
 
   const school = useStepOneStore((state) => state.school);
   const grade = useStepOneStore((state) => state.grade);
@@ -72,6 +74,13 @@ function PdfQuizPage() {
   const shortAnswer = useStepThreeStore((state) => state.shortAnswer);
 
   const extraRequest = useStepFourStore((state) => state.extraRequest);
+
+  const handleSchool = useStepOneStore((state) => state.handleSchool);
+  const handleGrade = useStepOneStore((state) => state.handleGrade);
+
+  const handleSubject = useStepOneStore((state) => state.handleSubject);
+
+  console.log("isReset", isReset);
 
   useDropDownClose({
     isDropdownOne: isHighLevelDropdown,
@@ -93,18 +102,42 @@ function PdfQuizPage() {
 
   // step 1일때 버튼
   const handleStepOneGenerate = () => {
-    if (!school) {
+    if (!tempSchool) {
       alert("학교를 선택해주세요");
       return;
     }
-    if (!grade) {
+    if (!tempGrade) {
       alert("학년를 선택해주세요");
       return;
     }
-    if (!subject) {
+    if (!tempSubject) {
       alert("과목을 선택해주세요");
       return;
     }
+
+    // 퀴즈 주제 선정하기 버튼을 누를때 저장
+    handleSchool(tempSchool);
+    handleGrade(tempGrade);
+    handleSubject(tempSubject);
+
+    // 현재 선택한 학교랑 저장되어 있는 학교랑 다르면은은
+    if (school) {
+      if (tempSchool !== school) {
+        setIsReset(true);
+      }
+    }
+    if (grade) {
+      if (tempGrade !== grade) {
+        setIsReset(true);
+      }
+    }
+
+    if (subject) {
+      if (tempSubject !== subject) {
+        setIsReset(true);
+      }
+    }
+
     setCurrentStep(2);
   };
 
@@ -143,6 +176,7 @@ function PdfQuizPage() {
 
   const handleStepThreeGenerate = async () => {
     setIsGenerateButton(true);
+    setIsAIGeneratorError(false);
     if (!multipleChoice) {
       alert("객관식 문제의 수를 선택해주세요");
       return;
@@ -152,17 +186,6 @@ function PdfQuizPage() {
       return;
     }
 
-    // const prompt = newFormatQuestion(
-    //   school,
-    //   grade,
-    //   subject,
-    //   quizSubject,
-    //   highLevelProblem,
-    //   mediumLevelProblem,
-    //   lowLevelProblem,
-    //   multipleChoice,
-    //   shortAnswer
-    // );
     try {
       const url = `${baseUrl}/problem/test`;
       const response = await fetch(url, {
@@ -183,12 +206,10 @@ function PdfQuizPage() {
       const jsonData = await response.json();
 
       const { status, problemDocs, answerDocs } = jsonData;
-      console.log("status11111", status);
 
       if (status === 200) {
         const result1 = await createPdf(problemDocs, answerDocs);
         const { status, problemPdfresult, answerPdfresult } = result1;
-        console.log("status222", status);
         if (status === 200) {
           setPdfProblemFileName(problemPdfresult.filename);
           setPdfAnswerFileName(answerPdfresult.filename);
@@ -277,6 +298,12 @@ function PdfQuizPage() {
               isSubjectDropDown={isSubjectDropDown}
               setIsSubJectDropdown={setIsSubJectDropdown}
               handleStepOneGenerate={handleStepOneGenerate}
+              tempSchool={tempSchool}
+              tempGrade={tempGrade}
+              tempSubject={tempSubject}
+              setTempSchool={setTempSchool}
+              setTempGrade={setTempGrade}
+              setTempSubject={setTempSubject}
             />
           )}
           {currentStep === 2 && (
@@ -290,6 +317,7 @@ function PdfQuizPage() {
               handleStepTwoGenerate={handleStepTwoGenerate}
               setCurrentStep={setCurrentStep}
               setIsModalOpen={setIsModalOpen}
+              isReset={isReset}
             />
           )}
           {currentStep === 3 && (
@@ -302,7 +330,6 @@ function PdfQuizPage() {
               setCurrentStep={setCurrentStep}
               isGenerateButton={isGenerateButton}
               isAIGeneratorError={isAIGeneratorError}
-              setIsAIGeneratorError={setIsAIGeneratorError}
             />
           )}
           {currentStep === 4 && (
@@ -337,6 +364,8 @@ function PdfQuizPage() {
               isSubCurriculumDropdown={isSubCurriculumDropdown}
               setIsSubCurriculumDropdown={setIsSubCurriculumDropdown}
               setIsModalOpen={setIsModalOpen}
+              isReset={isReset}
+              setIsReset={setIsReset}
             />
           }
         ></ModalComponent>

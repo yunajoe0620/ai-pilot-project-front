@@ -16,6 +16,7 @@ interface StepTwoProps {
   handleStepTwoGenerate: () => void;
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isReset: boolean;
 }
 
 function StepTwo({
@@ -28,6 +29,7 @@ function StepTwo({
   handleStepTwoGenerate,
   setCurrentStep,
   setIsModalOpen,
+  isReset,
 }: StepTwoProps) {
   const quizSubject = useStepTwoStore((state) => state.quizSubject);
   const handleQuizSubject = useStepTwoStore((state) => state.handleQuizSubject);
@@ -65,6 +67,13 @@ function StepTwo({
       handleTotalProblem(total);
     }
   }, [highLevelProblem, mediumLevelProblem, lowLevelProblem]);
+
+  // 퀴즈 주제 인풋값과 모달 입력값 초기화
+  useEffect(() => {
+    if (isReset) {
+      handleQuizSubject("");
+    }
+  }, [isReset]);
 
   return (
     <QuizSubjectContainer>

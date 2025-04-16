@@ -31,7 +31,7 @@ function Dropdown({
   const [itemList, setItemList] = useState<string[]>([]);
 
   // dropdown Open하는거
-  const handleDropDown = () => {
+  const handleOpenDropDown = () => {
     if (!itemKey) {
       alert("상위 카테고리를 먼저 선택해주세요");
       return;
@@ -48,7 +48,7 @@ function Dropdown({
 
   return (
     <Contaniner isEdit={isEdit}>
-      <TypeDirectContainer onClick={handleDropDown} size={size}>
+      <TypeDirectContainer onClick={handleOpenDropDown} size={size}>
         <PlaceHolder selectValue={selectedValue}>
           {selectedValue ? selectedValue : placeholder}
         </PlaceHolder>

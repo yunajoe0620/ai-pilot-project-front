@@ -12,6 +12,12 @@ interface StepOneProps {
   isSubjectDropDown: boolean;
   setIsSubJectDropdown: React.Dispatch<React.SetStateAction<boolean>>;
   handleStepOneGenerate: () => void;
+  tempSchool: string;
+  tempGrade: string;
+  tempSubject: string;
+  setTempSchool: React.Dispatch<React.SetStateAction<string>>;
+  setTempGrade: React.Dispatch<React.SetStateAction<string>>;
+  setTempSubject: React.Dispatch<React.SetStateAction<string>>;
 }
 
 function StepOne({
@@ -20,14 +26,35 @@ function StepOne({
   isSubjectDropDown,
   setIsSubJectDropdown,
   handleStepOneGenerate,
+  setTempSchool,
+  tempSchool,
+  tempGrade,
+  tempSubject,
+  setTempGrade,
+  setTempSubject,
 }: StepOneProps) {
   const school = useStepOneStore((state) => state.school);
   const grade = useStepOneStore((state) => state.grade);
   const subject = useStepOneStore((state) => state.subject);
+  const handleGrade = (e: React.MouseEvent<HTMLDivElement> | null) => {
+    if (!e) {
+      setTempGrade("");
+      return;
+    }
+    let value = e.target as HTMLElement;
+    let newGrade = value.textContent as string;
+    setTempGrade(newGrade);
+  };
+  const handleSubject = (e: React.MouseEvent<HTMLDivElement> | null) => {
+    if (!e) {
+      setTempSubject("");
+      return;
+    }
+    let value = e.target as HTMLElement;
+    let newSubject = value.textContent as string;
+    setTempSubject(newSubject);
+  };
 
-  const handleGrade = useStepOneStore((state) => state.handleGrade);
-  const handleSchool = useStepOneStore((state) => state.handleSchool);
-  const handleSubject = useStepOneStore((state) => state.handleSubject);
   return (
     <>
       <SchoolGradeContainer>
@@ -37,18 +64,19 @@ function StepOne({
             onClick={(e) => {
               let value = e.target as HTMLElement;
               let newSchool = value.textContent as string;
+              setTempSchool(newSchool);
               if (school !== newSchool) {
                 handleGrade(null);
               }
-
-              handleSchool(e);
             }}
           >
-            <SelectButton selected={school === "초등학교"}>
+            <SelectButton selected={tempSchool === "초등학교"}>
               초등학교
             </SelectButton>
-            <SelectButton selected={school === "중학교"}>중학교</SelectButton>
-            <SelectButton selected={school === "고등학교"}>
+            <SelectButton selected={tempSchool === "중학교"}>
+              중학교
+            </SelectButton>
+            <SelectButton selected={tempSchool === "고등학교"}>
               고등학교
             </SelectButton>
           </ButtonContainer>
@@ -59,8 +87,8 @@ function StepOne({
             isDropdown={isGradeDropDown}
             setIsDropdown={setIsGradeDropdown}
             itemArray={gradeObject}
-            itemKey={school}
-            selectedValue={grade}
+            itemKey={tempSchool}
+            selectedValue={tempGrade}
             handleDropdown={handleGrade}
           />
         </GradeDropdownContainer>
@@ -74,7 +102,7 @@ function StepOne({
           setIsDropdown={setIsSubJectDropdown}
           itemArray={subjectArray}
           itemKey="subject"
-          selectedValue={subject}
+          selectedValue={tempSubject}
           handleDropdown={handleSubject}
         />
       </SubjectContainer>
@@ -82,7 +110,7 @@ function StepOne({
         size="md"
         color="primary"
         onClick={handleStepOneGenerate}
-        active={school && grade && subject ? true : false}
+        active={tempSchool && tempGrade && tempSubject ? true : false}
       >
         퀴즈 주제 선정하기
       </GenerateButton>

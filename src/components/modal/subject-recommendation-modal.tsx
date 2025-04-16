@@ -17,6 +17,8 @@ interface SubjectRecommendationModalProps {
   isSubCurriculumDropdown: boolean;
   setIsSubCurriculumDropdown: React.Dispatch<React.SetStateAction<boolean>>;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isReset: boolean;
+  setIsReset: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function SubjectRecommendationModal({
@@ -27,7 +29,11 @@ function SubjectRecommendationModal({
   isSubCurriculumDropdown,
   setIsSubCurriculumDropdown,
   setIsModalOpen,
+  isReset,
+  setIsReset,
 }: SubjectRecommendationModalProps) {
+  console.log("isReset", isReset);
+
   const [tempMajorSubject, setTempMajorSubject] = useState("");
   const [tempMediumSubject, setTempMediumSubject] = useState("");
   const [tempSubSubject, setTempSubSubject] = useState("");
@@ -58,16 +64,42 @@ function SubjectRecommendationModal({
   );
 
   const handleCloseModal = () => {
+    // console.log("클로즈모달");
+    // console.log("주제적용하기버어뚠?", isThemeGenerateButton);
+    // console.log(
+    //   "저장되어있는값들",
+    //   tempMajorSubject,
+    //   tempMediumSubject,
+    //   tempSubSubject
+    // );
+    // console.log("선택한값들", majorSubject, mediumSubject, subSubject);
+
+    // 저장되어 있는게 없을떄
     if (!tempMajorSubject && !tempMediumSubject && !tempSubSubject) {
+      // console.log("저장이 되어 있는 값이 없다");
+      // 주제 적용하기 버튼을 누르지 않은경우는 그 값을 저장해야 할 필요 없으므로 null
       if (!isThemeGenerateButton) {
         handleMajorSubject(null);
         handleMediumSubject(null);
         handleSubSubject(null);
       }
+      //
     }
 
+    // 저장되어 있는게 있을때
+
+    // 3개다
     if (tempMajorSubject && tempMediumSubject && tempSubSubject) {
+      // console.log(
+      //   "저장되어있는값이 있따=====>>>>>>",
+      //   tempMajorSubject,
+      //   tempMediumSubject,
+      //   tempSubSubject
+      // );
       if (
+        // 주제 적용하기 버튼을 누르지 않고
+        // 저장되어 있는 값(temp)이랑 현재 선택(majorSubject)한 값이랑 다를때는는
+        // 현재 저장되어 있는 값을 다시 넣어준다.
         !isThemeGenerateButton &&
         tempMajorSubject !== majorSubject &&
         tempMediumSubject !== mediumSubject &&
@@ -79,11 +111,26 @@ function SubjectRecommendationModal({
       }
     }
 
+    if (tempMajorSubject && tempMediumSubject) {
+      if (
+        !isThemeGenerateButton &&
+        tempMajorSubject !== majorSubject &&
+        tempMediumSubject !== mediumSubject
+      ) {
+        handleMajorSubject(tempMajorSubject);
+        handleMediumSubject(tempMediumSubject);
+      }
+    }
+
+    if (tempMajorSubject) {
+      if (!isThemeGenerateButton && tempMajorSubject !== majorSubject) {
+        handleMajorSubject(tempMajorSubject);
+      }
+    }
+
     setIsModalOpen(false);
   };
 
-  // console.log("주제", majorSubject, mediumSubject, subSubject);
-  // console.log("mediumArray", mediumCurriculumArray);
   const handleThemeGenerate = () => {
     const mediumItemKey = `${school}-${grade}-${subject}-${majorSubject}`;
     const subItemKey = `${school}-${grade}-${subject}-${majorSubject}-${mediumSubject}`;
@@ -116,7 +163,11 @@ function SubjectRecommendationModal({
     handleThemeGenerateButton(true);
   };
 
+  // 기존의 저장되어 있는게 있으면은 tempSubject에 넣는다
+  // for handleClose 펑션을 위하여
+
   useEffect(() => {
+    console.log("처음렌더링한것", majorSubject, mediumSubject, subSubject);
     setTempMajorSubject(majorSubject);
     setTempMediumSubject(mediumSubject);
     setTempSubSubject(subSubject);
@@ -124,7 +175,6 @@ function SubjectRecommendationModal({
   }, []);
 
   const isActive = useMemo(() => {
-    // const majorItemKey = `${school}-${grade}-${subject}`;
     const mediumItemKey = `${school}-${grade}-${subject}-${majorSubject}`;
     const subItemKey = `${school}-${grade}-${subject}-${majorSubject}-${mediumSubject}`;
 
@@ -138,10 +188,22 @@ function SubjectRecommendationModal({
     return false;
   }, [majorSubject, mediumSubject, subSubject]);
 
+  useEffect(() => {
+    if (isReset) {
+      handleMajorSubject(null);
+      handleMediumSubject(null);
+      handleSubSubject(null);
+      setTempMajorSubject("");
+      setTempMediumSubject("");
+      setTempSubSubject("");
+      setIsReset(false);
+    }
+  }, []);
+
   return (
     <Container>
       <ThemeContainer>
-        <SubTitle>수학 교과 과정을 추천해 드릴게요!</SubTitle>
+        <SubTitle>{subject} 교과 과정을 추천해 드릴게요!</SubTitle>
         <SingleDropdown
           placeholder="큰 주제를 선택해 주세요."
           size="lg"

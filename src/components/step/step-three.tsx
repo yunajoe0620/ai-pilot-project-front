@@ -13,7 +13,6 @@ interface StepThreeProps {
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
   isGenerateButton: boolean;
   isAIGeneratorError: boolean;
-  setIsAIGeneratorError: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 // max 60 문항
@@ -26,7 +25,6 @@ function StepThree({
   setCurrentStep,
   isGenerateButton,
   isAIGeneratorError,
-  setIsAIGeneratorError,
 }: StepThreeProps) {
   const totalProblem = useStepTwoStore((state) => state.totalProblem);
   const multipleChoice = useStepThreeStore((state) => state.multipleChoice);
@@ -38,8 +36,6 @@ function StepThree({
   const handleShortAnswerProblem = useStepThreeStore(
     (state) => state.handleShortAnswerProblem
   );
-
-  console.log("isAIGenerator", isAIGeneratorError);
 
   // 빈문자열을 Number("") typecasing하면은 0 이 된다.
   useEffect(() => {

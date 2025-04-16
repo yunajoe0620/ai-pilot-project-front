@@ -44,9 +44,9 @@ function SingleDropdown({
 
   useEffect(() => {
     if (!itemKey) return;
+
     const result = itemArray[itemKey];
 
-    // itemKey에 해당하는 list값이 없을때
     if (!result) {
       setItemList([]);
     } else {

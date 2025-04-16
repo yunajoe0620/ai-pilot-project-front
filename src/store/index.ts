@@ -15,17 +15,29 @@ export const usePromptStore = create<StoreState>((set) => ({
 // step one
 interface StepOneState {
   school: string;
-  handleSchool: (e: React.MouseEvent<HTMLDivElement>) => void;
+  handleSchool: (e: React.MouseEvent<HTMLDivElement> | string | null) => void;
   grade: string;
-  handleGrade: (e: React.MouseEvent<HTMLDivElement> | null) => void;
+  handleGrade: (e: React.MouseEvent<HTMLDivElement> | string | null) => void;
   subject: string;
-  handleSubject: (e: React.MouseEvent<HTMLDivElement> | null) => void;
+  handleSubject: (e: React.MouseEvent<HTMLDivElement> | string | null) => void;
 }
 
 export const useStepOneStore = create<StepOneState>((set) => ({
   // 학교
   school: "",
   handleSchool: (e) => {
+    if (!e) {
+      set(() => ({
+        school: "",
+      }));
+      return;
+    }
+    if (typeof e === "string") {
+      set(() => ({
+        school: e,
+      }));
+      return;
+    }
     let value = e.target as HTMLElement;
     let newSchool = value.textContent as string;
     if (value) {
@@ -38,13 +50,18 @@ export const useStepOneStore = create<StepOneState>((set) => ({
   // 학년
   grade: "",
   handleGrade: (e) => {
-    if (!e || !e.target) {
+    if (!e) {
       set(() => ({
         grade: "",
       }));
       return;
     }
-
+    if (typeof e === "string") {
+      set(() => ({
+        grade: e,
+      }));
+      return;
+    }
     let value = e.target as HTMLElement;
     let selectedGrade = value.textContent as string;
     if (value) {
@@ -57,9 +74,15 @@ export const useStepOneStore = create<StepOneState>((set) => ({
   // 과목
   subject: "",
   handleSubject: (e) => {
-    if (!e || !e.target) {
+    if (!e) {
       set(() => ({
         subject: "",
+      }));
+      return;
+    }
+    if (typeof e === "string") {
+      set(() => ({
+        subject: e,
       }));
       return;
     }
