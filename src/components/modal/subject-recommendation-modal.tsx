@@ -4,6 +4,9 @@ import { useStepOneStore, useStepTwoStore } from "../../store";
 import {
   majorCurriculumArray,
   mediumCurriculumArray,
+  returnMajorSubjectListKey,
+  returnMediumSubjectListKey,
+  returnSubSubjectListKey,
   subCurriculumArray,
 } from "../../utils/dropdown";
 import GenerateButton from "../button/generate-button";
@@ -197,6 +200,7 @@ function SubjectRecommendationModal({
     }
   }, []);
 
+  console.log("sub", subject);
   return (
     <Container>
       <ThemeContainer>
@@ -207,7 +211,7 @@ function SubjectRecommendationModal({
           isDropdown={isMajorCurriculumDropdown}
           setIsDropdown={setIsMajorCurriculumDropdown}
           itemArray={majorCurriculumArray}
-          itemKey={`${school}-${grade}-${subject}`}
+          itemKey={returnMajorSubjectListKey(school, grade, subject)}
           selectedValue={majorSubject}
           handleDropdown={(e) => {
             let value = e.target as HTMLElement;
@@ -225,7 +229,12 @@ function SubjectRecommendationModal({
           isDropdown={isMediumCurriculumDropdown}
           setIsDropdown={setIsMediumCurriculumDropdown}
           itemArray={mediumCurriculumArray}
-          itemKey={`${school}-${grade}-${subject}-${majorSubject}`}
+          itemKey={returnMediumSubjectListKey(
+            school,
+            grade,
+            subject,
+            majorSubject
+          )}
           selectedValue={mediumSubject}
           handleDropdown={(e) => {
             let value = e.target as HTMLElement;
@@ -243,7 +252,13 @@ function SubjectRecommendationModal({
           isDropdown={isSubCurriculumDropdown}
           setIsDropdown={setIsSubCurriculumDropdown}
           itemArray={subCurriculumArray}
-          itemKey={`${school}-${grade}-${subject}-${majorSubject}-${mediumSubject}`}
+          itemKey={returnSubSubjectListKey(
+            school,
+            grade,
+            subject,
+            majorSubject,
+            mediumSubject
+          )}
           selectedValue={subSubject}
           handleDropdown={(e) => {
             handleSubSubject(e);
