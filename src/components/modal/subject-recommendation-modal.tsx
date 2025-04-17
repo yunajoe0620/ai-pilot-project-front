@@ -174,9 +174,19 @@ function SubjectRecommendationModal({
     handleThemeGenerateButton(false);
   }, []);
 
+  // activation 조건
   const isActive = useMemo(() => {
-    const mediumItemKey = `${school}-${grade}-${subject}-${majorSubject}`;
-    const subItemKey = `${school}-${grade}-${subject}-${majorSubject}-${mediumSubject}`;
+    let mediumItemKey;
+    let subItemKey;
+
+    // 과목이 영어일때 key값은 다루다
+    if (subject === "영어") {
+      mediumItemKey = `${school}-${subject}-${majorSubject}`;
+      subItemKey = `${school}-${subject}-${majorSubject}-${mediumSubject}`;
+    } else {
+      mediumItemKey = `${school}-${grade}-${subject}-${majorSubject}`;
+      subItemKey = `${school}-${grade}-${subject}-${majorSubject}-${mediumSubject}`;
+    }
 
     if (subCurriculumArray[subItemKey]) {
       return Boolean(subSubject);
