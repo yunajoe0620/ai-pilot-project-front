@@ -199,6 +199,9 @@ function PdfQuizPage() {
           quizSubject,
           multipleChoice,
           shortAnswer,
+          highLevelProblem,
+          mediumLevelProblem,
+          lowLevelProblem,
         }),
       });
       const jsonData = await response.json();
@@ -267,6 +270,41 @@ function PdfQuizPage() {
     }
   };
 
+  const handleAWolFramAlphaTest = async () => {
+    setIsGenerateButton(true);
+    setIsAIGeneratorError(false);
+    if (!multipleChoice) {
+      alert("객관식 문제의 수를 선택해주세요");
+      return;
+    }
+    if (!shortAnswer) {
+      alert("주관식 문제의 수를 선택해주세요");
+      return;
+    }
+    try {
+      const url = `${baseUrl}/problem/wolfram`;
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          school,
+          grade,
+          subject,
+          quizSubject,
+          multipleChoice,
+          shortAnswer,
+        }),
+      });
+      const jsonData = await response.json();
+      console.log("jsonData", jsonData);
+    } catch (error) {
+      throw error;
+    }
+  };
+
   return (
     <Layout>
       <Container>
@@ -328,6 +366,8 @@ function PdfQuizPage() {
               setCurrentStep={setCurrentStep}
               isGenerateButton={isGenerateButton}
               isAIGeneratorError={isAIGeneratorError}
+              // for WolframAlphText
+              handleAWolFramAlphaTest={handleAWolFramAlphaTest}
             />
           )}
           {currentStep === 4 && (

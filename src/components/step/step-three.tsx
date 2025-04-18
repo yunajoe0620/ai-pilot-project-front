@@ -13,6 +13,7 @@ interface StepThreeProps {
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
   isGenerateButton: boolean;
   isAIGeneratorError: boolean;
+  handleAWolFramAlphaTest: () => void;
 }
 
 // max 60 문항
@@ -25,6 +26,7 @@ function StepThree({
   setCurrentStep,
   isGenerateButton,
   isAIGeneratorError,
+  handleAWolFramAlphaTest,
 }: StepThreeProps) {
   const totalProblem = useStepTwoStore((state) => state.totalProblem);
   const multipleChoice = useStepThreeStore((state) => state.multipleChoice);
@@ -124,6 +126,14 @@ function StepThree({
           active={!multipleChoice || !shortAnswer ? false : true}
         >
           AI 퀴즈 생성하기
+        </GenerateButton>
+        <GenerateButton
+          size="md"
+          color="primary"
+          onClick={handleAWolFramAlphaTest}
+          active={!multipleChoice || !shortAnswer ? false : true}
+        >
+          WOLFRAM ALPHA 문제 생성하기
         </GenerateButton>
       </ButtonContainer>
       {isGenerateButton && <p>AI 퀴즈를 생성 중입니다....</p>}
