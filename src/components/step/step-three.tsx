@@ -127,14 +127,14 @@ function StepThree({
         >
           AI 퀴즈 생성하기
         </GenerateButton>
-        <GenerateButton
+        {/* <GenerateButton
           size="md"
           color="primary"
           onClick={handleAWolFramAlphaTest}
           active={!multipleChoice || !shortAnswer ? false : true}
         >
           WOLFRAM ALPHA 문제 생성하기
-        </GenerateButton>
+        </GenerateButton> */}
       </ButtonContainer>
       {isGenerateButton && <p>AI 퀴즈를 생성 중입니다....</p>}
       {isAIGeneratorError && <p>AI문제생성에 실패하였습니다</p>}

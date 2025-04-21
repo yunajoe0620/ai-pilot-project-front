@@ -15,6 +15,7 @@ function StepFour({
   pdfAnswerFileName,
   isExtraGenerateButton,
 }: StepFourProps) {
+  console.log("pdfPRobileFleName", pdfProblemFileName);
   return (
     <Container>
       <StepFourTopContainer>
@@ -30,8 +31,9 @@ function StepFour({
             size="lg"
             color="primary"
             onClick={() => {
-              window.open(`${baseUrl}/pdf/${pdfProblemFileName}.pdf`);
-              window.open(`${baseUrl}/pdf/${pdfAnswerFileName}.pdf`);
+              // window.open(`${baseUrl}/pdf/${pdfProblemFileName}.pdf`);
+              // window.open(`${baseUrl}/pdf/${pdfAnswerFileName}.pdf`);
+              window.open(`${baseUrl}/files/pdf/${pdfProblemFileName}.pdf`);
             }}
             active={true}
           >

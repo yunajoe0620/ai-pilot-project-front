@@ -205,24 +205,21 @@ function PdfQuizPage() {
         }),
       });
       const jsonData = await response.json();
-      console.log("jsonData", jsonData);
 
-      const { status, problemfilename, answerDocs } = jsonData;
-      console.log("statis", status);
+      const { status, problemDocs, answerDocs } = jsonData;
+      console.log("statis", status, problemDocs);
 
       if (status === 200) {
-        setPdfProblemFileName(problemfilename);
-        setCurrentStep(4);
-        // const result1 = await createPdf(problemDocs, answerDocs);
-        // const { status, problemPdfresult, answerPdfresult } = result1;
-        // if (status === 200) {
-        //   setPdfProblemFileName(problemPdfresult.filename);
-        //   setPdfAnswerFileName(answerPdfresult.filename);
-        //   setCurrentStep(4);
-        // } else {
-        //   setIsAIGeneratorError(true);
-        //   setIsGenerateButton(false);
-        // }
+        const result1 = await createPdf(problemDocs, answerDocs);
+        const { status, problemPdfresult, answerPdfresult } = result1;
+        if (status === 200) {
+          setPdfProblemFileName(problemPdfresult.filename);
+          setPdfAnswerFileName(answerPdfresult.filename);
+          setCurrentStep(4);
+        } else {
+          setIsAIGeneratorError(true);
+          setIsGenerateButton(false);
+        }
       } else {
         setIsAIGeneratorError(true);
         setIsGenerateButton(false);
