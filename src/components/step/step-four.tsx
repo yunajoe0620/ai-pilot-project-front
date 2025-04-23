@@ -7,6 +7,7 @@ interface StepFourProps {
   pdfProblemFileName: string;
   pdfAnswerFileName: string;
   isExtraGenerateButton: boolean;
+  htmlText: string;
 }
 
 function StepFour({
@@ -14,12 +15,19 @@ function StepFour({
   pdfProblemFileName,
   pdfAnswerFileName,
   isExtraGenerateButton,
+  htmlText,
 }: StepFourProps) {
-  console.log("pdfPRobileFleName", pdfProblemFileName);
   return (
     <Container>
       <StepFourTopContainer>
         <Character></Character>
+        테스트입니다
+        {/* {parse(htmlText)} */}{" "}
+        <iframe
+          title="html-preview"
+          srcDoc={htmlText}
+          style={{ width: "100%", height: "500px", border: "none" }}
+        />
         <PdfDownLoadContainer>
           <TextOne>
             {isExtraRequest && !isExtraGenerateButton
@@ -34,6 +42,7 @@ function StepFour({
               // window.open(`${baseUrl}/pdf/${pdfProblemFileName}.pdf`);
               // window.open(`${baseUrl}/pdf/${pdfAnswerFileName}.pdf`);
               window.open(`${baseUrl}/files/pdf/${pdfProblemFileName}.pdf`);
+              window.open(`${baseUrl}/files/pdf/${pdfAnswerFileName}.pdf`);
             }}
             active={true}
           >

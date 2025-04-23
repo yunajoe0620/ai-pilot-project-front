@@ -58,6 +58,7 @@ function PdfQuizPage() {
   const [pdfProblemFileName, setPdfProblemFileName] = useState("");
   const [pdfAnswerFileName, setPdfAnswerFileName] = useState("");
   const [isExtraGenerateButton, setIsExtraGenerateButton] = useState(false);
+  const [htmlText, setHtmlText] = useState("");
 
   const school = useStepOneStore((state) => state.school);
   const grade = useStepOneStore((state) => state.grade);
@@ -205,24 +206,22 @@ function PdfQuizPage() {
         }),
       });
       const jsonData = await response.json();
-      console.log("jsonData", jsonData);
 
-      const { status, problemfilename, answerDocs } = jsonData;
-      console.log("statis", status);
+      const { status, problemfilename, problemDocs, answerDocs } = jsonData;
 
       if (status === 200) {
         setPdfProblemFileName(problemfilename);
         setCurrentStep(4);
-        // const result1 = await createPdf(problemDocs, answerDocs);
-        // const { status, problemPdfresult, answerPdfresult } = result1;
-        // if (status === 200) {
-        //   setPdfProblemFileName(problemPdfresult.filename);
-        //   setPdfAnswerFileName(answerPdfresult.filename);
-        //   setCurrentStep(4);
-        // } else {
-        //   setIsAIGeneratorError(true);
-        //   setIsGenerateButton(false);
-        // }
+        const result1 = await createPdf(problemDocs, answerDocs);
+        const { status, problemPdfresult, answerPdfresult } = result1;
+        if (status === 200) {
+          setPdfProblemFileName(problemPdfresult.filename);
+          setPdfAnswerFileName(answerPdfresult.filename);
+          setCurrentStep(4);
+        } else {
+          setIsAIGeneratorError(true);
+          setIsGenerateButton(false);
+        }
       } else {
         setIsAIGeneratorError(true);
         setIsGenerateButton(false);
@@ -274,6 +273,7 @@ function PdfQuizPage() {
     }
   };
 
+  // whoframAlphaTest
   const handleAWolFramAlphaTest = async () => {
     setIsGenerateButton(true);
     setIsAIGeneratorError(false);
@@ -303,16 +303,76 @@ function PdfQuizPage() {
         }),
       });
       const jsonData = await response.json();
-      console.log("jsonData", jsonData);
     } catch (error) {
       throw error;
     }
   };
 
+  // gemini
+  const handleGeminiProblem = async () => {
+    setIsGenerateButton(true);
+    setIsAIGeneratorError(false);
+    if (!multipleChoice) {
+      alert("객관식 문제의 수를 선택해주세요");
+      return;
+    }
+    if (!shortAnswer) {
+      alert("주관식 문제의 수를 선택해주세요");
+      return;
+    }
+
+    try {
+      const url = `${baseUrl}/problem/generate/gemini`;
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          // 내가 보내는 데이터의 형식이 뭔지를 서버
+          "Content-Type": "application/json",
+          // 내가 받고 싶은 응답 형식을 서버에 요청
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          school,
+          grade,
+          subject,
+          quizSubject,
+          multipleChoice,
+          shortAnswer,
+          highLevelProblem,
+          mediumLevelProblem,
+          lowLevelProblem,
+        }),
+      });
+
+      const jsonData = await response.json();
+      console.log("jsonData", jsonData);
+      if (jsonData.status === 200) {
+        setCurrentStep(4);
+        setHtmlText(jsonData.cleanedproblemHtml);
+      } else {
+        setIsAIGeneratorError(true);
+        setIsGenerateButton(false);
+      }
+
+      // const { status, problemfilename, answerfilename } = jsonData;
+      // if (status === 200) {
+      //   setPdfProblemFileName(problemfilename);
+      //   setPdfAnswerFileName(answerfilename);
+      //   setCurrentStep(4);
+      // } else {
+      //   setIsAIGeneratorError(true);
+      //   setIsGenerateButton(false);
+      // }
+    } catch (error) {
+      throw error;
+    }
+
+    setIsGenerateButton(false);
+  };
+
   return (
     <Layout>
       <Container>
-        {/* navigation */}
         <PageAIQuizNavigation />
         {/* progressedar  step 3까지만 보인다*/}
         {currentStep <= 3 && (
@@ -372,6 +432,8 @@ function PdfQuizPage() {
               isAIGeneratorError={isAIGeneratorError}
               // for WolframAlphText
               handleAWolFramAlphaTest={handleAWolFramAlphaTest}
+              // for Gemini
+              handleGeminiProblem={handleGeminiProblem}
             />
           )}
           {currentStep === 4 && (
@@ -380,6 +442,8 @@ function PdfQuizPage() {
               pdfProblemFileName={pdfProblemFileName}
               pdfAnswerFileName={pdfAnswerFileName}
               isExtraGenerateButton={isExtraGenerateButton}
+              // for htmlText
+              htmlText={htmlText}
             />
           )}
         </Contents>

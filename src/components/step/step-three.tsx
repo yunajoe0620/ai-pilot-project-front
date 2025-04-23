@@ -14,6 +14,7 @@ interface StepThreeProps {
   isGenerateButton: boolean;
   isAIGeneratorError: boolean;
   handleAWolFramAlphaTest: () => void;
+  handleGeminiProblem: () => void;
 }
 
 // max 60 문항
@@ -27,6 +28,7 @@ function StepThree({
   isGenerateButton,
   isAIGeneratorError,
   handleAWolFramAlphaTest,
+  handleGeminiProblem,
 }: StepThreeProps) {
   const totalProblem = useStepTwoStore((state) => state.totalProblem);
   const multipleChoice = useStepThreeStore((state) => state.multipleChoice);
@@ -122,7 +124,8 @@ function StepThree({
         <GenerateButton
           size="md"
           color="primary"
-          onClick={handleStepThreeGenerate}
+          // onClick={handleStepThreeGenerate}
+          onClick={handleGeminiProblem}
           active={!multipleChoice || !shortAnswer ? false : true}
         >
           AI 퀴즈 생성하기
