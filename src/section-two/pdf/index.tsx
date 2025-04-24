@@ -58,7 +58,8 @@ function PdfQuizPage() {
   const [pdfProblemFileName, setPdfProblemFileName] = useState("");
   const [pdfAnswerFileName, setPdfAnswerFileName] = useState("");
   const [isExtraGenerateButton, setIsExtraGenerateButton] = useState(false);
-  const [htmlText, setHtmlText] = useState("");
+  const [problemHtmlText, setProblemHtmlText] = useState("");
+  const [answerHtmlText, setAnswerHtmlText] = useState("");
 
   const school = useStepOneStore((state) => state.school);
   const grade = useStepOneStore((state) => state.grade);
@@ -258,7 +259,7 @@ function PdfQuizPage() {
 
     try {
       const response = await createQuestion(prompt, "gpt40");
-      const { result, problemDocs, answerDocs, status, message } = response;
+      const { problemDocs, answerDocs, status } = response;
       if (status === 200) {
         const result1 = await createPdf(problemDocs, answerDocs);
         const { status, problemPdfresult, answerPdfresult } = result1;
@@ -345,24 +346,15 @@ function PdfQuizPage() {
       });
 
       const jsonData = await response.json();
-      console.log("jsonData", jsonData);
+
       if (jsonData.status === 200) {
         setCurrentStep(4);
-        setHtmlText(jsonData.cleanedproblemHtml);
+        setProblemHtmlText(jsonData.cleanedproblemHtml);
+        setAnswerHtmlText(jsonData.cleanedanswerHtml);
       } else {
         setIsAIGeneratorError(true);
         setIsGenerateButton(false);
       }
-
-      // const { status, problemfilename, answerfilename } = jsonData;
-      // if (status === 200) {
-      //   setPdfProblemFileName(problemfilename);
-      //   setPdfAnswerFileName(answerfilename);
-      //   setCurrentStep(4);
-      // } else {
-      //   setIsAIGeneratorError(true);
-      //   setIsGenerateButton(false);
-      // }
     } catch (error) {
       throw error;
     }
@@ -443,7 +435,8 @@ function PdfQuizPage() {
               pdfAnswerFileName={pdfAnswerFileName}
               isExtraGenerateButton={isExtraGenerateButton}
               // for htmlText
-              htmlText={htmlText}
+              problemHtmlText={problemHtmlText}
+              answerHtmlText={answerHtmlText}
             />
           )}
         </Contents>

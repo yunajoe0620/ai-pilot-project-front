@@ -34,8 +34,7 @@ function StepOne({
   setTempSubject,
 }: StepOneProps) {
   const school = useStepOneStore((state) => state.school);
-  const grade = useStepOneStore((state) => state.grade);
-  const subject = useStepOneStore((state) => state.subject);
+
   const handleGrade = (e: React.MouseEvent<HTMLDivElement> | null) => {
     if (!e) {
       setTempGrade("");
@@ -65,6 +64,7 @@ function StepOne({
               let value = e.target as HTMLElement;
               let newSchool = value.textContent as string;
               setTempSchool(newSchool);
+
               if (school !== newSchool) {
                 handleGrade(null);
               }

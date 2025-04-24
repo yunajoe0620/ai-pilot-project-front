@@ -7,7 +7,8 @@ interface StepFourProps {
   pdfProblemFileName: string;
   pdfAnswerFileName: string;
   isExtraGenerateButton: boolean;
-  htmlText: string;
+  problemHtmlText: string;
+  answerHtmlText: string;
 }
 
 function StepFour({
@@ -15,17 +16,71 @@ function StepFour({
   pdfProblemFileName,
   pdfAnswerFileName,
   isExtraGenerateButton,
-  htmlText,
+  problemHtmlText,
+  answerHtmlText,
 }: StepFourProps) {
+  const handlePDFGenerate = async (
+    problemHtmlText: string,
+    answerHtmlText: string
+  ) => {
+    if (!problemHtmlText) {
+      alert("문제htmlText를 받지를 못했습니다");
+      return;
+    }
+    if (!answerHtmlText) {
+      alert("정답htmlText를 받지를 못했습니다");
+      return;
+    }
+
+    try {
+      // html파일을 만드는 풩션
+      // 상태코드 200 을 받고나서, 즉 html파일을 받고나서는
+      //  pdf/download api를 요청한다.
+      console.log("pdf다운로드 받기 API");
+      const url = `${baseUrl}/html/generate`;
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          problemHtmlText,
+          answerHtmlText,
+        }),
+      });
+      console.log("");
+
+      if (response.ok) {
+        const url = `${baseUrl}/pdf/download`;
+        const response = await fetch(url, {
+          method: "GET",
+        });
+        if (response.ok) {
+          const blob = await response.blob();
+          const blobUrl = window.URL.createObjectURL(blob);
+          console.log("blobUrl", blobUrl);
+          const link = document.createElement("a");
+          link.href = blobUrl;
+          link.download = "problem.pdf";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(blobUrl);
+        }
+      }
+      throw new Error("html파일이 생성되지 않았습니다");
+    } catch (error) {
+      throw error;
+    }
+  };
   return (
     <Container>
       <StepFourTopContainer>
         <Character></Character>
-        테스트입니다
-        {/* {parse(htmlText)} */}{" "}
         <iframe
           title="html-preview"
-          srcDoc={htmlText}
+          srcDoc={problemHtmlText}
           style={{ width: "100%", height: "500px", border: "none" }}
         />
         <PdfDownLoadContainer>
@@ -39,10 +94,11 @@ function StepFour({
             size="lg"
             color="primary"
             onClick={() => {
+              handlePDFGenerate(problemHtmlText, answerHtmlText);
               // window.open(`${baseUrl}/pdf/${pdfProblemFileName}.pdf`);
               // window.open(`${baseUrl}/pdf/${pdfAnswerFileName}.pdf`);
-              window.open(`${baseUrl}/files/pdf/${pdfProblemFileName}.pdf`);
-              window.open(`${baseUrl}/files/pdf/${pdfAnswerFileName}.pdf`);
+              // window.open(`${baseUrl}/files/pdf/${pdfProblemFileName}.pdf`);
+              // window.open(`${baseUrl}/files/pdf/${pdfAnswerFileName}.pdf`);
             }}
             active={true}
           >
