@@ -33,10 +33,6 @@ function StepFour({
     }
 
     try {
-      // html파일을 만드는 풩션
-      // 상태코드 200 을 받고나서, 즉 html파일을 받고나서는
-      //  pdf/download api를 요청한다.
-      console.log("pdf다운로드 받기 API");
       const url = `${baseUrl}/html/generate`;
       const response = await fetch(url, {
         method: "POST",
@@ -49,8 +45,8 @@ function StepFour({
           answerHtmlText,
         }),
       });
-      console.log("");
 
+      // pdf를 다운로드 하는 펑션
       if (response.ok) {
         const url = `${baseUrl}/pdf/download`;
         const response = await fetch(url, {
