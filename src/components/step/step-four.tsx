@@ -19,6 +19,8 @@ function StepFour({
   problemHtmlText,
   answerHtmlText,
 }: StepFourProps) {
+  console.log("problemHTMlTExt입니다아아 ====>>>>>>>", problemHtmlText);
+  console.log("answerHTMLText입니다아아아아 ===>>>>>>>>>>>>>", answerHtmlText);
   const handlePDFGenerate = async (
     problemHtmlText: string,
     answerHtmlText: string
@@ -48,14 +50,19 @@ function StepFour({
 
       // pdf를 다운로드 하는 펑션
       if (response.ok) {
-        const url = `${baseUrl}/pdf/download`;
-        const response = await fetch(url, {
-          method: "GET",
-        });
-        if (response.ok) {
-          const blob = await response.blob();
+        const problemPDfDownload = fetch(
+          `${baseUrl}/pdf/download?type=problem`
+        );
+        const answerPDfDownload = fetch(`${baseUrl}/pdf/download?type=answer`);
+
+        const [problemResult, answerResult] = await Promise.all([
+          problemPDfDownload,
+          answerPDfDownload,
+        ]);
+
+        if (problemResult.ok) {
+          const blob = await problemResult.blob();
           const blobUrl = window.URL.createObjectURL(blob);
-          console.log("blobUrl", blobUrl);
           const link = document.createElement("a");
           link.href = blobUrl;
           link.download = "problem.pdf";
@@ -64,8 +71,22 @@ function StepFour({
           document.body.removeChild(link);
           window.URL.revokeObjectURL(blobUrl);
         }
+        if (answerResult.ok) {
+          const blob = await answerResult.blob();
+          const blobUrl = window.URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = blobUrl;
+          link.download = "answer.pdf";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(blobUrl);
+        }
       }
-      throw new Error("html파일이 생성되지 않았습니다");
+      return {
+        status: 400,
+        message: "Html파일 저장에 실패하였습니다",
+      };
     } catch (error) {
       throw error;
     }

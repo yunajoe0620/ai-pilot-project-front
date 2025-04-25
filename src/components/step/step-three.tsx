@@ -13,8 +13,9 @@ interface StepThreeProps {
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
   isGenerateButton: boolean;
   isAIGeneratorError: boolean;
-  handleAWolFramAlphaTest: () => void;
+  handleWolFramAlpha: () => void;
   handleGeminiProblem: () => void;
+  handleSimilarProblems: () => void;
 }
 
 // max 60 문항
@@ -27,8 +28,9 @@ function StepThree({
   setCurrentStep,
   isGenerateButton,
   isAIGeneratorError,
-  handleAWolFramAlphaTest,
+  handleWolFramAlpha,
   handleGeminiProblem,
+  handleSimilarProblems,
 }: StepThreeProps) {
   const totalProblem = useStepTwoStore((state) => state.totalProblem);
   const multipleChoice = useStepThreeStore((state) => state.multipleChoice);
@@ -130,15 +132,28 @@ function StepThree({
         >
           AI 퀴즈 생성하기
         </GenerateButton>
-        {/* <GenerateButton
+
+        <GenerateButton
           size="md"
           color="primary"
-          onClick={handleAWolFramAlphaTest}
+          onClick={handleWolFramAlpha}
           active={!multipleChoice || !shortAnswer ? false : true}
         >
-          WOLFRAM ALPHA 문제 생성하기
-        </GenerateButton> */}
+          AI 그림 퀴즈 생성하기
+        </GenerateButton>
       </ButtonContainer>
+      <div style={{ border: "5px solid blue" }}>
+        <input type="file" style={{ cursor: "pointer" }} />
+        <GenerateButton
+          size="md"
+          color="primary"
+          onClick={handleSimilarProblems}
+          active={false}
+        >
+          비슷한 유형의문제 생성하기
+        </GenerateButton>
+      </div>
+
       {isGenerateButton && <p>AI 퀴즈를 생성 중입니다....</p>}
       {isAIGeneratorError && <p>AI문제생성에 실패하였습니다</p>}
     </QuizTypeContainer>

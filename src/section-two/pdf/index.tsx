@@ -274,41 +274,6 @@ function PdfQuizPage() {
     }
   };
 
-  // whoframAlphaTest
-  const handleAWolFramAlphaTest = async () => {
-    setIsGenerateButton(true);
-    setIsAIGeneratorError(false);
-    if (!multipleChoice) {
-      alert("객관식 문제의 수를 선택해주세요");
-      return;
-    }
-    if (!shortAnswer) {
-      alert("주관식 문제의 수를 선택해주세요");
-      return;
-    }
-    try {
-      const url = `${baseUrl}/problem/wolfram`;
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          school,
-          grade,
-          subject,
-          quizSubject,
-          multipleChoice,
-          shortAnswer,
-        }),
-      });
-      const jsonData = await response.json();
-    } catch (error) {
-      throw error;
-    }
-  };
-
   // gemini
   const handleGeminiProblem = async () => {
     setIsGenerateButton(true);
@@ -360,6 +325,53 @@ function PdfQuizPage() {
     }
 
     setIsGenerateButton(false);
+  };
+
+  // whoframAlpha
+  const handleWolFramAlpha = async () => {
+    setIsGenerateButton(true);
+    setIsAIGeneratorError(false);
+    if (!multipleChoice) {
+      alert("객관식 문제의 수를 선택해주세요");
+      return;
+    }
+    if (!shortAnswer) {
+      alert("주관식 문제의 수를 선택해주세요");
+      return;
+    }
+    try {
+      const url = `${baseUrl}/problem/wolfram`;
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          school,
+          grade,
+          subject,
+          quizSubject,
+          multipleChoice,
+          shortAnswer,
+        }),
+      });
+      const jsonData = await response.json();
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const handleSimilarProblems = async () => {
+    const url = `${baseUrl}/problem/generation/similar-problems`;
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    console.log("response 입니다", response);
   };
 
   return (
@@ -422,10 +434,12 @@ function PdfQuizPage() {
               setCurrentStep={setCurrentStep}
               isGenerateButton={isGenerateButton}
               isAIGeneratorError={isAIGeneratorError}
-              // for WolframAlphText
-              handleAWolFramAlphaTest={handleAWolFramAlphaTest}
+              // for WolframAlph
+              handleWolFramAlpha={handleWolFramAlpha}
               // for Gemini
               handleGeminiProblem={handleGeminiProblem}
+              // for similar problems
+              handleSimilarProblems={handleSimilarProblems}
             />
           )}
           {currentStep === 4 && (
