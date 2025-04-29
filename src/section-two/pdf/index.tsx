@@ -55,8 +55,8 @@ function PdfQuizPage() {
 
   const [isExtraRequest, setIsExtraRequest] = useState(false);
   const [showSetting, setShowSetting] = useState(false);
-  const [pdfProblemFileName, setPdfProblemFileName] = useState("");
-  const [pdfAnswerFileName, setPdfAnswerFileName] = useState("");
+  // const [pdfProblemFileName, setPdfProblemFileName] = useState("");
+  // const [pdfAnswerFileName, setPdfAnswerFileName] = useState("");
   const [isExtraGenerateButton, setIsExtraGenerateButton] = useState(false);
   const [problemHtmlText, setProblemHtmlText] = useState("");
   const [answerHtmlText, setAnswerHtmlText] = useState("");
@@ -211,13 +211,13 @@ function PdfQuizPage() {
       const { status, problemfilename, problemDocs, answerDocs } = jsonData;
 
       if (status === 200) {
-        setPdfProblemFileName(problemfilename);
+        // setPdfProblemFileName(problemfilename);
         setCurrentStep(4);
         const result1 = await createPdf(problemDocs, answerDocs);
         const { status, problemPdfresult, answerPdfresult } = result1;
         if (status === 200) {
-          setPdfProblemFileName(problemPdfresult.filename);
-          setPdfAnswerFileName(answerPdfresult.filename);
+          // setPdfProblemFileName(problemPdfresult.filename);
+          // setPdfAnswerFileName(answerPdfresult.filename);
           setCurrentStep(4);
         } else {
           setIsAIGeneratorError(true);
@@ -264,8 +264,8 @@ function PdfQuizPage() {
         const result1 = await createPdf(problemDocs, answerDocs);
         const { status, problemPdfresult, answerPdfresult } = result1;
         if (status === 200) {
-          setPdfProblemFileName(problemPdfresult.filename);
-          setPdfAnswerFileName(answerPdfresult.filename);
+          // setPdfProblemFileName(problemPdfresult.filename);
+          // setPdfAnswerFileName(answerPdfresult.filename);
           setIsExtraGenerateButton(false);
         }
       }
@@ -292,9 +292,7 @@ function PdfQuizPage() {
       const response = await fetch(url, {
         method: "POST",
         headers: {
-          // 내가 보내는 데이터의 형식이 뭔지를 서버
           "Content-Type": "application/json",
-          // 내가 받고 싶은 응답 형식을 서버에 요청
           Accept: "application/json",
         },
         body: JSON.stringify({
@@ -328,6 +326,7 @@ function PdfQuizPage() {
   };
 
   // whoframAlpha
+  //  for only 그림퀴즈즈
   const handleWolFramAlpha = async () => {
     setIsGenerateButton(true);
     setIsAIGeneratorError(false);
@@ -357,6 +356,15 @@ function PdfQuizPage() {
         }),
       });
       const jsonData = await response.json();
+
+      if (jsonData.status === 200) {
+        setCurrentStep(4);
+        setProblemHtmlText(jsonData.cleanedproblemHtml);
+        setAnswerHtmlText(jsonData.cleanedanswerHtml);
+      } else {
+        setIsAIGeneratorError(true);
+        setIsGenerateButton(false);
+      }
     } catch (error) {
       throw error;
     }
@@ -378,7 +386,6 @@ function PdfQuizPage() {
     <Layout>
       <Container>
         <PageAIQuizNavigation />
-        {/* progressedar  step 3까지만 보인다*/}
         {currentStep <= 3 && (
           <ProgressedBar>
             <Quiztitle>PDF 형식 퀴즈 만들기</Quiztitle>
@@ -445,8 +452,6 @@ function PdfQuizPage() {
           {currentStep === 4 && (
             <StepFour
               isExtraRequest={isExtraRequest}
-              pdfProblemFileName={pdfProblemFileName}
-              pdfAnswerFileName={pdfAnswerFileName}
               isExtraGenerateButton={isExtraGenerateButton}
               // for htmlText
               problemHtmlText={problemHtmlText}

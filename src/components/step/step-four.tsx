@@ -4,8 +4,6 @@ import GenerateButton from "../button/generate-button";
 
 interface StepFourProps {
   isExtraRequest: boolean;
-  pdfProblemFileName: string;
-  pdfAnswerFileName: string;
   isExtraGenerateButton: boolean;
   problemHtmlText: string;
   answerHtmlText: string;
@@ -13,8 +11,7 @@ interface StepFourProps {
 
 function StepFour({
   isExtraRequest,
-  pdfProblemFileName,
-  pdfAnswerFileName,
+
   isExtraGenerateButton,
   problemHtmlText,
   answerHtmlText,
@@ -112,10 +109,6 @@ function StepFour({
             color="primary"
             onClick={() => {
               handlePDFGenerate(problemHtmlText, answerHtmlText);
-              // window.open(`${baseUrl}/pdf/${pdfProblemFileName}.pdf`);
-              // window.open(`${baseUrl}/pdf/${pdfAnswerFileName}.pdf`);
-              // window.open(`${baseUrl}/files/pdf/${pdfProblemFileName}.pdf`);
-              // window.open(`${baseUrl}/files/pdf/${pdfAnswerFileName}.pdf`);
             }}
             active={true}
           >
