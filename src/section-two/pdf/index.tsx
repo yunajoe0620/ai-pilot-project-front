@@ -214,10 +214,8 @@ function PdfQuizPage() {
         // setPdfProblemFileName(problemfilename);
         setCurrentStep(4);
         const result1 = await createPdf(problemDocs, answerDocs);
-        const { status, problemPdfresult, answerPdfresult } = result1;
+        const { status } = result1;
         if (status === 200) {
-          // setPdfProblemFileName(problemPdfresult.filename);
-          // setPdfAnswerFileName(answerPdfresult.filename);
           setCurrentStep(4);
         } else {
           setIsAIGeneratorError(true);
@@ -326,7 +324,6 @@ function PdfQuizPage() {
   };
 
   // whoframAlpha
-  //  for only 그림퀴즈즈
   const handleWolFramAlpha = async () => {
     setIsGenerateButton(true);
     setIsAIGeneratorError(false);
