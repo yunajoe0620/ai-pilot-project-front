@@ -228,7 +228,7 @@ function PdfQuizPage() {
     setIsGenerateButton(false);
   };
 
-  // whoframAlpha
+  // whoframAlpha(이미지 관련 문제 뽑기)
   const handleWolFramAlpha = async () => {
     setIsGenerateButton(true);
     setIsAIGeneratorError(false);
@@ -258,12 +258,11 @@ function PdfQuizPage() {
         }),
       });
       const jsonData = await response.json();
-      // console.log("문제문제", jsonData.problemHtml);
-      // console.log("답답답", jsonData.answerHtml);
-      if (jsonData.answerHtml && jsonData.problemHtml) {
+
+      if (jsonData.status === 200) {
         setCurrentStep(4);
-        setProblemHtmlText(jsonData.problemHtml);
-        setAnswerHtmlText(jsonData.answerHtml);
+        setProblemHtmlText(jsonData.cleanedproblemHtml);
+        setAnswerHtmlText(jsonData.cleanedanswerHtml);
       } else {
         setIsAIGeneratorError(true);
         setIsGenerateButton(false);
@@ -272,8 +271,6 @@ function PdfQuizPage() {
       throw error;
     }
   };
-
-  // console.log("currentStep", currentStep);
 
   const handleSimilarProblems = async () => {
     const url = `${baseUrl}/problem/generation/similar-problems`;

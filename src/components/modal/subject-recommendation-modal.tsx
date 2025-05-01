@@ -65,20 +65,8 @@ function SubjectRecommendationModal({
   );
 
   const handleCloseModal = () => {
-    // console.log("클로즈모달");
-    // console.log("주제적용하기버어뚠?", isThemeGenerateButton);
-    // console.log(
-    //   "저장되어있는값들",
-    //   tempMajorSubject,
-    //   tempMediumSubject,
-    //   tempSubSubject
-    // );
-    // console.log("선택한값들", majorSubject, mediumSubject, subSubject);
-
     // 저장되어 있는게 없을떄
     if (!tempMajorSubject && !tempMediumSubject && !tempSubSubject) {
-      // console.log("저장이 되어 있는 값이 없다");
-      // 주제 적용하기 버튼을 누르지 않은경우는 그 값을 저장해야 할 필요 없으므로 null
       if (!isThemeGenerateButton) {
         handleMajorSubject(null);
         handleMediumSubject(null);
@@ -91,16 +79,7 @@ function SubjectRecommendationModal({
 
     // 3개다
     if (tempMajorSubject && tempMediumSubject && tempSubSubject) {
-      // console.log(
-      //   "저장되어있는값이 있따=====>>>>>>",
-      //   tempMajorSubject,
-      //   tempMediumSubject,
-      //   tempSubSubject
-      // );
       if (
-        // 주제 적용하기 버튼을 누르지 않고
-        // 저장되어 있는 값(temp)이랑 현재 선택(majorSubject)한 값이랑 다를때는는
-        // 현재 저장되어 있는 값을 다시 넣어준다.
         !isThemeGenerateButton &&
         tempMajorSubject !== majorSubject &&
         tempMediumSubject !== mediumSubject &&
@@ -163,9 +142,6 @@ function SubjectRecommendationModal({
     setIsModalOpen(false);
     handleThemeGenerateButton(true);
   };
-
-  // 기존의 저장되어 있는게 있으면은 tempSubject에 넣는다
-  // for handleClose 펑션을 위하여
 
   useEffect(() => {
     setTempMajorSubject(majorSubject);
