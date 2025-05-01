@@ -1,7 +1,5 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { createPdf } from "../../actions/get-pdf";
-import { createQuestion } from "../../actions/get-problems";
 import { baseUrl } from "../../api";
 import ModalComponent from "../../components/modal/modal-component";
 import SubjectRecommendationModal from "../../components/modal/subject-recommendation-modal";
@@ -18,7 +16,6 @@ import {
   useStepThreeStore,
   useStepTwoStore,
 } from "../../store";
-import { newFormatQuestion } from "../../utils/section-two";
 
 function PdfQuizPage() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -52,11 +49,9 @@ function PdfQuizPage() {
   const [isAIGeneratorError, setIsAIGeneratorError] = useState(false);
 
   // level4
-
   const [isExtraRequest, setIsExtraRequest] = useState(false);
   const [showSetting, setShowSetting] = useState(false);
-  // const [pdfProblemFileName, setPdfProblemFileName] = useState("");
-  // const [pdfAnswerFileName, setPdfAnswerFileName] = useState("");
+
   const [isExtraGenerateButton, setIsExtraGenerateButton] = useState(false);
   const [problemHtmlText, setProblemHtmlText] = useState("");
   const [answerHtmlText, setAnswerHtmlText] = useState("");
@@ -171,67 +166,6 @@ function PdfQuizPage() {
     setCurrentStep(3);
   };
 
-  // step 3일떄 버튼
-  // API 부르기
-
-  const handleStepThreeGenerate = async () => {
-    setIsGenerateButton(true);
-    setIsAIGeneratorError(false);
-    if (!multipleChoice) {
-      alert("객관식 문제의 수를 선택해주세요");
-      return;
-    }
-    if (!shortAnswer) {
-      alert("주관식 문제의 수를 선택해주세요");
-      return;
-    }
-
-    try {
-      const url = `${baseUrl}/problem/test`;
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          school,
-          grade,
-          subject,
-          quizSubject,
-          multipleChoice,
-          shortAnswer,
-          highLevelProblem,
-          mediumLevelProblem,
-          lowLevelProblem,
-        }),
-      });
-      const jsonData = await response.json();
-
-      const { status, problemfilename, problemDocs, answerDocs } = jsonData;
-
-      if (status === 200) {
-        // setPdfProblemFileName(problemfilename);
-        setCurrentStep(4);
-        const result1 = await createPdf(problemDocs, answerDocs);
-        const { status } = result1;
-        if (status === 200) {
-          setCurrentStep(4);
-        } else {
-          setIsAIGeneratorError(true);
-          setIsGenerateButton(false);
-        }
-      } else {
-        setIsAIGeneratorError(true);
-        setIsGenerateButton(false);
-      }
-    } catch (error) {
-      throw error;
-    }
-
-    setIsGenerateButton(false);
-  };
-
   // step4
   const handleExtraGenerate = async () => {
     setIsExtraGenerateButton(true);
@@ -241,35 +175,6 @@ function PdfQuizPage() {
     }
     setIsExtraRequest(true);
     setShowSetting(true);
-
-    const prompt = newFormatQuestion(
-      school,
-      grade,
-      subject,
-      quizSubject,
-      highLevelProblem,
-      mediumLevelProblem,
-      lowLevelProblem,
-      multipleChoice,
-      shortAnswer,
-      extraRequest
-    );
-
-    try {
-      const response = await createQuestion(prompt, "gpt40");
-      const { problemDocs, answerDocs, status } = response;
-      if (status === 200) {
-        const result1 = await createPdf(problemDocs, answerDocs);
-        const { status, problemPdfresult, answerPdfresult } = result1;
-        if (status === 200) {
-          // setPdfProblemFileName(problemPdfresult.filename);
-          // setPdfAnswerFileName(answerPdfresult.filename);
-          setIsExtraGenerateButton(false);
-        }
-      }
-    } catch (error) {
-      throw error;
-    }
   };
 
   // gemini
@@ -353,11 +258,12 @@ function PdfQuizPage() {
         }),
       });
       const jsonData = await response.json();
-
-      if (jsonData.status === 200) {
+      // console.log("문제문제", jsonData.problemHtml);
+      // console.log("답답답", jsonData.answerHtml);
+      if (jsonData.answerHtml && jsonData.problemHtml) {
         setCurrentStep(4);
-        setProblemHtmlText(jsonData.cleanedproblemHtml);
-        setAnswerHtmlText(jsonData.cleanedanswerHtml);
+        setProblemHtmlText(jsonData.problemHtml);
+        setAnswerHtmlText(jsonData.answerHtml);
       } else {
         setIsAIGeneratorError(true);
         setIsGenerateButton(false);
@@ -366,6 +272,8 @@ function PdfQuizPage() {
       throw error;
     }
   };
+
+  // console.log("currentStep", currentStep);
 
   const handleSimilarProblems = async () => {
     const url = `${baseUrl}/problem/generation/similar-problems`;
@@ -434,7 +342,7 @@ function PdfQuizPage() {
               setIsMultipleChoiceDropdown={setIsMultipleChoiceDropdown}
               isShortAnswerDropdown={isShortAnswerDropdown}
               setIsShortAnswerDropdown={setIsShortAnswerDropdown}
-              handleStepThreeGenerate={handleStepThreeGenerate}
+              // handleStepThreeGenerate={handleStepThreeGenerate}
               setCurrentStep={setCurrentStep}
               isGenerateButton={isGenerateButton}
               isAIGeneratorError={isAIGeneratorError}

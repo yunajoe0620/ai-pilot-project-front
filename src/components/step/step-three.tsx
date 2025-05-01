@@ -9,7 +9,7 @@ interface StepThreeProps {
   setIsMultipleChoiceDropdown: React.Dispatch<React.SetStateAction<boolean>>;
   isShortAnswerDropdown: boolean;
   setIsShortAnswerDropdown: React.Dispatch<React.SetStateAction<boolean>>;
-  handleStepThreeGenerate: () => void;
+  // handleStepThreeGenerate: () => void;
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
   isGenerateButton: boolean;
   isAIGeneratorError: boolean;
@@ -24,7 +24,7 @@ function StepThree({
   setIsMultipleChoiceDropdown,
   isShortAnswerDropdown,
   setIsShortAnswerDropdown,
-  handleStepThreeGenerate,
+  // handleStepThreeGenerate,
   setCurrentStep,
   isGenerateButton,
   isAIGeneratorError,

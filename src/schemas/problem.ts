@@ -1,4 +1,3 @@
-// ZOD type
 import { z } from "zod";
 
 export const ItemSchema = z.object({

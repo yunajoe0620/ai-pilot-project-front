@@ -3,7 +3,6 @@ import IndexPage from "..";
 import SectionAnalyz from "../section-analyz/sectionAnalyz";
 import PdfQuizPage from "../section-two/pdf";
 import SectionTwo from "../section-two/section-two";
-import TestPage from "../section-two/test";
 
 const router = createBrowserRouter([
   {
@@ -22,11 +21,6 @@ const router = createBrowserRouter([
   {
     path: "/section-two/pdf",
     element: <PdfQuizPage />,
-  },
-
-  {
-    path: "/test",
-    element: <TestPage />,
   },
 ]);
 
