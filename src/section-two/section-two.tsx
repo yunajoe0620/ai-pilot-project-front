@@ -21,7 +21,7 @@ function SectionTwo() {
             <QuizType>
               <img src="src/assets/ppt.svg" width="146" height="146" />
               <Button selected={selectedButton === "PPT형식 퀴즈"}>
-                PPT형식 퀴즈
+                유사문제 퀴즈
               </Button>
             </QuizType>
             <QuizType
@@ -34,12 +34,6 @@ function SectionTwo() {
               <img src="src/assets/pdf.svg" width="146" height="146" />
               <Button selected={selectedButton === "PDF 형식 퀴즈"}>
                 PDF 형식 퀴즈
-              </Button>
-            </QuizType>
-            <QuizType>
-              <img src="src/assets/teacher.svg" width="146" height="146" />
-              <Button selected={selectedButton === "선생님용 퀴즈"}>
-                선생님용 퀴즈
               </Button>
             </QuizType>
           </QuizTypeContainer>
@@ -62,8 +56,6 @@ const Container = styled.div`
   flex-direction: column;
   row-gap: 196px;
 `;
-
-// Body Container
 
 const Contents = styled.div`
   display: flex;

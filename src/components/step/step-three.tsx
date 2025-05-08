@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import styled from "styled-components";
+import useDropDownClose from "../../hooks/use-dropdown-close";
 import { useStepThreeStore, useStepTwoStore } from "../../store";
 import { problemsArray } from "../../utils/dropdown";
 import GenerateButton from "../button/generate-button";
@@ -32,6 +33,8 @@ function StepThree({
   handleGeminiProblem,
   handleSimilarProblems,
 }: StepThreeProps) {
+  console.log("isMultipleChoideDropdown", isMultipleChoideDropdown);
+  console.log("  isShortAnswerDropdown", isShortAnswerDropdown);
   const totalProblem = useStepTwoStore((state) => state.totalProblem);
   const multipleChoice = useStepThreeStore((state) => state.multipleChoice);
   const handleMultipleChoice = useStepThreeStore(
@@ -42,6 +45,13 @@ function StepThree({
   const handleShortAnswerProblem = useStepThreeStore(
     (state) => state.handleShortAnswerProblem
   );
+
+  useDropDownClose({
+    isDropdownOne: isMultipleChoideDropdown,
+    setIsDropdownOne: setIsMultipleChoiceDropdown,
+    isDropdownTwo: isShortAnswerDropdown,
+    setIsDropdownTwo: setIsShortAnswerDropdown,
+  });
 
   // 빈문자열을 Number("") typecasing하면은 0 이 된다.
   useEffect(() => {
@@ -142,7 +152,7 @@ function StepThree({
           AI 그림 퀴즈 생성하기
         </GenerateButton>
       </ButtonContainer>
-      <div style={{ border: "5px solid blue" }}>
+      {/* <div style={{ border: "5px solid blue" }}>
         <input type="file" style={{ cursor: "pointer" }} />
         <GenerateButton
           size="md"
@@ -152,7 +162,7 @@ function StepThree({
         >
           비슷한 유형의문제 생성하기
         </GenerateButton>
-      </div>
+      </div> */}
 
       {isGenerateButton && <p>AI 퀴즈를 생성 중입니다....</p>}
       {isAIGeneratorError && <p>AI문제생성에 실패하였습니다</p>}

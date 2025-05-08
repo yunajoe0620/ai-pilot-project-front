@@ -5,8 +5,8 @@ interface userDropDownCloseProps {
   setIsDropdownOne: React.Dispatch<React.SetStateAction<boolean>>;
   isDropdownTwo: boolean;
   setIsDropdownTwo: React.Dispatch<React.SetStateAction<boolean>>;
-  isDropdownThree: boolean;
-  setIsDropdownThree: React.Dispatch<React.SetStateAction<boolean>>;
+  isDropdownThree?: boolean;
+  setIsDropdownThree?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function useDropDownClose({
@@ -20,12 +20,16 @@ function useDropDownClose({
   useEffect(() => {
     if (isDropdownOne) {
       setIsDropdownTwo(false);
-      setIsDropdownThree(false);
+      if (setIsDropdownThree) {
+        setIsDropdownThree(false);
+      }
       return;
     }
     if (isDropdownTwo) {
       setIsDropdownOne(false);
-      setIsDropdownThree(false);
+      if (setIsDropdownThree) {
+        setIsDropdownThree(false);
+      }
       return;
     }
     if (isDropdownThree) {

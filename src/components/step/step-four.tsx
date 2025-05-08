@@ -11,7 +11,6 @@ interface StepFourProps {
 
 function StepFour({
   isExtraRequest,
-
   isExtraGenerateButton,
   problemHtmlText,
   answerHtmlText,
