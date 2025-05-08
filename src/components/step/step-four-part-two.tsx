@@ -37,7 +37,6 @@ function StepFourPartTwo({
   const multipleChoice = useStepThreeStore((state) => state.multipleChoice);
   const shortAnswer = useStepThreeStore((state) => state.shortAnswer);
 
-  //   stepfour
   const extraRequest = useStepFourStore((state) => state.extraRequest);
   const handleExtraRequest = useStepFourStore(
     (state) => state.handleExtraRequest

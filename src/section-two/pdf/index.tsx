@@ -281,7 +281,6 @@ function PdfQuizPage() {
         Accept: "application/json",
       },
     });
-    console.log("response 입니다", response);
   };
 
   return (

@@ -1,5 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import styled from "styled-components";
+import useClickOutside from "../../hooks/use-click-outside";
 import { useStepTwoStore } from "../../store";
 import { problemsArray } from "../../utils/dropdown";
 import SelectButton from "../button";
@@ -31,6 +32,10 @@ function StepTwo({
   setIsModalOpen,
   isReset,
 }: StepTwoProps) {
+  const highLevelProblemRef = useRef(null);
+  const mediumLevelProblemRef = useRef(null);
+  const lowLevelProblemRef = useRef(null);
+
   const quizSubject = useStepTwoStore((state) => state.quizSubject);
   const handleQuizSubject = useStepTwoStore((state) => state.handleQuizSubject);
 
@@ -56,6 +61,32 @@ function StepTwo({
   const handleSubjectRecommendation = () => {
     setIsModalOpen(true);
   };
+
+  // modal
+  const handleCloseHighLevelProblemDropdown = () => {
+    setIsHighLevelDropdown(false);
+  };
+
+  const handleCloseMediumLevelProblemDropdown = () => {
+    setIsMediumLevelDropdown(false);
+  };
+
+  const handleCloseLowLevelProblemDropdown = () => {
+    setIsLowLevelDropdown(false);
+  };
+
+  useClickOutside({
+    ref: highLevelProblemRef,
+    callback: handleCloseHighLevelProblemDropdown,
+  });
+  useClickOutside({
+    ref: mediumLevelProblemRef,
+    callback: handleCloseMediumLevelProblemDropdown,
+  });
+  useClickOutside({
+    ref: lowLevelProblemRef,
+    callback: handleCloseLowLevelProblemDropdown,
+  });
 
   useEffect(() => {
     const total =
@@ -106,6 +137,7 @@ function StepTwo({
             handleDropdown={(e) => {
               handleHighLevelProblem(e);
             }}
+            ref={highLevelProblemRef}
           />
         </QuizLevelDropdownContainer>
         <QuizLevelDropdownContainer>
@@ -119,6 +151,7 @@ function StepTwo({
             itemKey="medium"
             selectedValue={mediumLevelProblem}
             handleDropdown={handleMediumLevelProblem}
+            ref={mediumLevelProblemRef}
           />
         </QuizLevelDropdownContainer>
         <QuizLevelDropdownContainer>
@@ -132,6 +165,7 @@ function StepTwo({
             itemKey="low"
             selectedValue={lowLevelProblem}
             handleDropdown={handleLowLevelProblem}
+            ref={lowLevelProblemRef}
           />
         </QuizLevelDropdownContainer>
       </QuizLevelContainer>

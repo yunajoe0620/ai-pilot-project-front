@@ -1,5 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import styled from "styled-components";
+import useClickOutside from "../../hooks/use-click-outside";
 import useDropDownClose from "../../hooks/use-dropdown-close";
 import { useStepThreeStore, useStepTwoStore } from "../../store";
 import { problemsArray } from "../../utils/dropdown";
@@ -16,7 +17,6 @@ interface StepThreeProps {
   isAIGeneratorError: boolean;
   handleWolFramAlpha: () => void;
   handleGeminiProblem: () => void;
-  handleSimilarProblems: () => void;
 }
 
 // max 60 문항
@@ -31,10 +31,9 @@ function StepThree({
   isAIGeneratorError,
   handleWolFramAlpha,
   handleGeminiProblem,
-  handleSimilarProblems,
 }: StepThreeProps) {
-  console.log("isMultipleChoideDropdown", isMultipleChoideDropdown);
-  console.log("  isShortAnswerDropdown", isShortAnswerDropdown);
+  const multipleChoiceProblemRef = useRef(null);
+  const shortAnswerProblemRef = useRef(null);
   const totalProblem = useStepTwoStore((state) => state.totalProblem);
   const multipleChoice = useStepThreeStore((state) => state.multipleChoice);
   const handleMultipleChoice = useStepThreeStore(
@@ -45,6 +44,23 @@ function StepThree({
   const handleShortAnswerProblem = useStepThreeStore(
     (state) => state.handleShortAnswerProblem
   );
+
+  const handleCloseMultipleCoiceDropdown = () => {
+    setIsMultipleChoiceDropdown(false);
+  };
+
+  const handleCloseShortAnswerDropdown = () => {
+    setIsShortAnswerDropdown(false);
+  };
+
+  useClickOutside({
+    ref: multipleChoiceProblemRef,
+    callback: handleCloseMultipleCoiceDropdown,
+  });
+  useClickOutside({
+    ref: shortAnswerProblemRef,
+    callback: handleCloseShortAnswerDropdown,
+  });
 
   useDropDownClose({
     isDropdownOne: isMultipleChoideDropdown,
@@ -87,8 +103,6 @@ function StepThree({
             itemKey="multlpleChoice"
             selectedValue={multipleChoice}
             handleDropdown={(e: React.MouseEvent<HTMLDivElement>) => {
-              //  왜 false일까유?
-              // console.log("typeofe", e instanceof HTMLElement);
               let value = e.target as HTMLElement;
               let selectedMultipleChoice = value.textContent as string;
               if (Number(selectedMultipleChoice) > totalProblem) {
@@ -98,6 +112,7 @@ function StepThree({
 
               handleMultipleChoice(e);
             }}
+            ref={multipleChoiceProblemRef}
           />
         </QuizTypeDropdownContainer>
         <QuizTypeDropdownContainer>
@@ -119,6 +134,7 @@ function StepThree({
               }
               handleShortAnswerProblem(e);
             }}
+            ref={shortAnswerProblemRef}
           />
         </QuizTypeDropdownContainer>
       </DropDownContainer>
@@ -136,7 +152,6 @@ function StepThree({
         <GenerateButton
           size="md"
           color="primary"
-          // onClick={handleStepThreeGenerate}
           onClick={handleGeminiProblem}
           active={!multipleChoice || !shortAnswer ? false : true}
         >
@@ -152,17 +167,6 @@ function StepThree({
           AI 그림 퀴즈 생성하기
         </GenerateButton>
       </ButtonContainer>
-      {/* <div style={{ border: "5px solid blue" }}>
-        <input type="file" style={{ cursor: "pointer" }} />
-        <GenerateButton
-          size="md"
-          color="primary"
-          onClick={handleSimilarProblems}
-          active={false}
-        >
-          비슷한 유형의문제 생성하기
-        </GenerateButton>
-      </div> */}
 
       {isGenerateButton && <p>AI 퀴즈를 생성 중입니다....</p>}
       {isAIGeneratorError && <p>AI문제생성에 실패하였습니다</p>}

@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { RefObject, useEffect, useState } from "react";
 import styled from "styled-components";
 
 interface ItemArray {
   [key: string]: string[];
 }
 
-interface DropDownProps {
+interface DropDownProps<T extends HTMLElement = HTMLElement> {
   isEdit?: boolean;
   placeholder: string;
   size?: "sm" | "md" | "lg";
@@ -15,6 +15,7 @@ interface DropDownProps {
   itemArray: ItemArray;
   selectedValue: string;
   handleDropdown?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  ref?: RefObject<T> | RefObject<null>;
 }
 
 function Dropdown({
@@ -27,10 +28,10 @@ function Dropdown({
   itemArray,
   selectedValue,
   handleDropdown,
+  ref,
 }: DropDownProps) {
   const [itemList, setItemList] = useState<string[]>([]);
 
-  // dropdown Open하는거
   const handleOpenDropDown = () => {
     if (!itemKey) {
       alert("상위 카테고리를 먼저 선택해주세요");
@@ -59,7 +60,7 @@ function Dropdown({
         )}
       </TypeDirectContainer>
       {isDropdown && itemList.length > 0 && (
-        <CountryCodeArrayContainer>
+        <CountryCodeArrayContainer ref={ref}>
           {itemList.map((item, index) => {
             return (
               <ItemContainer
@@ -103,7 +104,7 @@ const TypeDirectContainer = styled.div<{ size?: string }>`
   background: #fff;
 `;
 
-const CountryCodeArrayContainer = styled.div`
+const CountryCodeArrayContainer = styled.div<{ ref?: any }>`
   box-sizing: border-box;
   width: 100%;
   position: absolute;

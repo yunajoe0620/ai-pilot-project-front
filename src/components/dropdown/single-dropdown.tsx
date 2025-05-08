@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { RefObject, useEffect, useState } from "react";
 import styled from "styled-components";
 
 interface KeyItemArray {
   [key: string]: any[];
 }
 
-interface DropDownProps {
+interface DropDownProps<T extends HTMLElement = HTMLElement> {
   isEdit?: boolean;
   placeholder: string;
   size?: "sm" | "md" | "lg";
@@ -16,6 +16,7 @@ interface DropDownProps {
   selectedValue: string;
   handleDropdown?: (e: React.MouseEvent<HTMLDivElement>) => void;
   alertMessage?: string;
+  ref?: RefObject<T> | RefObject<null>;
 }
 
 function SingleDropdown({
@@ -29,6 +30,7 @@ function SingleDropdown({
   selectedValue,
   handleDropdown,
   alertMessage,
+  ref,
 }: DropDownProps) {
   const [itemList, setItemList] = useState<string[]>([]);
 
@@ -69,7 +71,7 @@ function SingleDropdown({
             )}
           </TypeDirectContainer>
           {isDropdown && itemList.length > 0 && (
-            <CountryCodeArrayContainer>
+            <CountryCodeArrayContainer ref={ref}>
               {itemList.map((item, index) => {
                 return (
                   <ItemContainer
@@ -117,7 +119,7 @@ const TypeDirectContainer = styled.div<{ size?: string }>`
   background: #fff;
 `;
 
-const CountryCodeArrayContainer = styled.div`
+const CountryCodeArrayContainer = styled.div<{ ref?: any }>`
   box-sizing: border-box;
   width: 100%;
   position: absolute;

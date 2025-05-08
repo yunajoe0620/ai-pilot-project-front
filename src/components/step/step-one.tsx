@@ -1,4 +1,6 @@
+import { useRef } from "react";
 import styled from "styled-components";
+import useClickOutside from "../../hooks/use-click-outside";
 import { useStepOneStore } from "../../store";
 import { gradeObject, subjectArray } from "../../utils/dropdown";
 import SelectButton from "../button";
@@ -34,6 +36,20 @@ function StepOne({
   setTempSubject,
 }: StepOneProps) {
   const school = useStepOneStore((state) => state.school);
+
+  const gradeRef = useRef(null);
+  const subjectRef = useRef(null);
+
+  const handleCloseGradeDropdown = () => {
+    setIsGradeDropdown(false);
+  };
+
+  const handleCloseSubjectDropdown = () => {
+    setIsSubJectDropdown(false);
+  };
+
+  useClickOutside({ ref: gradeRef, callback: handleCloseGradeDropdown });
+  useClickOutside({ ref: subjectRef, callback: handleCloseSubjectDropdown });
 
   const handleGrade = (e: React.MouseEvent<HTMLDivElement> | null) => {
     if (!e) {
@@ -90,6 +106,7 @@ function StepOne({
             itemKey={tempSchool}
             selectedValue={tempGrade}
             handleDropdown={handleGrade}
+            ref={gradeRef}
           />
         </GradeDropdownContainer>
       </SchoolGradeContainer>
@@ -104,6 +121,7 @@ function StepOne({
           itemKey="subject"
           selectedValue={tempSubject}
           handleDropdown={handleSubject}
+          ref={subjectRef}
         />
       </SubjectContainer>
       <GenerateButton

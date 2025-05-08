@@ -48,7 +48,6 @@ const Button = styled.button<{
   line-height: 135%;
   letter-spacing: -0.27px;
 
-  /* TODO:  isClickable 이 false일떄는 hover작동 안하게 하기 */
   &:hover {
     ${({ selected, isClickable }) =>
       selected || !isClickable
