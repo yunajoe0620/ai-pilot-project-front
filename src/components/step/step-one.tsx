@@ -70,6 +70,9 @@ function StepOne({
     setTempSubject(newSubject);
   };
 
+  const handleDataSave = async () => {
+    const response = await fetch("http://localhost:5000/problem/save");
+  };
   return (
     <>
       <SchoolGradeContainer>
@@ -131,6 +134,15 @@ function StepOne({
         active={tempSchool && tempGrade && tempSubject ? true : false}
       >
         퀴즈 주제 선정하기
+      </GenerateButton>
+
+      <GenerateButton
+        size="md"
+        color="primary"
+        onClick={handleDataSave}
+        active={tempSchool && tempGrade && tempSubject ? true : false}
+      >
+        AI 데이터 쌓기
       </GenerateButton>
     </>
   );

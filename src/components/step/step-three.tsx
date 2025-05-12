@@ -69,6 +69,10 @@ function StepThree({
     setIsDropdownTwo: setIsShortAnswerDropdown,
   });
 
+  const handleDataSave = async () => {
+    const response = await fetch("http://localhost:5000/problem/save");
+  };
+
   // 빈문자열을 Number("") typecasing하면은 0 이 된다.
   useEffect(() => {
     if (multipleChoice !== "") {
@@ -157,14 +161,22 @@ function StepThree({
         >
           AI 퀴즈 생성하기
         </GenerateButton>
-
+        {/* 
         <GenerateButton
           size="md"
           color="primary"
           onClick={handleWolFramAlpha}
           active={!multipleChoice || !shortAnswer ? false : true}
         >
-          AI 그림 퀴즈 생성하기
+          AI 그림 퀴즈 생성하기 */}
+
+        <GenerateButton
+          size="md"
+          color="primary"
+          onClick={handleDataSave}
+          active={!multipleChoice || !shortAnswer ? false : true}
+        >
+          AI 데이터 쌓기
         </GenerateButton>
       </ButtonContainer>
 
