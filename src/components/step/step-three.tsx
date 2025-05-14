@@ -169,15 +169,6 @@ function StepThree({
           active={!multipleChoice || !shortAnswer ? false : true}
         >
           AI 그림 퀴즈 생성하기 */}
-
-        <GenerateButton
-          size="md"
-          color="primary"
-          onClick={handleDataSave}
-          active={!multipleChoice || !shortAnswer ? false : true}
-        >
-          AI 데이터 쌓기
-        </GenerateButton>
       </ButtonContainer>
 
       {isGenerateButton && <p>AI 퀴즈를 생성 중입니다....</p>}
